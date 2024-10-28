@@ -52,7 +52,7 @@ export default function Signup() {
 
   return (
     <Layout>
-      <div className="relative">
+      <div className="md:container mx-auto">
         <div className="min-h-screen sm:flex sm:flex-row mx-0 justify-center">
           <div className="flex-col flex  self-center p-10 sm:max-w-5xl xl:max-w-2xl  z-10">
             <div className="self-start hidden lg:flex flex-col  text-white">
@@ -62,8 +62,8 @@ export default function Signup() {
               />
             </div>
           </div>
-          <div className="flex justify-center self-center  z-10">
-            <div className="p-12 bg-white mx-auto rounded-2xl w-100 ">
+          <div className="flex justify-center self-center sm:max-w-5xl xl:max-w-lg z-10">
+            <div className="p-10 bg-white mx-auto rounded-2xl ">
               {/* {loginIsError && (
                 <Alert variant="danger">
                   {loginError.status}, Incorrect credentials or not signed up
@@ -76,7 +76,7 @@ export default function Signup() {
               </div>
               <Form>
                 <div className="space-y-5">
-                  <div className="flex">
+                  <div className="grid gap-4 grid-cols-2">
                     <div className="space-y-2">
                       <label className="text-sm font-medium text-gray-700 tracking-wide">
                         First Name

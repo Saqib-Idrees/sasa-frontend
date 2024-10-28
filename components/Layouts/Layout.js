@@ -1,7 +1,6 @@
 import Head from 'next/head';
 import TopNav from './TopNav';
-import LeftSideNav from './LeftSideNav';
-import styles from './Layout.module.scss';
+import LeftSideNav from './LeftSideNavOld';
 import { Container, Row, Col } from 'react-bootstrap';
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';

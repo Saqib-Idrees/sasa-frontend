@@ -1,17 +1,22 @@
-import { Navbar, Container } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import {
   selectCurrentUser,
   selectIsAuthenticated,
   setLogout,
 } from 'slices/authSlice';
-import { Button } from 'react-bootstrap';
 import Link from 'next/dist/client/link';
-import styles from './TopNav.module.scss';
 import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
 import DarkModeButton from '../DarkModeButton/DarkModeButton';
 import SearchBar from '../SearchBar/SearchBar';
+import {
+  Navbar,
+  Collapse,
+  Typography,
+  Button,
+  IconButton,
+} from "@material-tailwind/react";
+
 
 export default function TopNav() {
   // const user = useSelector(selectCurrentUser)

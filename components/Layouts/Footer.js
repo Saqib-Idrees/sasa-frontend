@@ -1,40 +1,40 @@
-// import { localstorageService } from '../../utils/localStorageService';
+import { Typography } from "@material-tailwind/react";
 
-const Footer = () => {
-  //   const authToken = localstorageService.getToken();
+function Footer() {
+  const year = new Date().getFullYear();
+  const routes = [
+    {name:'Terms & Conditions', path:"/terms-conditions"},
+  ]
   return (
-    <footer>
-      <ul className="footer-links">
-        <li>
+    <footer className="py-2">
+      <div className="flex w-full flex-wrap items-center justify-center gap-6 px-2 md:justify-between">
+        <Typography variant="small" className="font-normal text-inherit">
+          &copy; {year}, made with{" "}
           <a
-            href="https://www.iubenda.com/terms-and-conditions/84375705"
+            href='#'
             target="_blank"
-            rel="noreferrer"
+            className="transition-colors hover:text-blue-500 font-bold"
           >
-            Terms &amp; Conditions
+            SASA MILANO
           </a>
-        </li>
-        <li>
-          <a
-            href="https://www.iubenda.com/privacy-policy/84375705"
-            target="_blank"
-            rel="noreferrer"
-          >
-            Privacy Policy
-          </a>
-        </li>
-        <li>
-          <a
-            href="https://framesuite.com/contact/"
-            target="_blank"
-            rel="noreferrer"
-          >
-            Contact Us
-          </a>
-        </li>
-      </ul>
+        </Typography>
+        <ul className="flex items-center gap-4">
+          {routes.map(({ name, path }) => (
+            <li key={name}>
+              <Typography
+                as="a"
+                href={path}
+                target="_blank"
+                variant="small"
+                className="py-0.5 px-1 font-normal text-inherit transition-colors hover:text-blue-500"
+              >
+                {name}
+              </Typography>
+            </li>
+          ))}
+        </ul>
+      </div>
     </footer>
   );
-};
-
+}
 export default Footer;
