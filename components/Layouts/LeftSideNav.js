@@ -1,5 +1,5 @@
 // import { Link, NavLink } from "react-router-dom";
-import Link from "next/dist/client/link";
+import Link from "next/link";
 import {
   HomeIcon,
   UserCircleIcon,
@@ -7,6 +7,10 @@ import {
   InformationCircleIcon,
   ServerStackIcon,
   RectangleStackIcon,
+  ArchiveBoxIcon,
+  UserIcon,
+  UsersIcon,
+  ArrowRightIcon,
 } from "@heroicons/react/24/solid";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import {
@@ -76,13 +80,15 @@ export function LeftSideNav() {
     <aside className="bg-white shadow-sm -translate-x-80 fixed inset-0 z-50 my-4 ml-4 h-[calc(100vh-32px)] w-72 rounded-xl transition-transform duration-300 xl:translate-x-0 border border-blue-gray-100">
       <div className={`relative`}>
         <a href="/" className="py-6 px-8 text-center">
-          <Typography
+          {/* <Typography
             variant="h6"
             // color={sidenavType === "dark" ? "white" : "blue-gray"}
             color="dark"
           >
             SASA MILANO
-          </Typography>
+          </Typography> */}
+          <img src="/assets/images/logo.svg" 
+          className="w-36 mx-auto" />
         </a>
         <IconButton
           variant="text"
@@ -98,13 +104,198 @@ export function LeftSideNav() {
       <div className="m-4">
         <ul className="mb-4 flex flex-col gap-1">
           <li className="mx-3.5 mt-4 mb-2">
-            <Typography
-              variant="small"
-              color="dark"
-              className="font-black uppercase opacity-75"
-            >
-              Dashboard
-            </Typography>
+            <a href="#">
+                <Button
+                  variant={"text"}
+                  color={"dark"}
+                  className="flex items-center gap-4 px-4 capitalize"
+                  fullWidth
+                >
+                  <HomeIcon {...icon}/>
+                  <Typography
+                    className="text-lg font-medium text-black"
+                  >
+                    Dashboard
+                  </Typography>
+                </Button>
+            </a>
+          </li>
+
+          <li className="mx-3.5 mb-2">
+            <a href="#">
+                <Button
+                  variant={"text"}
+                  color={"dark"}
+                  className="flex items-center gap-4 px-4 capitalize"
+                  fullWidth
+                >
+                  <ArchiveBoxIcon {...icon}/>
+                  <Typography
+                    className="text-lg font-medium text-black"
+                  >
+                    Orders
+                  </Typography>
+                </Button>
+            </a>
+
+            <ul className="flex flex-col gap-1">
+          <li className="mx-3.5 mb-2">
+            <a href="#">
+                <Button
+                  variant={"text"}
+                  color={"dark"}
+                  className="flex items-center gap-4 px-4 capitalize"
+                  fullWidth
+                >
+                  <Typography
+                    className="text-lg font-medium text-black"
+                  >
+                    Pending
+                  </Typography>
+                </Button>
+            </a>
+          </li>
+
+          <li className="mx-3.5 mb-2">
+            <a href="#">
+                <Button
+                  variant={"text"}
+                  color={"dark"}
+                  className="flex items-center gap-4 px-4 capitalize"
+                  fullWidth
+                >
+                  <Typography
+                    className="text-lg font-medium text-black"
+                  >
+                    In-Production
+                  </Typography>
+                </Button>
+            </a>
+          </li>
+
+          <li className="mx-3.5 mb-2">
+            <a href="#">
+                <Button
+                  variant={"text"}
+                  color={"dark"}
+                  className="flex items-center gap-4 px-4 capitalize"
+                  fullWidth
+                >
+                  <Typography
+                    className="text-lg font-medium text-black"
+                  >
+                    Shipped
+                  </Typography>
+                </Button>
+            </a>
+          </li>
+
+          <li className="mx-3.5 mb-2">
+            <a href="#">
+                <Button
+                  variant={"text"}
+                  color={"dark"}
+                  className="flex items-center gap-4 px-4 capitalize"
+                  fullWidth
+                >
+                  <Typography
+                    className="text-lg font-medium text-black"
+                  >
+                    Cancelled
+                  </Typography>
+                </Button>
+            </a>
+          </li>
+
+          <li className="mx-3.5 mb-2">
+            <a href="#">
+                <Button
+                  variant={"text"}
+                  color={"dark"}
+                  className="flex items-center gap-4 px-4 capitalize"
+                  fullWidth
+                >
+                  <Typography
+                    className="text-lg font-medium text-black"
+                  >
+                    Received
+                  </Typography>
+                </Button>
+            </a>
+          </li>
+        </ul>
+          </li>
+
+          <li className="mx-3.5 mb-2">
+            <a href="#">
+                <Button
+                  variant={"text"}
+                  color={"dark"}
+                  className="flex items-center gap-4 px-4 capitalize"
+                  fullWidth
+                >
+                  <UsersIcon {...icon}/>
+                  <Typography
+                    className="text-lg font-medium text-black"
+                  >
+                    Sales Team
+                  </Typography>
+                </Button>
+            </a>
+          </li>
+
+          <li className="mx-3.5 mb-2">
+            <a href="#">
+                <Button
+                  variant={"text"}
+                  color={"dark"}
+                  className="flex items-center gap-4 px-4 capitalize"
+                  fullWidth
+                >
+                  <UsersIcon {...icon}/>
+                  <Typography
+                    className="text-lg font-medium text-black"
+                  >
+                    Tailors
+                  </Typography>
+                </Button>
+            </a>
+          </li>
+
+          <li className="mx-3.5 mb-2">
+            <a href="#">
+                <Button
+                  variant={"text"}
+                  color={"dark"}
+                  className="flex items-center gap-4 px-4 capitalize"
+                  fullWidth
+                >
+                  <UserIcon {...icon}/>
+                  <Typography
+                    className="text-lg font-medium text-black"
+                  >
+                    Profile
+                  </Typography>
+                </Button>
+            </a>
+          </li>
+
+          <li className="mx-3.5 mb-2 position: absolute bottom-0">
+            <a href="#">
+                <Button
+                  variant={"text"}
+                  color={"dark"}
+                  className="flex items-center gap-4 px-4 capitalize"
+                  fullWidth
+                >
+                  <ArrowRightIcon {...icon}/>
+                  <Typography
+                    className="text-lg font-medium text-black"
+                  >
+                    Log out
+                  </Typography>
+                </Button>
+            </a>
           </li>
         </ul>
       </div>

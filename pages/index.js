@@ -18,6 +18,11 @@ import Post from "@/components/Post";
 
 import { useGetAllPostsQuery } from "slices/postsAPI";
 import Layout from "@/components/Layouts/DashLayout/Layout";
+import {
+  IconButton,
+  Input,
+} from "@material-tailwind/react";
+import { Bars3Icon } from "@heroicons/react/24/solid";
 
 export default function Home() {
   const user = useSelector(selectCurrentUser);
@@ -45,7 +50,18 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Layout>
-        <h2>Home Page</h2>
+        <h2 class="font-bold text-3xl">Orders</h2>
+        <div className="mr-auto md:mr-4 md:w-72 my-8" > 
+          <Input label="Search" />
+        </div>
+        <IconButton
+          variant="text"
+          color="blue-gray"
+          className="grid xl:hidden"
+          onClick={() => setOpenSidenav(dispatch, !openSidenav)}
+        >
+          <Bars3Icon strokeWidth={3} className="h-6 w-6 text-blue-gray-500" />
+        </IconButton>
         <div
           class="mb-12 grid gap-y-10 gap-x-6 md:grid-cols-2 xl:grid-cols-4"
           bis_skin_checked="1"
