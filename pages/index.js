@@ -44,11 +44,6 @@ export default function Home() {
 
   return (
     <div>
-      <Head>
-        <title>SASA - Milano</title>
-        <meta name="description" content="social media example" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
       <Layout>
         <h2 class="font-bold text-3xl">Orders</h2>
         <div className="mr-auto md:mr-4 md:w-72 my-8" > 
