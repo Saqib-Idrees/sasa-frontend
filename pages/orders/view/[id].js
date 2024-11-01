@@ -21,7 +21,7 @@ import Layout from "@/components/Layouts/DashLayout/Layout";
 import { Input, Button, IconButton } from "@material-tailwind/react";
 import { Select, Option } from "@material-tailwind/react";
 
-export default function Home() {
+export default function View() {
   const user = useSelector(selectCurrentUser);
   const [currentDate, setCurrentDate] = useState(new Date());
   const isAuthenticated = useSelector(selectIsAuthenticated);
@@ -67,8 +67,8 @@ export default function Home() {
       <Layout>
         <h2 class="font-bold text-3xl">Order Details</h2>
         <div class="w-full mt-11">
-          <div class="grid grid-cols-2 gap-6">
-            <div class="bg-white border rounded-3xl px-10">
+          <div class="grid grid-cols-3 gap-6">
+            <div class="col-span-2 bg-white border rounded-3xl px-14">
               <div className="grid gap-7 grid-cols-2 mb-7">
                 <div className="space-y-2">
                   <h3 class="text-black text-lg font-semibold mt-10">
@@ -79,7 +79,7 @@ export default function Home() {
                     <span class="font-normal"> #002586691022 </span>
                   </h3>
                 </div>
-                <div className="space-y-2">
+                <div className="space-y-2 justify-self-end">
                   <h3 class="text-black text-lg font-semibold mt-10">
                     Paid: &nbsp; $300.00
                   </h3>
@@ -106,7 +106,7 @@ export default function Home() {
                 </div>
               </div>
             </div>
-            <div class="bg-white"></div>
+            <div class="col-span-1 bg-white"></div>
           </div>
         </div>
       </Layout>
@@ -123,3 +123,4 @@ export default function Home() {
     </div>
   );
 }
+

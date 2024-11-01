@@ -21,7 +21,7 @@ import Layout from "@/components/Layouts/DashLayout/Layout";
 import { Input, Button, IconButton } from "@material-tailwind/react";
 import { Select, Option } from "@material-tailwind/react";
 
-export default function Home() {
+export default function Create() {
   const user = useSelector(selectCurrentUser);
   const [currentDate, setCurrentDate] = useState(new Date());
   const isAuthenticated = useSelector(selectIsAuthenticated);
