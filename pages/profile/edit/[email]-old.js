@@ -154,12 +154,12 @@ export default function Profile() {
         <h3>Edit Profile Page</h3>
       </div>
 
-      {sameUser && !isLoading ? authInfo() : guestInfo()}
+      {/* {sameUser && !isLoading ? authInfo() : guestInfo()}
 
       {isLoading && 
         <Spinner animation="border" variant="success" />
 
-      }
+      } */}
       
     </>
   );
