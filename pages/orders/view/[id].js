@@ -65,9 +65,9 @@ export default function View() {
   return (
     <div>
       <Layout>
+        <div class="w-full">
         <h2 class="font-bold text-3xl">Order Details</h2>
-        <div class="w-full mt-11">
-          <div class="grid grid-cols-3 gap-6">
+          <div class="grid grid-cols-3 gap-6  mt-6">
             <div class="col-span-2 bg-white border rounded-3xl px-14">
               <div className="grid gap-7 grid-cols-2 mb-7">
                 <div className="space-y-2">
@@ -79,7 +79,7 @@ export default function View() {
                     <span class="font-normal"> #002586691022 </span>
                   </h3>
                 </div>
-                <div className="space-y-2 justify-self-end">
+                <div className="space-y-2 justify-self-end pr-8">
                   <h3 class="text-black text-lg font-semibold mt-10">
                     Paid: &nbsp; $300.00
                   </h3>
@@ -94,7 +94,7 @@ export default function View() {
                   Customer Name: &nbsp; <span class="font-normal">Richard Grey </span>
                   </p>
                 </div>
-                <div className="space-y-2">
+                <div className="space-y-2 justify-self-center">
                   <p class="text-black text-base font-semibold mt-10">
                   Product: &nbsp; <span class="font-normal"> Suit</span>
                   </p>
@@ -105,6 +105,11 @@ export default function View() {
                   </p>
                 </div>
               </div>
+              <hr class="border-t-2 border-gray-300"></hr>
+              <div className="grid gap-7 grid-cols-2 mb-7">
+              <div className="space-y-2">
+                </div>
+                </div>
             </div>
             <div class="col-span-1 bg-white"></div>
           </div>
