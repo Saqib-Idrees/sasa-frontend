@@ -49,6 +49,17 @@ export default function Edit() {
     isFetching: postsIsFetching,
   } = useGetAllPostsQuery("");
 
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword((prev) => !prev);
+  };
+
+  const toggleConfirmPasswordVisibility = () => {
+    setShowConfirmPassword((prev) => !prev);
+  };
+
   useEffect(() => {
     if (postsIsError) {
       console.log(postsError);
@@ -119,7 +130,7 @@ export default function Edit() {
                     First Name
                   </label>
 
-                  <input icon={<i className="fas fa-heart" />}
+                  <input
                     className=" w-full text-base px-4 py-3 rounded-lg focus:outline-none focus:border-black"
                     type="text"
                     placeholder="Joshua"
@@ -177,28 +188,46 @@ export default function Edit() {
                   name="email"
                 />
               </div>
+                {/* Password */}
               <div className="grid gap-7 grid-cols-2 mb-7">
                 <div className="space-y-2">
-                  <label className="mb-5 text-xs font-medium text-gray-700 tracking-wide">
+                  <label className="text-xs font-medium text-gray-700 tracking-wide">
                     Password
                   </label>
-                  <input
-                    className="w-full content-center text-base px-4 py-3 rounded-lg focus:outline-none focus:border-black"
-                    type="password"
-                    placeholder="Enter your password"
-                    name="password"
-                  />
+                  <div className="relative flex items-center">
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      placeholder="Password"
+                      className="w-full pl-4 pr-20 text-base px-4 py-3 border rounded-md focus:outline-none focus:border-blue-500"
+                    />
+                    <button
+                      onClick={togglePasswordVisibility}
+                      type="button"
+                      className="absolute right-3 top-3 px-2 py-1 text-sm border rounded-md text-gray-600 hover:bg-gray-100"
+                    >
+                      {showPassword ? "Hide" : "Show"}
+                    </button>
+                  </div>
                 </div>
+                {/* Confirm Password */}
                 <div className="space-y-2">
-                  <label className="mb-5 text-xs font-medium text-gray-700 tracking-wide">
+                  <label className="text-xs font-medium text-gray-700 tracking-wide">
                     Confirm Password
                   </label>
-                  <input
-                    className="w-full content-center text-base px-4 py-3 rounded-lg focus:outline-none focus:border-black"
-                    type="password"
-                    placeholder="Enter your password"
-                    name="re_password"
-                  />
+                  <div className="relative flex items-center">
+                    <input
+                      type={showConfirmPassword ? "text" : "password"}
+                      placeholder="Confirm Password"
+                      className="w-full pl-4 pr-20 text-base px-4 py-3 border rounded-md focus:outline-none focus:border-blue-500"
+                    />
+                    <button
+                      onClick={toggleConfirmPasswordVisibility}
+                      type="button"
+                      className="absolute right-3 top-3 px-2 py-1 text-sm border rounded-md text-gray-600 hover:bg-gray-100"
+                    >
+                      {showConfirmPassword ? "Hide" : "Show"}
+                    </button>
+                  </div>
                 </div>
               </div>
               <Button className="mt-4 py-4 px-16">Update</Button>
