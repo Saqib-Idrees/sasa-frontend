@@ -85,7 +85,7 @@ export default function Signup() {
                       <input
                         className=" w-full text-base px-4 py-2 border  border-gray-300 rounded-lg focus:outline-none focus:border-black"
                         type="text"
-                        placeholder="Joshua"
+                        placeholder="Isabella"
                         name="fname"
                         onChange={handleSignupFormChange}
                         // value={''}
@@ -99,7 +99,7 @@ export default function Signup() {
                       <input
                         className=" w-full text-base px-4 py-2 border  border-gray-300 rounded-lg focus:outline-none focus:border-black"
                         type="text"
-                        placeholder="George"
+                        placeholder="Lopez"
                         name="lname"
                         onChange={handleSignupFormChange}
                         // value={'lname'}
@@ -114,7 +114,7 @@ export default function Signup() {
                     <input
                       className=" w-full text-base px-4 py-2 border  border-gray-300 rounded-lg focus:outline-none focus:border-black"
                       type="text"
-                      placeholder="joshua-george"
+                      placeholder="isabella-lopez"
                       name="username"
                       onChange={handleSignupFormChange}
                       // value={'username'}
@@ -128,7 +128,7 @@ export default function Signup() {
                     <input
                       className=" w-full text-base px-4 py-2 border  border-gray-300 rounded-lg focus:outline-none focus:border-black"
                       type="email"
-                      placeholder="mail@gmail.com"
+                      placeholder="Isabella@gmail.com"
                       name="email"
                       onChange={handleSignupFormChange}
                       value={email}

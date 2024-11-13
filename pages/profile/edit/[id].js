@@ -133,7 +133,7 @@ export default function Edit() {
                   <input
                     className=" w-full text-base px-4 py-3 rounded-lg focus:outline-none focus:border-black"
                     type="text"
-                    placeholder="Joshua"
+                    placeholder="Isabella"
                     name="fname"
                   />
                 </div>
@@ -145,7 +145,7 @@ export default function Edit() {
                   <input
                     className=" w-full text-base px-4 py-3 rounded-lg focus:outline-none focus:border-black"
                     type="text"
-                    placeholder="George"
+                    placeholder="Lopez"
                     name="lname"
                   />
                 </div>
@@ -171,8 +171,8 @@ export default function Edit() {
                   <input
                     className=" w-full text-base px-4 py-3 rounded-lg focus:outline-none focus:border-black"
                     type="tel"
-                    placeholder="+12 3456 7890"
-                    name="phno"
+                    placeholder="559 355 37320"
+                    name="phone"
                   />
                 </div>
               </div>
@@ -184,7 +184,7 @@ export default function Edit() {
                 <input
                   className=" w-full text-base px-4 py-3 rounded-lg focus:outline-none focus:border-black"
                   type="email"
-                  placeholder="mail@gmail.com"
+                  placeholder="Isabella@gmail.com"
                   name="email"
                 />
               </div>

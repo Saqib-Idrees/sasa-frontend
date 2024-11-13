@@ -193,7 +193,7 @@ export default function Login() {
                       <input
                         className=" w-full text-base px-4 py-2 border  border-gray-300 rounded-lg focus:outline-none focus:border-black"
                         type="email"
-                        placeholder="mail@gmail.com"
+                        placeholder="Isabella@gmail.com"
                         name="email"
                         onChange={handleLoginFormChange}
                         value={email}

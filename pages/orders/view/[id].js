@@ -257,7 +257,7 @@ export default function View() {
                 </h4>
                 <div className="bg-[#C9D2FF] border rounded-md p-5">
                   <div className="flex flex-row justify-between mb-4">
-                    <span class="font-semibold">Admin</span>
+                    <span class="font-semibold">Mahnoor, The Boss</span>
                     <span class="font-semibold">24 October</span>
                   </div>
                   <div className="w-9/12">
@@ -269,7 +269,7 @@ export default function View() {
                 </div>
                 <div className="bg-[#FFFFFF] border rounded-md p-5">
                   <div className="flex flex-row justify-between mb-4">
-                    <span class="font-semibold">Tailor</span>
+                    <span class="font-semibold">Adeel Tailor</span>
                     <span class="font-semibold">24 October</span>
                   </div>
                   <div className="w-9/12">
@@ -281,7 +281,7 @@ export default function View() {
                 </div>
                 <div className="bg-[#FFFFFF] border rounded-md p-5">
                   <div className="flex flex-row justify-between mb-4">
-                    <span class="font-semibold">Admin</span>
+                    <span class="font-semibold">Mahnoor, The Boss</span>
                     <span class="font-semibold">24 October</span>
                   </div>
                   <div className="w-9/12">
@@ -293,7 +293,7 @@ export default function View() {
                 </div>
                 <div className="bg-[#FFFFFF] border rounded-md p-5">
                   <div className="flex flex-row justify-between mb-4">
-                    <span class="font-semibold">Tailor</span>
+                    <span class="font-semibold">Adeel Tailor</span>
                     <span class="font-semibold">24 October</span>
                   </div>
                   <div className="w-9/12">
