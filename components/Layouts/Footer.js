@@ -2,9 +2,9 @@ import { Typography } from "@material-tailwind/react";
 
 function Footer() {
   const year = new Date().getFullYear();
-  const routes = [
-    {name:'Terms & Conditions', path:"/terms-conditions"},
-  ]
+  // const routes = [
+  //   {name:'Terms & Conditions', path:"/terms-conditions"},
+  // ]
   return (
     <footer className="py-2">
       <div className="flex w-full flex-wrap items-center justify-center gap-6 px-2 md:justify-between">
@@ -17,7 +17,7 @@ function Footer() {
             SASA MILANO
           </a> Powered by <a href="https://bigello.com/">Bigello</a>
         </Typography>
-        <ul className="flex items-center gap-4">
+        {/* <ul className="flex items-center gap-4">
           {routes.map(({ name, path }) => (
             <li key={name}>
               <Typography
@@ -31,7 +31,7 @@ function Footer() {
               </Typography>
             </li>
           ))}
-        </ul>
+        </ul> */}
       </div>
     </footer>
   );

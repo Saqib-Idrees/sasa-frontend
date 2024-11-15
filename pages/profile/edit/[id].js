@@ -49,6 +49,17 @@ export default function Edit() {
     isFetching: postsIsFetching,
   } = useGetAllPostsQuery("");
 
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword((prev) => !prev);
+  };
+
+  const toggleConfirmPasswordVisibility = () => {
+    setShowConfirmPassword((prev) => !prev);
+  };
+
   useEffect(() => {
     if (postsIsError) {
       console.log(postsError);
@@ -58,21 +69,21 @@ export default function Edit() {
   return (
     <div>
       <Layout>
-        <h2 class="font-bold text-3xl">Profile</h2>
+        <h2 className="font-bold text-3xl">Profile</h2>
         <div className="mr-auto md:mr-4 my-8">
-          <h2 class="font-semibold text-[#3E435D] text-2xl">
+          <h2 className="font-semibold text-[#3E435D] text-2xl">
             Welcome, Kayla S.
           </h2>
           <div className="text-[#ADA7A7] font-extralight text-base mt-2">
             {formattedDate}
           </div>
-          <h2 class="font-medium text-black text-2xl mt-10">
+          <h2 className="font-medium text-black text-2xl mt-10">
             Account Information
           </h2>
           <p className="text-[#ADA7A7] font-extralight text-base mt-4">
             Update your account information
           </p>
-          <h3 class="text-black text-lg font-semibold mt-10">
+          <h3 className="text-black text-lg font-semibold mt-10">
             Personal Information
           </h3>
 
@@ -119,10 +130,10 @@ export default function Edit() {
                     First Name
                   </label>
 
-                  <input icon={<i className="fas fa-heart" />}
+                  <input
                     className=" w-full text-base px-4 py-3 rounded-lg focus:outline-none focus:border-black"
                     type="text"
-                    placeholder="Joshua"
+                    placeholder="Isabella"
                     name="fname"
                   />
                 </div>
@@ -134,7 +145,7 @@ export default function Edit() {
                   <input
                     className=" w-full text-base px-4 py-3 rounded-lg focus:outline-none focus:border-black"
                     type="text"
-                    placeholder="George"
+                    placeholder="Lopez"
                     name="lname"
                   />
                 </div>
@@ -160,8 +171,8 @@ export default function Edit() {
                   <input
                     className=" w-full text-base px-4 py-3 rounded-lg focus:outline-none focus:border-black"
                     type="tel"
-                    placeholder="+12 3456 7890"
-                    name="phno"
+                    placeholder="559 355 37320"
+                    name="phone"
                   />
                 </div>
               </div>
@@ -173,32 +184,50 @@ export default function Edit() {
                 <input
                   className=" w-full text-base px-4 py-3 rounded-lg focus:outline-none focus:border-black"
                   type="email"
-                  placeholder="mail@gmail.com"
+                  placeholder="Isabella@gmail.com"
                   name="email"
                 />
               </div>
+                {/* Password */}
               <div className="grid gap-7 grid-cols-2 mb-7">
                 <div className="space-y-2">
-                  <label className="mb-5 text-xs font-medium text-gray-700 tracking-wide">
+                  <label className="text-xs font-medium text-gray-700 tracking-wide">
                     Password
                   </label>
-                  <input
-                    className="w-full content-center text-base px-4 py-3 rounded-lg focus:outline-none focus:border-black"
-                    type="password"
-                    placeholder="Enter your password"
-                    name="password"
-                  />
+                  <div className="relative flex items-center">
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      placeholder="Password"
+                      className="w-full pl-4 pr-20 text-base px-4 py-3 border rounded-md focus:outline-none focus:border-blue-500"
+                    />
+                    <button
+                      onClick={togglePasswordVisibility}
+                      type="button"
+                      className="absolute right-3 top-3 px-2 py-1 text-sm border rounded-md text-gray-600 hover:bg-gray-100"
+                    >
+                      {showPassword ? "Hide" : "Show"}
+                    </button>
+                  </div>
                 </div>
+                {/* Confirm Password */}
                 <div className="space-y-2">
-                  <label className="mb-5 text-xs font-medium text-gray-700 tracking-wide">
+                  <label className="text-xs font-medium text-gray-700 tracking-wide">
                     Confirm Password
                   </label>
-                  <input
-                    className="w-full content-center text-base px-4 py-3 rounded-lg focus:outline-none focus:border-black"
-                    type="password"
-                    placeholder="Enter your password"
-                    name="re_password"
-                  />
+                  <div className="relative flex items-center">
+                    <input
+                      type={showConfirmPassword ? "text" : "password"}
+                      placeholder="Confirm Password"
+                      className="w-full pl-4 pr-20 text-base px-4 py-3 border rounded-md focus:outline-none focus:border-blue-500"
+                    />
+                    <button
+                      onClick={toggleConfirmPasswordVisibility}
+                      type="button"
+                      className="absolute right-3 top-3 px-2 py-1 text-sm border rounded-md text-gray-600 hover:bg-gray-100"
+                    >
+                      {showConfirmPassword ? "Hide" : "Show"}
+                    </button>
+                  </div>
                 </div>
               </div>
               <Button className="mt-4 py-4 px-16">Update</Button>

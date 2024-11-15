@@ -85,7 +85,7 @@ export default function Signup() {
                       <input
                         className=" w-full text-base px-4 py-2 border  border-gray-300 rounded-lg focus:outline-none focus:border-black"
                         type="text"
-                        placeholder="Joshua"
+                        placeholder="Isabella"
                         name="fname"
                         onChange={handleSignupFormChange}
                         // value={''}
@@ -99,7 +99,7 @@ export default function Signup() {
                       <input
                         className=" w-full text-base px-4 py-2 border  border-gray-300 rounded-lg focus:outline-none focus:border-black"
                         type="text"
-                        placeholder="George"
+                        placeholder="Lopez"
                         name="lname"
                         onChange={handleSignupFormChange}
                         // value={'lname'}
@@ -114,7 +114,7 @@ export default function Signup() {
                     <input
                       className=" w-full text-base px-4 py-2 border  border-gray-300 rounded-lg focus:outline-none focus:border-black"
                       type="text"
-                      placeholder="joshua-george"
+                      placeholder="isabella-lopez"
                       name="username"
                       onChange={handleSignupFormChange}
                       // value={'username'}
@@ -128,7 +128,7 @@ export default function Signup() {
                     <input
                       className=" w-full text-base px-4 py-2 border  border-gray-300 rounded-lg focus:outline-none focus:border-black"
                       type="email"
-                      placeholder="mail@gmail.com"
+                      placeholder="Isabella@gmail.com"
                       name="email"
                       onChange={handleSignupFormChange}
                       value={email}
@@ -176,7 +176,7 @@ export default function Signup() {
                       </label>
                     </div>
                   </div> */}
-                  <div class="pt-5 text-center text-gray-400 text-xs">
+                  <div className="pt-5 text-center text-gray-400 text-xs">
                     <span>
                       By creating an account, I agree to our{' '}
                       <a
@@ -184,7 +184,7 @@ export default function Signup() {
                         rel=""
                         target="_blank"
                         title=""
-                        class="text-black hover:text-black-500 "
+                        className="text-black hover:text-black-500 "
                       >
                         Terms of use
                       </a>{' '}
@@ -194,7 +194,7 @@ export default function Signup() {
                         rel=""
                         target="_blank"
                         title=""
-                        class="text-black hover:text-black-500 "
+                        className="text-black hover:text-black-500 "
                       >
                         Privacy Policy
                       </a>

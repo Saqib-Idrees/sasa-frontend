@@ -193,7 +193,7 @@ export default function Login() {
                       <input
                         className=" w-full text-base px-4 py-2 border  border-gray-300 rounded-lg focus:outline-none focus:border-black"
                         type="email"
-                        placeholder="mail@gmail.com"
+                        placeholder="Isabella@gmail.com"
                         name="email"
                         onChange={handleLoginFormChange}
                         value={email}
@@ -228,7 +228,7 @@ export default function Login() {
                         </label>
                       </div>
                     </div>
-                    <div class="pt-5 text-center text-gray-400 text-xs">
+                    <div className="pt-5 text-center text-gray-400 text-xs">
                       <span>
                         By continuing, you agree to the{' '}
                         <a
@@ -236,7 +236,7 @@ export default function Login() {
                           rel=""
                           target="_blank"
                           title=""
-                          class="text-black hover:text-black-500 "
+                          className="text-black hover:text-black-500 "
                         >
                           Terms
                         </a>{' '}
