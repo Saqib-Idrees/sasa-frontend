@@ -50,7 +50,7 @@ const SalesTeam = () => {
 
                     {Tailors.map((item, index) => {
                         return (
-                            <div class="relative flex flex-col" key={index}>
+                            <div className="relative flex flex-col" key={index}>
                                 <SalesTeamCard
                                     name={item.name}
                                     designation={item.designation}

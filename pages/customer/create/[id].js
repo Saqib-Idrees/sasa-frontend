@@ -69,7 +69,7 @@ export default function Edit() {
   return (
     <div>
       <Layout>
-        <h2 class="font-bold text-3xl">Customer Details</h2>
+        <h2 className="font-bold text-3xl">Customer Details</h2>
         <div className="grid mr-auto md:mr-4 my-40 justify-center">
         <Form>
               <div className="grid gap-7 grid-cols-3 max-w-lg items-end">
@@ -132,20 +132,20 @@ export default function Edit() {
                 <label className="text-xs font-medium text-gray-700 tracking-wide">
                 Phone number
                   </label>
-        <div class="flex items-center border border-white rounded-lg">
-            <select class="flex items-center py-3 pl-4 border-r border-white bg-white text-gray-700 focus:outline-none focus:border-black w-40">
-                <option value="+1" class="flex items-center"> +1 (USA)
+        <div className="flex items-center border border-white rounded-lg">
+            <select className="flex items-center py-3 pl-4 border-r border-white bg-white text-gray-700 focus:outline-none focus:border-black w-40">
+                <option value="+1" className="flex items-center"> +1 (USA)
                 </option>
-                <option value="+44" class="flex items-center"> +44 (UK)
+                <option value="+44" className="flex items-center"> +44 (UK)
                 </option>
-                <option value="+91" class="flex items-center"> +91 (India)
+                <option value="+91" className="flex items-center"> +91 (India)
                 </option>
-                <option value="+49" class="flex items-center"> +49 (Germany) 
+                <option value="+49" className="flex items-center"> +49 (Germany) 
                 </option>
             </select>
-            <input type="tel" id="phone" class="py-3 pr-4 w-full focus:outline-none focus:border-black" placeholder="Enter mobile number" pattern="[0-9]*" inputmode="numeric" required />
+            <input type="tel" id="phone" className="py-3 pr-4 w-full focus:outline-none focus:border-black" placeholder="Enter mobile number" pattern="[0-9]*" inputmode="numeric" required />
         </div>
-        <p class="mt-2 text-gray-600 text-sm">Please enter your mobile number without the country code.</p>
+        <p className="mt-2 text-gray-600 text-sm">Please enter your mobile number without the country code.</p>
     </div>
               <Button className="mt-4 py-4 px-16 w-full">Next</Button>
             </div>

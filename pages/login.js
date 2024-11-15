@@ -228,7 +228,7 @@ export default function Login() {
                         </label>
                       </div>
                     </div>
-                    <div class="pt-5 text-center text-gray-400 text-xs">
+                    <div className="pt-5 text-center text-gray-400 text-xs">
                       <span>
                         By continuing, you agree to the{' '}
                         <a
@@ -236,7 +236,7 @@ export default function Login() {
                           rel=""
                           target="_blank"
                           title=""
-                          class="text-black hover:text-black-500 "
+                          className="text-black hover:text-black-500 "
                         >
                           Terms
                         </a>{' '}

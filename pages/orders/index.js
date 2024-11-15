@@ -211,7 +211,7 @@ const OrderList = () => {
   return (
     <div>
       <Layout>
-        <h2 class="font-bold text-3xl">Orders</h2>
+        <h2 className="font-bold text-3xl">Orders</h2>
         <div className= "bg-white border rounded-2xl p-7 mt-6">
           <div className="grid grid-cols-2">
             <div className="space-y-2 justify-self-start">

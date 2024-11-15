@@ -176,7 +176,7 @@ export default function Signup() {
                       </label>
                     </div>
                   </div> */}
-                  <div class="pt-5 text-center text-gray-400 text-xs">
+                  <div className="pt-5 text-center text-gray-400 text-xs">
                     <span>
                       By creating an account, I agree to our{' '}
                       <a
@@ -184,7 +184,7 @@ export default function Signup() {
                         rel=""
                         target="_blank"
                         title=""
-                        class="text-black hover:text-black-500 "
+                        className="text-black hover:text-black-500 "
                       >
                         Terms of use
                       </a>{' '}
@@ -194,7 +194,7 @@ export default function Signup() {
                         rel=""
                         target="_blank"
                         title=""
-                        class="text-black hover:text-black-500 "
+                        className="text-black hover:text-black-500 "
                       >
                         Privacy Policy
                       </a>

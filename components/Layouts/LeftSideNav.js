@@ -79,18 +79,11 @@ export function LeftSideNav() {
   return (
     <aside className="bg-white shadow-sm -translate-x-80 fixed inset-0 z-50 my-4 ml-4 h-[calc(100vh-32px)] w-72 rounded-xl transition-transform duration-300 xl:translate-x-0 border border-blue-gray-100">
       <div className={`relative`}>
-        <a href="/" className="py-6 px-8 text-center">
-          {/* <Typography
-            variant="h6"
-            // color={sidenavType === "dark" ? "white" : "blue-gray"}
-            color="dark"
-          >
-            SASA MILANO
-          </Typography> */}
+      <a href="#" className="py-6 px-8 text-center">
           <img src="/assets/images/logo.svg"
             className="w-36 mx-auto" />
         </a>
-        <IconButton
+        {/* <IconButton
           variant="text"
           color="dark"
           size="sm"
@@ -99,7 +92,7 @@ export function LeftSideNav() {
         // onClick={() => setOpenSidenav(dispatch, false)}
         >
           <XMarkIcon strokeWidth={2.5} className="h-5 w-5 text-white" />
-        </IconButton>
+        </IconButton> */}
       </div>
       <div className="m-4">
         <ul className="mb-4 flex flex-col gap-1">

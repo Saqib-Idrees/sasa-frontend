@@ -64,12 +64,12 @@ export default function Edit() {
   return (
     <div>
       <Layout>
-        <h2 class="font-bold text-3xl">Measurements</h2>
+        <h2 className="font-bold text-3xl">Measurements</h2>
         <div className="my-10 justify-center">
           <div className="bg-white border rounded-3xl px-9 py-8">
             <div className="grid gap-7 grid-cols-3 pb-8">
               <div className="col-span-2">
-                <h3 class="font-bold text-3xl text-center">Order ID #917583</h3>
+                <h3 className="font-bold text-3xl text-center">Order ID #917583</h3>
               </div>
               <div className="col-span-1 flex justify-self-end items-center">
                 <svg
@@ -86,25 +86,25 @@ export default function Edit() {
                     d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"
                   />
                 </svg>
-                <span class="font-normal text-lg text-center">Edit</span>
+                <span className="font-normal text-lg text-center">Edit</span>
               </div>
             </div>
             <div className="grid grid-cols-2 w-1/3 m-auto">
               <div className="space-y-2 mt-8">
-                <h6 class="text-black text-lg font-semibold pb-4">
+                <h6 className="text-black text-lg font-semibold pb-4">
                   Customer Name:
                 </h6>
-                <h6 class="text-black text-lg font-semibold pb-4">Email:</h6>
-                <h6 class="text-black text-lg font-semibold pb-4">
+                <h6 className="text-black text-lg font-semibold pb-4">Email:</h6>
+                <h6 className="text-black text-lg font-semibold pb-4">
                   Contact Num:
                 </h6>
               </div>
               <div className="space-y-2 mt-8">
-                <p class="text-black text-lg font-normal pb-4">Richard Grey</p>
-                <p class="text-black text-lg font-normal pb-4">
+                <p className="text-black text-lg font-normal pb-4">Richard Grey</p>
+                <p className="text-black text-lg font-normal pb-4">
                   richard_grey@gmail.com
                 </p>
-                <p class="text-black text-lg font-normal pb-4">
+                <p className="text-black text-lg font-normal pb-4">
                   +1 (354) 667 8979
                 </p>
               </div>
@@ -112,57 +112,57 @@ export default function Edit() {
           </div>
           <div className="bg-white border rounded-3xl px-9 py-8 mt-5">
             <div className="mb-10">
-              <h3 class="font-bold text-3xl text-center">Product</h3>
+              <h3 className="font-bold text-3xl text-center">Product</h3>
             </div>
             <div className="grid gap-2 grid-cols-6 my-7">
               <div className="mt-10">
                 <img src="/assets/images/Suit (1).png" />
-                <p class="font-normal text-xl text-center mt-6"> Suit </p>
+                <p className="font-normal text-xl text-center mt-6"> Suit </p>
               </div>
               <div className="mt-10">
                 <img src="/assets/images/Coats (1).png" />
-                <p class="font-normal text-xl text-center mt-6"> Coat </p>
+                <p className="font-normal text-xl text-center mt-6"> Coat </p>
               </div>
               <div className="mt-10">
                 <img src="/assets/images/Jackets (1).png" />
-                <p class="font-normal text-xl text-center mt-6"> Jacket </p>
+                <p className="font-normal text-xl text-center mt-6"> Jacket </p>
               </div>
               <div className="mt-10">
                 <img src="/assets/images/Pants (1).png" />
-                <p class="font-normal text-xl text-center mt-6"> Trouser </p>
+                <p className="font-normal text-xl text-center mt-6"> Trouser </p>
               </div>
               <div className="mt-10">
                 <img src="/assets/images/Vest (1).png" />
-                <p class="font-normal text-xl text-center mt-6"> Vest </p>
+                <p className="font-normal text-xl text-center mt-6"> Vest </p>
               </div>
               <div className="mt-10">
                 <img src="/assets/images/Shirts (1).png" />
-                <p class="font-normal text-xl text-center mt-6"> Shirt </p>
+                <p className="font-normal text-xl text-center mt-6"> Shirt </p>
               </div>
             </div>
           </div>
           <div className="bg-white border rounded-3xl px-9 py-8 mt-5">
             <div className="mb-10">
-              <h3 class="font-bold text-3xl text-center">Fabric Details</h3>
+              <h3 className="font-bold text-3xl text-center">Fabric Details</h3>
             </div>
             <div className="grid gap-16 grid-cols-2 my-7">
               <div className="space-y-5">
-                <div class="pb-7 place-self-end">
-                  <label class="font-normal mr-7">Jacket Fabric# </label>
+                <div className="pb-7 place-self-end">
+                  <label className="font-normal mr-7">Jacket Fabric# </label>
                   <input
                     className="text-base px-4 py-3 bg-[#EEEDED] rounded-lg "
                     type="text"
                   />
                 </div>
-                <div class="pb-7 place-self-end">
-                  <label class="font-normal mr-7">Jacket Lining# </label>
+                <div className="pb-7 place-self-end">
+                  <label className="font-normal mr-7">Jacket Lining# </label>
                   <input
                     className="text-base px-4 py-3 bg-[#EEEDED] rounded-lg"
                     type="text"
                   />
                 </div>
-                <div class="pb-7 place-self-end">
-                  <label class="font-normal mr-7">Button# </label>
+                <div className="pb-7 place-self-end">
+                  <label className="font-normal mr-7">Button# </label>
                   <input
                     className="text-base px-4 py-3 bg-[#EEEDED] rounded-lg"
                     type="text"
@@ -170,22 +170,22 @@ export default function Edit() {
                 </div>
               </div>
               <div className="space-y-5">
-                <div class="pb-7">
-                  <label class="font-normal mr-7">Vest Fabric# </label>
+                <div className="pb-7">
+                  <label className="font-normal mr-7">Vest Fabric# </label>
                   <input
                     className="text-base px-4 py-3 bg-[#EEEDED] rounded-lg"
                     type="text"
                   />
                 </div>
-                <div class="pb-7">
-                  <label class="font-normal mr-7">Vest Lining# </label>
+                <div className="pb-7">
+                  <label className="font-normal mr-7">Vest Lining# </label>
                   <input
                     className="text-base px-4 py-3 bg-[#EEEDED] rounded-lg"
                     type="text"
                   />
                 </div>
-                <div class="pb-7">
-                  <label class="font-normal mr-7">Trouser Fabric# </label>
+                <div className="pb-7">
+                  <label className="font-normal mr-7">Trouser Fabric# </label>
                   <input
                     className="text-base px-4 py-3 bg-[#EEEDED] rounded-lg"
                     type="text"
@@ -196,14 +196,14 @@ export default function Edit() {
           </div>
           <div className="bg-white border rounded-3xl px-9 py-8 mt-5">
             <div className="mb-16">
-              <h3 class="font-bold text-3xl text-center">Additional Options</h3>
+              <h3 className="font-bold text-3xl text-center">Additional Options</h3>
             </div>
             <div className="grid gap-6 grid-cols-3 my-8 justify-items-center">
               <div className="inline-flex gap-12">
-                <div class="relative inline-block self-center">
+                <div className="relative inline-block self-center">
                   <p className="text-2xl font-normal">Sleeve Button Holes</p>
                 </div>
-                <div class="relative inline-block">
+                <div className="relative inline-block">
                   <Switch
                     id="custom-switch-component-one"
                     ripple={false}
@@ -218,10 +218,10 @@ export default function Edit() {
                 </div>
               </div>
               <div className="inline-flex gap-12">
-                <div class="relative inline-block self-center">
+                <div className="relative inline-block self-center">
                   <p className="text-2xl font-normal">Shirt</p>
                 </div>
-                <div class="relative inline-block">
+                <div className="relative inline-block">
                   <Switch
                     id="custom-switch-component-two"
                     ripple={false}
@@ -236,10 +236,10 @@ export default function Edit() {
                 </div>
               </div>
               <div className="inline-flex gap-12">
-                <div class="relative inline-block self-center">
+                <div className="relative inline-block self-center">
                   <p className="text-2xl font-normal">Vest</p>
                 </div>
-                <div class="relative inline-block">
+                <div className="relative inline-block">
                   <Switch
                     id="custom-switch-component-three"
                     ripple={false}
@@ -257,12 +257,12 @@ export default function Edit() {
           </div>
           <div className="bg-white border rounded-3xl px-9 py-8 mt-5">
             <div className="mb-16">
-              <h3 class="font-bold text-3xl text-center">Style</h3>
+              <h3 className="font-bold text-3xl text-center">Style</h3>
             </div>
             <div className="grid gap-6 grid-cols-2 my-8">
               <div className="justify-items-center">
-                <div class="ml-5 mt-14">
-                  <span class="font-normal mr-20 text-xl">Regular:</span>
+                <div className="ml-5 mt-14">
+                  <span className="font-normal mr-20 text-xl">Regular:</span>
                   <Button className="py-5 px-4 font-normal normal-case text-base">
                     Single-Breasted
                   </Button>
@@ -270,8 +270,8 @@ export default function Edit() {
                     Double-Breasted
                   </Button>
                 </div>
-                <div class="ml-5 mt-14">
-                  <span class="font-normal mr-20 text-xl">Shawl:</span>
+                <div className="ml-5 mt-14">
+                  <span className="font-normal mr-20 text-xl">Shawl:</span>
                   <Button className="py-5 px-4 font-normal normal-case text-base">
                     Single-Breasted
                   </Button>
@@ -279,8 +279,8 @@ export default function Edit() {
                     Double-Breasted
                   </Button>
                 </div>
-                <div class="ml-5 mt-20">
-                  <span class="text-black text-base font-normal mr-14">
+                <div className="ml-5 mt-20">
+                  <span className="text-black text-base font-normal mr-14">
                     Model Num:
                   </span>
                   <label className=" text-base bg-[#F3F2F2] px-32 py-4 rounded-lg focus:outline-none">
@@ -298,75 +298,75 @@ export default function Edit() {
           </div>
           <div className="bg-white border rounded-3xl px-9 py-8 mt-5">
             <div className="mb-10">
-              <h3 class="font-bold text-3xl text-center">Measurements</h3>
+              <h3 className="font-bold text-3xl text-center">Measurements</h3>
             </div>
             <div className="grid gap-32 grid-cols-2 my-7">
               <div className="space-y-4 ml-10 mt-7">
-                <div class="pb-7 ml-5">
-                  <label class="font-normal">1. Center Back </label>
+                <div className="pb-7 ml-5">
+                  <label className="font-normal">1. Center Back </label>
                   <input
                     className="text-base px-4 py-3 bg-[#EEEDED] rounded-lg float-end"
                     type="text"
                   />
                 </div>
-                <div class="pb-7 ml-5">
-                  <label class="font-normal">2. Sleeve Length </label>
+                <div className="pb-7 ml-5">
+                  <label className="font-normal">2. Sleeve Length </label>
                   <input
                     className="text-base px-4 py-3 bg-[#EEEDED] rounded-lg float-end"
                     type="text"
                   />
                 </div>
-                <div class="pb-7 ml-5">
-                  <label class="font-normal">3. 1/2 Chest </label>
+                <div className="pb-7 ml-5">
+                  <label className="font-normal">3. 1/2 Chest </label>
                   <input
                     className="text-base px-4 py-3 bg-[#EEEDED] rounded-lg float-end"
                     type="text"
                   />
                 </div>
-                <div class="pb-7 ml-5">
-                  <label class="font-normal">4. 1/2 Waist Open </label>
+                <div className="pb-7 ml-5">
+                  <label className="font-normal">4. 1/2 Waist Open </label>
                   <input
                     className="text-base px-4 py-3 bg-[#EEEDED] rounded-lg float-end"
                     type="text"
                   />
                 </div>
-                <div class="pb-7 ml-5">
-                  <label class="font-normal">5. 1/2 Hip </label>
+                <div className="pb-7 ml-5">
+                  <label className="font-normal">5. 1/2 Hip </label>
                   <input
                     className="text-base px-4 py-3 bg-[#EEEDED] rounded-lg float-end"
                     type="text"
                   />
                 </div>
-                <div class="pb-7 ml-5">
-                  <label class="font-normal">6. SH. To Shoulder </label>
+                <div className="pb-7 ml-5">
+                  <label className="font-normal">6. SH. To Shoulder </label>
                   <input
                     className="text-base px-4 py-3 bg-[#EEEDED] rounded-lg float-end"
                     type="text"
                   />
                 </div>
-                <div class="pb-7 ml-5">
-                  <label class="font-normal">7. Lapel Width </label>
+                <div className="pb-7 ml-5">
+                  <label className="font-normal">7. Lapel Width </label>
                   <input
                     className="text-base px-4 py-3 bg-[#EEEDED] rounded-lg float-end"
                     type="text"
                   />
                 </div>
-                <div class="pb-7 ml-5">
-                  <label class="font-normal">8. Cuff Opening </label>
+                <div className="pb-7 ml-5">
+                  <label className="font-normal">8. Cuff Opening </label>
                   <input
                     className="text-base px-4 py-3 bg-[#EEEDED] rounded-lg float-end"
                     type="text"
                   />
                 </div>
-                <div class="pb-7 ml-5">
-                  <label class="font-normal">9. 1/2 Biceps </label>
+                <div className="pb-7 ml-5">
+                  <label className="font-normal">9. 1/2 Biceps </label>
                   <input
                     className="text-base px-4 py-3 bg-[#EEEDED] rounded-lg float-end"
                     type="text"
                   />
                 </div>
                 <div>
-                  <h4 class="text-black text-2xl font-semibold my-6">
+                  <h4 className="text-black text-2xl font-semibold my-6">
                     Initials
                   </h4>
                   <input
@@ -376,7 +376,7 @@ export default function Edit() {
                   />
                 </div>
                 <div className="mt-10">
-                  <h4 class="text-black text-2xl font-semibold my-6">
+                  <h4 className="text-black text-2xl font-semibold my-6">
                     Special Instructions / Recorded Preferences
                   </h4>
                   <textarea
@@ -390,22 +390,22 @@ export default function Edit() {
                 <img src="/assets/images/Coat.png" />
               </div>
               {/* <div className="space-y-5">
-                <div class="pb-7 place-self-end">
-                  <label class="font-normal mr-7">Jacket Fabric# </label>
+                <div className="pb-7 place-self-end">
+                  <label className="font-normal mr-7">Jacket Fabric# </label>
                   <input
                     className="text-base px-4 py-3 bg-[#EEEDED] rounded-lg "
                     type="text"
                   />
                 </div>
-                <div class="pb-7 place-self-end">
-                  <label class="font-normal mr-7">Jacket Lining# </label>
+                <div className="pb-7 place-self-end">
+                  <label className="font-normal mr-7">Jacket Lining# </label>
                   <input
                     className="text-base px-4 py-3 bg-[#EEEDED] rounded-lg"
                     type="text"
                   />
                 </div>
-                <div class="pb-7 place-self-end">
-                  <label class="font-normal mr-7">Button# </label>
+                <div className="pb-7 place-self-end">
+                  <label className="font-normal mr-7">Button# </label>
                   <input
                     className="text-base px-4 py-3 bg-[#EEEDED] rounded-lg"
                     type="text"
@@ -413,22 +413,22 @@ export default function Edit() {
                 </div>
               </div>
               <div className="space-y-5">
-                <div class="pb-7">
-                  <label class="font-normal mr-7">Vest Fabric# </label>
+                <div className="pb-7">
+                  <label className="font-normal mr-7">Vest Fabric# </label>
                   <input
                     className="text-base px-4 py-3 bg-[#EEEDED] rounded-lg"
                     type="text"
                   />
                 </div>
-                <div class="pb-7">
-                  <label class="font-normal mr-7">Vest Lining# </label>
+                <div className="pb-7">
+                  <label className="font-normal mr-7">Vest Lining# </label>
                   <input
                     className="text-base px-4 py-3 bg-[#EEEDED] rounded-lg"
                     type="text"
                   />
                 </div>
-                <div class="pb-7">
-                  <label class="font-normal mr-7">Trouser Fabric# </label>
+                <div className="pb-7">
+                  <label className="font-normal mr-7">Trouser Fabric# </label>
                   <input
                     className="text-base px-4 py-3 bg-[#EEEDED] rounded-lg"
                     type="text"

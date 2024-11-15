@@ -69,21 +69,21 @@ export default function Edit() {
   return (
     <div>
       <Layout>
-        <h2 class="font-bold text-3xl">Profile</h2>
+        <h2 className="font-bold text-3xl">Profile</h2>
         <div className="mr-auto md:mr-4 my-8">
-          <h2 class="font-semibold text-[#3E435D] text-2xl">
+          <h2 className="font-semibold text-[#3E435D] text-2xl">
             Welcome, Kayla S.
           </h2>
           <div className="text-[#ADA7A7] font-extralight text-base mt-2">
             {formattedDate}
           </div>
-          <h2 class="font-medium text-black text-2xl mt-10">
+          <h2 className="font-medium text-black text-2xl mt-10">
             Account Information
           </h2>
           <p className="text-[#ADA7A7] font-extralight text-base mt-4">
             Update your account information
           </p>
-          <h3 class="text-black text-lg font-semibold mt-10">
+          <h3 className="text-black text-lg font-semibold mt-10">
             Personal Information
           </h3>
 

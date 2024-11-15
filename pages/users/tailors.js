@@ -55,7 +55,7 @@ const Tailors = () => {
 
                     {Tailors.map((item, index) => {
                         return (
-                            <div class="relative flex flex-col" key={index}>
+                            <div className="relative flex flex-col" key={index}>
                                 <TailorCard
                                     tailorName={item.tailorName}
                                     orders={item.orders}
