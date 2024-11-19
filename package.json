@@ -18,6 +18,8 @@
     "@heroicons/react": "^2.1.5",
     "@material-tailwind/react": "^2.1.10",
     "@reduxjs/toolkit": "^1.6.1",
+    "antd": "^5.22.1",
+    "antd-style": "^3.7.1",
     "bootstrap": "^5.1.1",
     "date-fns": "^4.1.0",
     "husky": "^9.1.6",

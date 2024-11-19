@@ -51,7 +51,7 @@ const Tailors = () => {
     return (
         <Layout>
             <div className="min-h-[calc(100vh-120px)]">
-                <div className="mb-12 grid gap-y-10 gap-x-6 md:grid-cols-2 xl:grid-cols-4">
+                <div className="grid gap-y-10 gap-x-6 md:grid-cols-2 xl:grid-cols-4">
 
                     {Tailors.map((item, index) => {
                         return (
