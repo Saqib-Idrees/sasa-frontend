@@ -11,8 +11,9 @@ import {
 } from "@material-tailwind/react";
 import { Bars3Icon } from "@heroicons/react/24/solid";
 import { useGetAllPostsQuery } from "slices/postsAPI";
+import { useRouter } from 'next/router';
 const useStyle = createStyles(({ css, token }) => {
-  
+
   const { antCls } = token;
   return {
     customTable: css`
@@ -130,7 +131,7 @@ const dataSource = [
   {
     key: '1',
     name: 'Elijah Scott',
-    oid: '#917583', 
+    oid: '#917583',
     cname: 'Richard Grey',
     cid: '002586691022',
     item: 'Vest',
@@ -144,7 +145,7 @@ const dataSource = [
   {
     key: '2',
     name: 'Baldwin Adams',
-    oid: '#129934', 
+    oid: '#129934',
     cname: 'Barry Allen',
     cid: '002586691033',
     item: 'Suit',
@@ -158,7 +159,7 @@ const dataSource = [
   {
     key: '3',
     name: 'Smantha',
-    oid: '#010538', 
+    oid: '#010538',
     cname: 'Cindy Sweeney',
     cid: '002586691044',
     item: 'American Trousers',
@@ -172,7 +173,7 @@ const dataSource = [
   {
     key: '4',
     name: 'Alana Grey',
-    oid: '#100696', 
+    oid: '#100696',
     cname: 'Alana Bloom',
     cid: '002586691055',
     item: 'Pleated Trousers',
@@ -186,7 +187,7 @@ const dataSource = [
   {
     key: '5',
     name: 'Racheal McAdams',
-    oid: '#030393', 
+    oid: '#030393',
     cname: 'Racheal Rey',
     cid: '002586691066',
     item: 'Shirt',
@@ -200,6 +201,7 @@ const dataSource = [
 ];
 
 const OrderList = () => {
+  const router = useRouter();
   const { styles } = useStyle();
   const {
     data: postsData,
@@ -212,35 +214,34 @@ const OrderList = () => {
     <div>
       <Layout>
         <h2 className="font-bold text-3xl">Orders</h2>
-        <div className= "bg-white border rounded-2xl p-7 mt-6">
+        <div className="bg-white border rounded-2xl p-7 mt-6">
           <div className="grid grid-cols-2">
             <div className="space-y-2 justify-self-start">
-            <div className="mr-auto md:mr-4 md:w-72 my-8" > 
-          <Input label="Search" />
-        </div>
-        <IconButton
-          variant="text"
-          color="blue-gray"
-          className="grid xl:hidden"
-          onClick={() => setOpenSidenav(dispatch, !openSidenav)}
-        >
-          <Bars3Icon strokeWidth={3} className="h-6 w-6 text-blue-gray-500" />
-        </IconButton>
+              <div className="mr-auto md:mr-4 md:w-72 my-8" >
+                <Input label="Search" />
+              </div>
+              <IconButton
+                variant="text"
+                color="blue-gray"
+                className="grid xl:hidden"
+                onClick={() => setOpenSidenav(dispatch, !openSidenav)}
+              >
+                <Bars3Icon strokeWidth={3} className="h-6 w-6 text-blue-gray-500" />
+              </IconButton>
             </div>
             <div className="space-y-2 justify-self-end content-center">
-            <Button className="py-3 px-5 font-normal normal-case text-sm">
-                    + Create Order</Button>
+              <Button className="py-3 px-5 font-normal normal-case text-sm" onClick={() => { router.push('/orders/create') }}>+ Create Order</Button>
             </div>
           </div>
           <Table
-      className={styles.customTable}
-      columns={columns}
-      dataSource={dataSource}
-      scroll={{
-        x: 'max-content',
-        y: 55 * 5,
-      }}
-    />
+            className={styles.customTable}
+            columns={columns}
+            dataSource={dataSource}
+            scroll={{
+              x: 'max-content',
+              y: 55 * 5,
+            }}
+          />
         </div>
       </Layout>
       {postsIsLoading || postsIsFetching || postsData === undefined ? (
@@ -254,7 +255,7 @@ const OrderList = () => {
         </>
       )}
     </div>
-    
+
   );
 };
 export default OrderList;

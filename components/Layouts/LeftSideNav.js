@@ -77,12 +77,12 @@ export function LeftSideNav() {
     },
   ];
   return (
-    <aside className="bg-white shadow-sm -translate-x-80 fixed inset-0 z-50 my-4 ml-4 h-[calc(100vh-32px)] w-72 rounded-xl transition-transform duration-300 xl:translate-x-0 border border-blue-gray-100">
+    <aside className="bg-white -translate-x-80 fixed inset-0 z-50 min-h-[calc(100vh-32px)] w-72 transition-transform duration-300 xl:translate-x-0">
       <div className={`relative`}>
-      <a href="#" className="py-6 px-8 text-center">
+        <Link href="/" className="py-6 px-4 block">
           <img src="/assets/images/logo.svg"
-            className="w-36 mx-auto" />
-        </a>
+            className="w-24 mx-auto" />
+        </Link>
         {/* <IconButton
           variant="text"
           color="dark"
@@ -94,10 +94,10 @@ export function LeftSideNav() {
           <XMarkIcon strokeWidth={2.5} className="h-5 w-5 text-white" />
         </IconButton> */}
       </div>
-      <div className="m-4">
-        <ul className="mb-4 flex flex-col gap-1">
-          <li className="mx-3.5 mt-4 mb-2">
-            <a href="#">
+      <div className="p-4">
+        <ul className="h-[calc(100vh-174px)] overflow-y-auto">
+          <li className="">
+            <Link href="/">
               <Button
                 variant={"text"}
                 color={"dark"}
@@ -106,16 +106,16 @@ export function LeftSideNav() {
               >
                 <HomeIcon {...icon} />
                 <Typography
-                  className="text-lg font-medium text-black"
+                  className="text-lg text-base text-black font-medium"
                 >
                   Dashboard
                 </Typography>
               </Button>
-            </a>
+            </Link>
           </li>
 
-          <li className="mx-3.5 mb-2">
-            <a href="#">
+          <li className="">
+            <Link href="/orders">
               <Button
                 variant={"text"}
                 color={"dark"}
@@ -124,16 +124,15 @@ export function LeftSideNav() {
               >
                 <ArchiveBoxIcon {...icon} />
                 <Typography
-                  className="text-lg font-medium text-black"
+                  className="text-lg text-base text-black font-medium"
                 >
                   Orders
                 </Typography>
               </Button>
-            </a>
-
-            <ul className="flex flex-col gap-1">
-              <li className="mx-3.5 mb-2">
-                <a href="#">
+            </Link>
+            <ul className="pl-[38px]">
+              <li className="">
+                <Link href="javascript:void(0)">
                   <Button
                     variant={"text"}
                     color={"dark"}
@@ -141,16 +140,16 @@ export function LeftSideNav() {
                     fullWidth
                   >
                     <Typography
-                      className="text-lg font-medium text-black"
+                      className="text-lg text-base text-black font-medium"
                     >
                       Pending
                     </Typography>
                   </Button>
-                </a>
+                </Link>
               </li>
 
-              <li className="mx-3.5 mb-2">
-                <a href="#">
+              <li className="">
+                <Link href="javascript:void(0)">
                   <Button
                     variant={"text"}
                     color={"dark"}
@@ -158,16 +157,16 @@ export function LeftSideNav() {
                     fullWidth
                   >
                     <Typography
-                      className="text-lg font-medium text-black"
+                      className="text-lg text-base text-black font-medium"
                     >
                       In-Production
                     </Typography>
                   </Button>
-                </a>
+                </Link>
               </li>
 
-              <li className="mx-3.5 mb-2">
-                <a href="#">
+              <li className="">
+                <Link href="javascript:void(0)">
                   <Button
                     variant={"text"}
                     color={"dark"}
@@ -175,16 +174,16 @@ export function LeftSideNav() {
                     fullWidth
                   >
                     <Typography
-                      className="text-lg font-medium text-black"
+                      className="text-lg text-base text-black font-medium"
                     >
                       Shipped
                     </Typography>
                   </Button>
-                </a>
+                </Link>
               </li>
 
-              <li className="mx-3.5 mb-2">
-                <a href="#">
+              <li className="">
+                <Link href="javascript:void(0)">
                   <Button
                     variant={"text"}
                     color={"dark"}
@@ -192,16 +191,16 @@ export function LeftSideNav() {
                     fullWidth
                   >
                     <Typography
-                      className="text-lg font-medium text-black"
+                      className="text-lg text-base text-black font-medium"
                     >
                       Cancelled
                     </Typography>
                   </Button>
-                </a>
+                </Link>
               </li>
 
-              <li className="mx-3.5 mb-2">
-                <a href="#">
+              <li className="">
+                <Link href="javascript:void(0)">
                   <Button
                     variant={"text"}
                     color={"dark"}
@@ -209,17 +208,17 @@ export function LeftSideNav() {
                     fullWidth
                   >
                     <Typography
-                      className="text-lg font-medium text-black"
+                      className="text-lg text-base text-black font-medium"
                     >
                       Received
                     </Typography>
                   </Button>
-                </a>
+                </Link>
               </li>
             </ul>
           </li>
 
-          <li className="mx-3.5 mb-2">
+          <li className="">
             <Link href="/users/sales-team">
               <Button
                 variant={"text"}
@@ -229,7 +228,7 @@ export function LeftSideNav() {
               >
                 <UsersIcon {...icon} />
                 <Typography
-                  className="text-lg font-medium text-black"
+                  className="text-lg text-base text-black font-medium"
                 >
                   Sales Team
                 </Typography>
@@ -237,7 +236,7 @@ export function LeftSideNav() {
             </Link>
           </li>
 
-          <li className="mx-3.5 mb-2">
+          <li className="">
             <Link href="/users/tailors">
               <Button
                 variant={"text"}
@@ -247,7 +246,7 @@ export function LeftSideNav() {
               >
                 <UsersIcon {...icon} />
                 <Typography
-                  className="text-lg font-medium text-black"
+                  className="text-lg text-base text-black font-medium"
                 >
                   Tailors
                 </Typography>
@@ -255,8 +254,8 @@ export function LeftSideNav() {
             </Link>
           </li>
 
-          <li className="mx-3.5 mb-2">
-            <a href="#">
+          <li className="">
+            <Link href="javascript:void(0)">
               <Button
                 variant={"text"}
                 color={"dark"}
@@ -265,16 +264,17 @@ export function LeftSideNav() {
               >
                 <UserIcon {...icon} />
                 <Typography
-                  className="text-lg font-medium text-black"
+                  className="text-lg text-base text-black font-medium"
                 >
                   Profile
                 </Typography>
               </Button>
-            </a>
+            </Link>
           </li>
-
-          <li className="mx-3.5 mb-2 position: absolute bottom-0">
-            <a href="#">
+        </ul>
+        <ul>
+          <li className="">
+            <Link href="javascript:void(0)">
               <Button
                 variant={"text"}
                 color={"dark"}
@@ -283,12 +283,12 @@ export function LeftSideNav() {
               >
                 <ArrowRightIcon {...icon} />
                 <Typography
-                  className="text-lg font-medium text-black"
+                  className="text-lg text-base text-black font-medium"
                 >
                   Log out
                 </Typography>
               </Button>
-            </a>
+            </Link>
           </li>
         </ul>
       </div>
