@@ -14,9 +14,9 @@ export function Dashboard({ children, title, content }) {
     <div className="main-content-view">
       <Meta title={AppConfig.title} description={AppConfig.description} />
       <div className="main-wrapper">
-        <div className="min-h-screen bg-blue-gray-50/50">
+        <div className="min-h-screen">
           <LeftSideNav />
-          <div className="p-4 xl:ml-80">
+          <div className="pt-4 px-4 xl:ml-72 flex flex-wrap flex-col min-h-screen">
             <DashboardNavbar />
             {/* <Configurator /> */}
             <IconButton
@@ -24,12 +24,12 @@ export function Dashboard({ children, title, content }) {
               color="white"
               className="fixed bottom-8 right-8 z-40 rounded-full shadow-blue-gray-900/10"
               ripple={false}
-              // onClick={() => setOpenConfigurator(dispatch, true)}
+            // onClick={() => setOpenConfigurator(dispatch, true)}
             >
               <Cog6ToothIcon className="h-5 w-5" />
             </IconButton>
-            <main>{children}</main>
-            <div className="text-blue-gray-600">
+            <main className="rounded-3xl bg-[#F4F4F4] p-6 flex-1 w-full">{children}</main>
+            <div className="text-blue-gray-600 w-full">
               <Footer />
             </div>
           </div>

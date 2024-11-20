@@ -45,7 +45,7 @@ export function DashboardNavbar() {
     //   fullWidth
     //   blurred={fixedNavbar}
     // >
-    <div className="flex flex-col-reverse justify-between gap-6 md:flex-row md:items-center">
+    <div className="flex flex-col-reverse justify-between gap-6 md:flex-row md:items-center pt-3 pb-6 w-full">
       <div className="capitalize">
         <Breadcrumbs className={`bg-transparent p-0 transition-all `}>
           <a href={`/`}>
@@ -96,23 +96,23 @@ export function DashboardNavbar() {
         </a> */}
         <Menu>
           <MenuHandler>
-          <a href="#">
-          <Button
-            variant="text"
-            color="blue-gray"
-            className="hidden items-center gap-1 px-4 xl:flex normal-case"
-          >
-            <UserCircleIcon className="h-5 w-5 text-blue-gray-500" />
-            Sign In
-          </Button>
-          <IconButton
-            variant="text"
-            color="blue-gray"
-            className="grid xl:hidden"
-          >
-            <UserCircleIcon className="h-5 w-5 text-blue-gray-500" />
-          </IconButton>
-        </a>
+            <a href="#">
+              <Button
+                variant="text"
+                color="blue-gray"
+                className="hidden items-center gap-1 px-4 xl:flex normal-case"
+              >
+                <UserCircleIcon className="h-5 w-5 text-blue-gray-500" />
+                Sign In
+              </Button>
+              <IconButton
+                variant="text"
+                color="blue-gray"
+                className="grid xl:hidden"
+              >
+                <UserCircleIcon className="h-5 w-5 text-blue-gray-500" />
+              </IconButton>
+            </a>
           </MenuHandler>
           <MenuList className="w-max border-0">
             <MenuItem className="flex items-center gap-3">
