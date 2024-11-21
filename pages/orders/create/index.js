@@ -11,7 +11,7 @@ import { useSelector } from "react-redux";
 import { Form, ListGroup, Spinner } from "react-bootstrap";
 import Link from "next/dist/client/link";
 import { useEffect, useState } from "react";
-import router from "next/router";
+import router, { useRouter } from "next/router";
 import { useGetUserQuery } from "slices/authAPI";
 import { useDispatch } from "react-redux";
 import w from "@/components/Post";
@@ -139,6 +139,7 @@ export default function Edit() {
   ]
 
   const [showStep, setShowStep] = useState("step1");
+  const router = useRouter();
 
   return (
     <div>
@@ -537,7 +538,7 @@ export default function Edit() {
                 <h4 class="font-bold text-2xl mb-12 text-center">STEP 4</h4>
                 <div className="mt-4">
                   <div className="">
-                    <Button className="bg-black text-white rounded-3xl w-full p-3" onClick={() => { setShowStep("step1") }}>Next</Button>
+                    <Button className="bg-black text-white rounded-3xl w-full p-3" onClick={() => { setShowStep("step5") }}>Next</Button>
                   </div>
                 </div>
               </div>
@@ -552,7 +553,7 @@ export default function Edit() {
                 <h4 class="font-bold text-2xl mb-12 text-center">STEP 5</h4>
                 <div className="mt-4">
                   <div className="">
-                    <Button className="bg-black text-white rounded-3xl w-full p-3" onClick={() => { setShowStep("step5") }}>Next</Button>
+                    <Button className="bg-black text-white rounded-3xl w-full p-3" onClick={() => { router.push('/thankyou') }}>Confirm Order</Button>
                   </div>
                 </div>
               </div>
