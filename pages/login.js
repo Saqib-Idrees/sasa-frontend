@@ -1,24 +1,29 @@
-import { Button, Spinner, Alert } from 'react-bootstrap';
-import { useDispatch, useSelector } from 'react-redux';
-import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+// import { Button, Spinner, Alert } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import {
   useLoginUserMutation,
   useGoogleLoginQuery,
   useGoogleAuthMutation,
   useLoadUserQuery,
-} from 'slices/authAPI';
+} from "slices/authAPI";
 import {
   selectAccess,
   selectCurrentUser,
   setToken,
   setUser,
-} from 'slices/authSlice';
-import { Form } from 'react-bootstrap';
-import Link from 'next/dist/client/link';
-import Layout from '@/components/Layouts/NoHeaderLayout/Layout';
+} from "slices/authSlice";
+// import { Form } from "react-bootstrap";
+import Link from "next/dist/client/link";
+import Layout from "@/components/Layouts/NoHeaderLayout/Layout";
+import { Alert, Spinner, Button } from "@material-tailwind/react";
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
+
 
 export default function Login() {
+  const MySwal = withReactContent(Swal);
   const dispatch = useDispatch();
   const router = useRouter();
   const [
@@ -32,8 +37,8 @@ export default function Login() {
     },
   ] = useLoginUserMutation();
   const [loginFormData, setLoginFormData] = useState({
-    email: '',
-    password: '',
+    email: "",
+    password: "",
   });
   const { email, password } = loginFormData;
 
@@ -41,7 +46,7 @@ export default function Login() {
 
   useEffect(() => {
     if (userData !== null) {
-      router.push('/', undefined, { shallow: true });
+      router.push("/", undefined, { shallow: true });
     }
   }, [userData]);
 
@@ -54,21 +59,19 @@ export default function Login() {
 
   const handleLoadUser = async (access) => {
     try {
-      const response = await fetch('http://localhost:8000/auth/users/me/', {
-        method: 'GET',
+      const response = await fetch("http://localhost:4001/auth/users/getUser", {
+        method: "GET",
         headers: {
-          'Content-Type': 'application/json',
-          Authorization: `JWT ${access}`,
-          Accept: 'application/json',
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${access}`,
+          Accept: "application/json",
         },
       });
-
       const userdata = await response.json();
       console.log(`${userdata}`);
-
       if (response.status === 200) {
         dispatch(setUser({ userdata }));
-        // router.push(`/profile/${userdata.email}`, undefined, { shallow: true })
+        router.push('/dashboard');
       }
     } catch (error) {
       console.log(error);
@@ -77,20 +80,22 @@ export default function Login() {
 
   const handleLogin = async () => {
     try {
+      console.log("saqib");
       const jwtToken = await loginUser({ email, password }).unwrap();
       console.log(`loginUser result?: ${jwtToken}`);
-      dispatch(setToken(jwtToken));
-
-      handleLoadUser(jwtToken.access);
-
+      dispatch(setToken(jwtToken.accessToken));
+      if(loginIsError){
+       
+      }
+      handleLoadUser(jwtToken.accessToken);
       if (jwtToken.status === 401) {
-        console.alert('401, user not found. signup first');
+        console.alert("401, user not found. signup first");
       }
       if (loginIsError) {
         console.log(`loginError: ${loginError}`);
         if (loginError.status === 401) {
           console.alert(
-            'no user with that email address found, please sign up!'
+            "no user with that email address found, please sign up!"
           );
         }
       }
@@ -128,11 +133,11 @@ export default function Login() {
   const handleGoogleLogin = async () => {
     try {
       const response = await fetch(
-        'http://localhost:8000/auth/o/google-oauth2/?redirect_uri=http://localhost:3000/google/',
+        "http://localhost:8000/auth/o/google-oauth2/?redirect_uri=http://localhost:3000/google/",
         {
-          method: 'GET',
+          method: "GET",
           headers: {
-            Accept: 'application/json',
+            Accept: "application/json",
           },
         }
       );
@@ -144,6 +149,18 @@ export default function Login() {
       console.log(error);
     }
   };
+
+  useEffect(()=>{
+    if(loginIsError){
+      Swal.fire({
+        position: "top-end",
+        icon: "error",
+        title: loginError?.data?.message,
+        showConfirmButton: false,
+        timer: 1500
+      });
+    }
+  },[loginIsError])
 
   return (
     <>
@@ -170,11 +187,9 @@ export default function Login() {
             </div>
             <div className="flex justify-center self-center  z-10">
               <div className="p-12 bg-white mx-auto rounded-2xl w-100 ">
-                {loginIsError && (
-                  <Alert variant="danger">
-                    {loginError.status}, Incorrect credentials or not signed up
-                  </Alert>
-                )}
+                {/* {loginIsError && (
+                  <Alert variant="filled" color="red">No user with that email address found, please sign up!</Alert>
+                )} */}
                 <div className="mb-4">
                   <h3 className="font-semibold text-2xl text-gray-800">
                     Log in
@@ -183,7 +198,7 @@ export default function Login() {
                     Please sign in to your account.
                   </p> */}
                 </div>
-                <Form>
+                <form>
                   <div className="space-y-5">
                     <div className="space-y-2">
                       <label className="text-sm font-medium text-gray-700 tracking-wide">
@@ -230,7 +245,7 @@ export default function Login() {
                     </div>
                     <div className="pt-5 text-center text-gray-400 text-xs">
                       <span>
-                        By continuing, you agree to the{' '}
+                        By continuing, you agree to the{" "}
                         <a
                           href=""
                           rel=""
@@ -239,7 +254,7 @@ export default function Login() {
                           className="text-black hover:text-black-500 "
                         >
                           Terms
-                        </a>{' '}
+                        </a>{" "}
                         of use and Privacy Policy.
                       </span>
                     </div>
@@ -272,7 +287,7 @@ export default function Login() {
                       )}
                     </div>
                   </div>
-                </Form>
+                </form>
                 <div className="pt-5 text-center text-gray-400 text-sm">
                   <a
                     href="/resetpassword"
