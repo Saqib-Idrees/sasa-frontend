@@ -18,8 +18,11 @@ import Post from "@/components/Post";
 
 import { useGetAllPostsQuery } from "slices/postsAPI";
 import Layout from "@/components/Layouts/DashLayout/Layout";
-import { IconButton, Input } from "@material-tailwind/react";
-import { Bars3Icon, H1Icon } from "@heroicons/react/24/solid";
+import {
+  IconButton,
+  Input,
+} from "@material-tailwind/react";
+import { Bars3Icon } from "@heroicons/react/24/solid";
 
 export default function Home() {
   const user = useSelector(selectCurrentUser);
@@ -40,15 +43,9 @@ export default function Home() {
   }, [postsIsError]);
 
   return (
-    <div className="flex items-center justify-center h-screen">
-      <div className="text-center">
-      <h1 className="text-4xl mb-4">SASA Milano</h1>
-      <button className="align-middle select-none font-sans font-bold text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs rounded-lg bg-gray-900 text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none mt-4 py-4 px-16" onClick={() => router.push('/login')}>
-          Login
-        </button>
-      </div>
-      {/* <Layout>
-        <h2 className="font-bold text-3xl">Orders</h2>
+    <div>
+      <Layout>
+        <h2 className="font-bold text-3xl">Dashboard</h2>
         <div className="mr-auto md:mr-4 md:w-72 my-8" >
           <Input label="Search" />
         </div>
@@ -209,7 +206,7 @@ export default function Home() {
             <Post key={post.id} post={post} />
           ))}
         </>
-      )} */}
+      )}
     </div>
   );
 }
