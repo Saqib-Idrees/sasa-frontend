@@ -112,7 +112,7 @@ export default function Create() {
       <h2 className="font-bold text-3xl">Create User</h2>
       <div className="mr-auto md:mr-4 my-8">
         <h2 className="font-semibold text-[#3E435D] text-2xl">
-          Welcome, {user.userdata.firstname}
+          Welcome, {user?.userdata?.firstname}
         </h2>
         <div className="text-[#ADA7A7] font-extralight text-base mt-2">
           {formattedDate}

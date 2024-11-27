@@ -24,7 +24,18 @@ export const authApi = createApi({
   endpoints: (builder) => ({
     userCreate: builder.mutation({
       query(data) {
-        const { firstname, lastname, username, email, password, re_password, role, phone, dob, gender } = data;
+        const {
+          firstname,
+          lastname,
+          username,
+          email,
+          password,
+          re_password,
+          role,
+          phone,
+          dob,
+          gender,
+        } = data;
         return {
           url: "auth/register",
           method: "POST",
@@ -35,15 +46,14 @@ export const authApi = createApi({
             email: `${email}`,
             password: `${password}`,
             re_password: `${re_password}`,
-            role: role,  
-            phone: parseInt(phone) || null,  
-            dob: dob || null,  
-            gender: gender || null  
+            role: role,
+            phone: parseInt(phone) || null,
+            dob: dob || null,
+            gender: gender || null,
           },
         };
       },
-    })
-    ,
+    }),
     userActivate: builder.mutation({
       query(data) {
         const { uid, token } = data;
@@ -106,7 +116,7 @@ export const authApi = createApi({
           },
           method: "POST",
           body: {
-            username: `${email}`,
+            email: `${email}`,
             password: `${password}`,
           },
         };
@@ -149,6 +159,38 @@ export const authApi = createApi({
         };
       },
     }),
+    profileUpdate: builder.mutation({
+      query(data) {
+        const {
+          firstname,
+          lastname,
+          username,
+          email,
+          password,
+          re_password,
+          role,
+          phone,
+          dob,
+          gender,
+        } = data;
+        return {
+          url: "auth/register",
+          method: "POST",
+          body: {
+            firstname: firstname,
+            lastname: lastname,
+            username: username,
+            email: `${email}`,
+            password: `${password}`,
+            re_password: `${re_password}`,
+            role: role,
+            phone: parseInt(phone) || null,
+            dob: dob || null,
+            gender: gender || null,
+          },
+        };
+      },
+    }),
   }),
 });
 
@@ -166,5 +208,6 @@ export const {
   useLoginUserMutation,
   useGoogleLoginQuery,
   useGoogleAuthMutation,
+  useProfileUpdateMutation,
   useLoadUserQuery,
 } = authApi;
