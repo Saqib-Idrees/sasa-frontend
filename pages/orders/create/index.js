@@ -933,28 +933,75 @@ export default function Edit() {
           </div>
         )}
 
-        {showStep == "step5" && (
+{showStep == "step5" &&
           <div className="order-create-step4">
             <div className="bg-white border rounded-3xl px-9 py-8">
-              <div className="max-w-[550px] w-full mx-auto">
-                <h4 class="font-bold text-2xl mb-12 text-center">STEP 5</h4>
-                
-                <div className="mt-4">
-                  <div className="">
-                    <Button
-                      className="bg-black text-white rounded-3xl w-full p-3"
-                      onClick={() => {
-                        router.push("/thankyou");
+              <div className="w-full mx-auto">
+                <h4 class="font-bold text-2xl mb-1 text-center">STEP 5</h4>
+                <div className="grid grid-cols-3 gap-9  mt-6">
+            <div className="col-span-2 px-14">
+            <div className="bg-white border rounded-3xl px-9 py-8 mt-5">
+              <div className="mb-16">
+                <h4 className="font-bold text-3xl mb-12">Shipping</h4>
+              </div>
+              <div className="grid gap-6 grid-cols-2 my-8 justify-items-center">
+                <div className="inline-flex items-center gap-12">
+                  <div className="relative inline-block self-center">
+                    <p className="text-xl">Standard</p>
+                  </div>
+                  <div className="relative inline-block">
+                    <Switch
+                      id="custom-switch-component-one"
+                      ripple={false}
+                      className="h-full w-full checked:bg-[#2EC946]"
+                      containerProps={{
+                        className: "w-12 h-6",
                       }}
-                    >
-                      Confirm Order
-                    </Button>
+                      circleProps={{
+                        className: "h-8 w-8 before:hidden border-none",
+                      }}
+                    />
+                  </div>
+                </div>
+                <div className="inline-flex gap-12">
+                  <div className="relative inline-block self-center">
+                    <p className="text-xl">Express</p>
+                  </div>
+                  <div className="relative inline-block">
+                    <Switch
+                      id="custom-switch-component-two"
+                      ripple={false}
+                      className="h-full w-full checked:bg-[#2EC946]"
+                      containerProps={{
+                        className: "w-12 h-6",
+                      }}
+                      circleProps={{
+                        className: "h-8 w-8 before:hidden border-none",
+                      }}
+                    />
                   </div>
                 </div>
               </div>
             </div>
+            <div className="bg-white border rounded-3xl px-9 py-8 mt-5">
+              <div className="mb-16">
+                <h4 className="font-bold text-3xl mb-12">Payment</h4>
+              </div>
+              <div className="grid gap-6 grid-cols-2 my-8 justify-items-center">
+              </div>
+            </div>
+            </div>
+            <div className="col-span-1"></div>
+                </div>
+                <div className="w-[100%] px-3 mt-6">
+                <div className="max-w-[550px] w-full mx-auto">
+                  <Button className="bg-black text-white rounded-3xl w-full p-3" onClick={() => { router.push('/thankyou') }}>Confirm Order</Button>
+                </div>
+              </div>
+              </div>
+            </div>
           </div>
-        )}
+        }
       </Layout>
       {postsIsLoading || postsIsFetching || postsData === undefined ? (
         <Spinner animation="border" variant="success" />
