@@ -255,7 +255,7 @@ export function LeftSideNav() {
           </li>
 
           <li className="">
-            <Link href="javascript:void(0)">
+            <Link href="/profile/edit/1">
               <Button
                 variant={"text"}
                 color={"dark"}
@@ -274,7 +274,7 @@ export function LeftSideNav() {
         </ul>
         <ul>
           <li className="">
-            <Link href="javascript:void(0)">
+            <Link href="/">
               <Button
                 variant={"text"}
                 color={"dark"}
