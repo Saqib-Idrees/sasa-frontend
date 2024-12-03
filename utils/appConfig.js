@@ -1,6 +1,6 @@
 const AppConfig = {
-  site_name: 'Framesuite',
-  title: 'Framesuite - Frame Preview',
+  site_name: 'SASA Milano',
+  title: 'SASA Milano - Dashboard',
   description: '',
   locale: 'en',
 };

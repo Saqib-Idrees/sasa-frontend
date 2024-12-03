@@ -15,10 +15,6 @@ const slice = createSlice({
       state.lastname = lastname
       state.bio = bio
     },
-    // setUser: (state, { payload }) => {
-    // // setUser: (state, { payload: { user } }) => {
-    //   state.user = payload
-    // },
     // setAuthenticated: (state) => {
     //   state.isAuthenticated = true
     // },
@@ -33,6 +29,7 @@ const slice = createSlice({
 
 
 export const { 
-  setProfileInfo
+  setProfileInfo,
+  setUser
 } = slice.actions
 export default slice.reducer
