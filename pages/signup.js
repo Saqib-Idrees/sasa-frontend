@@ -3,7 +3,8 @@ import { useRouter } from "next/router";
 import Link from "next/dist/client/link";
 import { useUserCreateMutation } from "slices/authAPI";
 import { useSelector } from "react-redux";
-import { selectCurrentUser } from "slices/authSlice";
+import { selectCurrentUser,
+  selectIsAuthenticated, } from "slices/authSlice";
 import Layout from "@/components/Layouts/NoHeaderLayout/Layout";
 import {
   Alert,
@@ -40,7 +41,18 @@ export default function Signup() {
     re_password: "",
     role: "",
   };
+  const isAuthenticated = useSelector(selectIsAuthenticated);
+  
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
+  const togglePasswordVisibility = () => {
+    setShowPassword((prev) => !prev);
+  };
+
+  const toggleConfirmPasswordVisibility = () => {
+    setShowConfirmPassword((prev) => !prev);
+  };
   // Yup validation schema
   const validationSchema = Yup.object({
     firstname: Yup.string().required("First name is required"),
@@ -194,7 +206,55 @@ export default function Signup() {
                           className="text-red-500 text-sm"
                         />
                       </div>
-                      <div className="space-y-2">
+                      {/* Password */}
+                <div className="space-y-2">
+                <label className="mb-5 text-sm font-medium text-gray-700 tracking-wide">
+                          Password
+                        </label>
+                  <div className="relative flex items-center">
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      className="w-full content-center text-base px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-black"
+                    />
+                    <button
+                      onClick={togglePasswordVisibility}
+                      type="button"
+                      className="absolute right-3 px-2 py-1 text-sm border rounded-md text-gray-600 hover:bg-gray-100"
+                    >
+                      {showPassword ? "Hide" : "Show"}
+                    </button>
+                  </div>
+                  <ErrorMessage
+                          name="password"
+                          component="div"
+                          className="text-red-500 text-sm"
+                        />
+                </div>
+                {/* Confirm Password */}
+                <div className="space-y-2">
+                <label className="mb-5 text-sm font-medium text-gray-700 tracking-wide">
+                          Confirm Password
+                        </label>
+                  <div className="relative flex items-center">
+                    <input
+                      type={showConfirmPassword ? "text" : "password"}
+                      className="w-full content-center text-base px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-black"
+                    />
+                    <button
+                      onClick={toggleConfirmPasswordVisibility}
+                      type="button"
+                      className="absolute right-3 px-2 py-1 text-sm border rounded-md text-gray-600 hover:bg-gray-100"
+                    >
+                      {showConfirmPassword ? "Hide" : "Show"}
+                    </button>
+                  </div>
+                  <ErrorMessage
+                          name="re_password"
+                          component="div"
+                          className="text-red-500 text-sm"
+                        />
+                </div>
+                      {/* <div className="space-y-2">
                         <label className="mb-5 text-sm font-medium text-gray-700 tracking-wide">
                           Password
                         </label>
@@ -210,8 +270,8 @@ export default function Signup() {
                           component="div"
                           className="text-red-500 text-sm"
                         />
-                      </div>
-                      <div className="space-y-2">
+                      </div> */}
+                      {/* <div className="space-y-2">
                         <label className="mb-5 text-sm font-medium text-gray-700 tracking-wide">
                           Confirm Password
                         </label>
@@ -227,7 +287,7 @@ export default function Signup() {
                           component="div"
                           className="text-red-500 text-sm"
                         />
-                      </div>
+                      </div> */}
                       <div className="space-y-2">
                         <label className="text-xs font-medium text-gray-700 tracking-wide">
                           Role

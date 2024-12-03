@@ -11,6 +11,7 @@ import {
 import {
   selectAccess,
   selectCurrentUser,
+  selectIsAuthenticated,
   setToken,
   setUser,
 } from "slices/authSlice";
@@ -56,7 +57,12 @@ export default function Login() {
       [e.target.name]: e.target.value,
     });
   };
+  const isAuthenticated = useSelector(selectIsAuthenticated);
+  const [showPassword, setShowPassword] = useState(false);
 
+  const togglePasswordVisibility = () => {
+    setShowPassword((prev) => !prev);
+  };
   const handleLoadUser = async (access) => {
     try {
       const response = await fetch("http://localhost:4001/auth/users/getUser", {
@@ -80,10 +86,9 @@ export default function Login() {
 
   const handleLogin = async () => {
     try {
-      console.log("saqib");
       const jwtToken = await loginUser({ email, password }).unwrap();
       console.log(`loginUser result?: ${jwtToken}`);
-      dispatch(setToken(jwtToken.accessToken));       
+      dispatch(setToken(jwtToken.accessToken));
       handleLoadUser(jwtToken.accessToken);
       if (jwtToken.status === 401) {
         console.alert("401, user not found. signup first");
@@ -215,14 +220,28 @@ export default function Login() {
                       <label className="mb-5 text-sm font-medium text-gray-700 tracking-wide">
                         Password
                       </label>
-                      <input
+                      <div className="relative flex items-center">
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      placeholder="Password"
+                      className="w-full pl-4 pr-20 text-base px-4 py-3 border rounded-md focus:outline-none focus:border-blue-500"
+                    />
+                    <button
+                      onClick={togglePasswordVisibility}
+                      type="button"
+                      className="absolute right-3 top-3 px-2 py-1 text-sm border rounded-md text-gray-600 hover:bg-gray-100"
+                    >
+                      {showPassword ? "Hide" : "Show"}
+                    </button>
+                  </div>
+                      {/* <input
                         className="w-full content-center text-base px-4 py-2 border  border-gray-300 rounded-lg focus:outline-none focus:border-black"
                         type="password"
                         placeholder="Enter your password"
                         name="password"
                         onChange={handleLoginFormChange}
                         value={password}
-                      />
+                      /> */}
                     </div>
                     <div className="flex items-center justify-between">
                       <div className="flex items-center">
