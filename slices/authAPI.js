@@ -10,14 +10,16 @@ export const authApi = createApi({
       const token = getState().auth.token;
       const user = getState().auth.user;
       const access = getState().auth.access;
-      const refresh = getState().auth.refresh;
-      if (access && refresh) {
-        headers.set("Authorization", `JWT ${access}`);
+      if (token && isAuthenticated && user && access) {
+        console.log(token);
+        debugger;
+        headers.set("Authorization", `Bearer ${token}`);
+        headers.set("Accept", "application/json");
+        headers.set("Content-Type", "application/json");
+      } else {
         headers.set("Accept", "application/json");
         headers.set("Content-Type", "application/json");
       }
-      headers.set("Accept", "application/json");
-      headers.set("Content-Type", "application/json");
       return headers;
     },
   }),
@@ -35,6 +37,8 @@ export const authApi = createApi({
           phone,
           dob,
           gender,
+          shopName,
+          location,
         } = data;
         return {
           url: "auth/register",
@@ -50,6 +54,8 @@ export const authApi = createApi({
             phone: parseInt(phone) || null,
             dob: dob || null,
             gender: gender || null,
+            shopName: shopName || null,
+            location: location || null,
           },
         };
       },
@@ -159,37 +165,11 @@ export const authApi = createApi({
         };
       },
     }),
-    profileUpdate: builder.mutation({
-      query(data) {
-        const {
-          firstname,
-          lastname,
-          username,
-          email,
-          password,
-          re_password,
-          role,
-          phone,
-          dob,
-          gender,
-        } = data;
-        return {
-          url: "auth/register",
-          method: "POST",
-          body: {
-            firstname: firstname,
-            lastname: lastname,
-            username: username,
-            email: `${email}`,
-            password: `${password}`,
-            re_password: `${re_password}`,
-            role: role,
-            phone: parseInt(phone) || null,
-            dob: dob || null,
-            gender: gender || null,
-          },
-        };
-      },
+    getAllUsers: builder.query({
+      query: () => ({
+        url: 'users',
+        method: 'GET',
+      }),
     }),
   }),
 });
@@ -208,6 +188,6 @@ export const {
   useLoginUserMutation,
   useGoogleLoginQuery,
   useGoogleAuthMutation,
-  useProfileUpdateMutation,
+  useGetAllUsersQuery,
   useLoadUserQuery,
 } = authApi;

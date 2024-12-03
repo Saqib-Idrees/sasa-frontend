@@ -22,7 +22,17 @@ export default function Create() {
     userCreate,
     { isSuccess, isLoading, isError, data: loginData, error: loginError },
   ] = useUserCreateMutation();
+  const [isTailor, setIsTailor] = useState(false);
 
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const togglePasswordVisibility = () => {
+    setShowPassword((prev) => !prev);
+  };
+
+  const toggleConfirmPasswordVisibility = () => {
+    setShowConfirmPassword((prev) => !prev);
+  };
   useEffect(() => {
     setCurrentDate(new Date());
   }, []);
@@ -99,6 +109,18 @@ export default function Create() {
       .required("Confirm password is required"),
     gender: Yup.string().nullable(), // Optional
     role: Yup.string().required("Role is required"),
+    shopName: Yup.string().nullable(),
+    location: Yup.string().nullable(),
+    // shopName: Yup.string().when("role", {
+    //   is: "Tailor",
+    //   then: Yup.string().required("Shop Name is required"),
+    //   otherwise: Yup.string().nullable(),
+    // }),
+    // location: Yup.string().when("role", {
+    //   is: "Tailor",
+    //   then: Yup.string().required("Location is required"),
+    //   otherwise: Yup.string().nullable(),
+    // }),
   });
 
   useEffect(() => {
@@ -136,11 +158,13 @@ export default function Create() {
               password: "",
               re_password: "",
               role: "",
+              shopName: "", // Ensure this is initialized
+              location: "", // Ensure this is initialized
             }}
             validationSchema={validationSchema}
             onSubmit={handleSubmit}
           >
-            {({ handleSubmit, isSubmitting, resetForm }) => (
+            {({ handleSubmit, setFieldValue, isSubmitting, resetForm }) => (
               <FormikForm onSubmit={handleSubmit}>
                 <div className="grid gap-7 grid-cols-2 mb-7"></div>
 
@@ -260,11 +284,20 @@ export default function Create() {
                     <label className="inline-block mb-4 text-xs font-medium text-gray-700 tracking-wide">
                       Password
                     </label>
-                    <Field
-                      name="password"
-                      type="password"
-                      className="w-full text-base px-4 py-3 rounded-lg border border-gray-300"
-                    />
+                    <div className="relative flex items-center">
+                      <Field
+                        name="password"
+                        type={showPassword ? "text" : "password"}
+                        className="w-full text-base px-4 py-3 rounded-lg border border-gray-300"
+                      />
+                      <button
+                        onClick={togglePasswordVisibility}
+                        type="button"
+                        className="absolute right-3 top-3 px-2 py-1 text-sm border rounded-md text-gray-600 hover:bg-gray-100"
+                      >
+                        {showPassword ? "Hide" : "Show"}
+                      </button>
+                    </div>
                     <ErrorMessage
                       name="password"
                       component="div"
@@ -275,11 +308,20 @@ export default function Create() {
                     <label className="inline-block mb-4 text-xs font-medium text-gray-700 tracking-wide">
                       Confirm Password
                     </label>
-                    <Field
-                      name="re_password"
-                      type="password"
-                      className="w-full text-base px-4 py-3 rounded-lg border border-gray-300"
-                    />
+                    <div className="relative flex items-center">
+                      <Field
+                        name="re_password"
+                        type={showConfirmPassword ? "text" : "password"}
+                        className="w-full text-base px-4 py-3 rounded-lg border border-gray-300"
+                      />
+                      <button
+                        onClick={toggleConfirmPasswordVisibility}
+                        type="button"
+                        className="absolute right-3 top-3 px-2 py-1 text-sm border rounded-md text-gray-600 hover:bg-gray-100"
+                      >
+                        {showConfirmPassword ? "Hide" : "Show"}
+                      </button>
+                    </div>
                     <ErrorMessage
                       name="re_password"
                       component="div"
@@ -313,6 +355,11 @@ export default function Create() {
                       name="role"
                       as="select"
                       className="w-full text-base px-4 py-3 rounded-lg border border-gray-300"
+                      onChange={(e) => {
+                        const selectedRole = e.target.value;
+                        setFieldValue("role", selectedRole);
+                        setIsTailor(selectedRole === "Tailor");
+                      }}
                     >
                       <option value="">Select Role</option>
                       <option value="Admin">Admin</option>
@@ -326,7 +373,44 @@ export default function Create() {
                     />
                   </div>
                 </div>
-
+                {isTailor && (
+                  <>
+                    <div className="grid gap-7 grid-cols-2 mb-7">
+                      <div>
+                        <label className="inline-block mb-4 text-xs font-medium text-gray-700 tracking-wide">
+                          Shop Name
+                        </label>
+                        <Field
+                          name="shopName"
+                          type="text"
+                          className="w-full text-base px-4 py-3 rounded-lg border border-gray-300"
+                          placeholder="Enter Shop Name"
+                        />
+                        <ErrorMessage
+                          name="shopName"
+                          component="div"
+                          className="text-red-500 text-sm mt-1"
+                        />
+                      </div>
+                      <div>
+                        <label className="inline-block mb-4 text-xs font-medium text-gray-700 tracking-wide">
+                          Location
+                        </label>
+                        <Field
+                          name="location"
+                          type="text"
+                          className="w-full text-base px-4 py-3 rounded-lg border border-gray-300"
+                          placeholder="Enter Location"
+                        />
+                        <ErrorMessage
+                          name="location"
+                          component="div"
+                          className="text-red-500 text-sm mt-1"
+                        />
+                      </div>
+                    </div>
+                  </>
+                )}
                 <Button
                   type="submit"
                   className="mt-10 py-4 px-16"
