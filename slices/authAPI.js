@@ -4,7 +4,7 @@ import { PURGE } from "redux-persist";
 export const authApi = createApi({
   reducerPath: "authApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:4001/auth/",
+    baseUrl: "http://3.82.112.137:4001/auth/",
     prepareHeaders: (headers, { getState }) => {
       const isAuthenticated = getState().auth.isAuthenticated;
       const token = getState().auth.token;
