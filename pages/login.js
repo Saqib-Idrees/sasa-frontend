@@ -19,9 +19,8 @@ import {
 import Link from "next/dist/client/link";
 import Layout from "@/components/Layouts/NoHeaderLayout/Layout";
 import { Alert, Spinner, Button } from "@material-tailwind/react";
-import Swal from 'sweetalert2'
-import withReactContent from 'sweetalert2-react-content'
-
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 
 export default function Login() {
   const MySwal = withReactContent(Swal);
@@ -77,7 +76,7 @@ export default function Login() {
       console.log(`${userdata}`);
       if (response.status === 200) {
         dispatch(setUser({ userdata }));
-        router.push('/dashboard');
+        router.push("/dashboard");
       }
     } catch (error) {
       console.log(error);
@@ -152,17 +151,17 @@ export default function Login() {
     }
   };
 
-  useEffect(()=>{
-    if(loginIsError){
+  useEffect(() => {
+    if (loginIsError) {
       Swal.fire({
         position: "top-end",
         icon: "error",
         title: loginError?.data?.message,
         showConfirmButton: false,
-        timer: 1500
+        timer: 1500,
       });
     }
-  },[loginIsError])
+  }, [loginIsError]);
 
   return (
     <>
@@ -221,19 +220,22 @@ export default function Login() {
                         Password
                       </label>
                       <div className="relative flex items-center">
-                    <input
-                      type={showPassword ? "text" : "password"}
-                      placeholder="Password"
-                      className="w-full pl-4 pr-20 text-base px-4 py-3 border rounded-md focus:outline-none focus:border-blue-500"
-                    />
-                    <button
-                      onClick={togglePasswordVisibility}
-                      type="button"
-                      className="absolute right-3 top-3 px-2 py-1 text-sm border rounded-md text-gray-600 hover:bg-gray-100"
-                    >
-                      {showPassword ? "Hide" : "Show"}
-                    </button>
-                  </div>
+                        <input
+                          type={showPassword ? "text" : "password"}
+                          placeholder="Password"
+                          className="w-full pl-4 pr-20 text-base px-4 py-3 border rounded-md focus:outline-none focus:border-blue-500"
+                          name="password"
+                          onChange={handleLoginFormChange}
+                          value={password}
+                        />
+                        <button
+                          onClick={togglePasswordVisibility}
+                          type="button"
+                          className="absolute right-3 top-3 px-2 py-1 text-sm border rounded-md text-gray-600 hover:bg-gray-100"
+                        >
+                          {showPassword ? "Hide" : "Show"}
+                        </button>
+                      </div>
                       {/* <input
                         className="w-full content-center text-base px-4 py-2 border  border-gray-300 rounded-lg focus:outline-none focus:border-black"
                         type="password"
