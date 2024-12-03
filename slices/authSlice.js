@@ -10,19 +10,20 @@ const slice = createSlice({
     refresh: null
   },
   reducers: {
-    setToken: (state, {payload: { access, refresh }}) => {
-      state.access = access
-      state.refresh = refresh
+    setToken: (state, {payload}) => {
+      state.access = payload
+      state.token = payload
+      // state.refresh = refresh
       state.isAuthenticated = true
     },
     setUser: (state, { payload }) => {
-    // setUser: (state, { payload: { user } }) => {
       state.user = payload
     },
     setAuthenticated: (state) => {
       state.isAuthenticated = true
     },
     setLogout: (PURGE, (state) => {
+      debugger;
       state.user = null
       state.isAuthenticated = false
       state.access = null

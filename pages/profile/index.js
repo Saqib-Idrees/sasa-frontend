@@ -1,37 +1,58 @@
 import Head from "next/head";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useRouter } from "next/router";
 import { selectCurrentUser, selectIsAuthenticated } from "slices/authSlice";
-import { useProfileUpdateMutation } from "slices/authAPI";
+import { useUpdateProfileMutation } from "slices/profileAPI";
 import Layout from "@/components/Layouts/DashLayout/Layout";
 import { Button } from "@material-tailwind/react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { useState, useEffect } from "react";
-
+import Swal from "sweetalert2";
+import { setUser } from "slices/authSlice";
 // Validation schema using Yup
 const validationSchema = Yup.object({
   firstname: Yup.string().required("First Name is required"),
   lastname: Yup.string().required("Last Name is required"),
+  username: Yup.string().required("Username is required"),
   dob: Yup.date().required("Date of Birth is required"),
   gender: Yup.string().required("Gender is required"),
-  phone: Yup.string()
-    .matches(/^[0-9]+$/, "Phone must be numeric")
-    .required("Phone is required"),
-  password: Yup.string()
-    .min(8, "Password must be at least 8 characters")
-    .required("Password is required"),
-  confirmPassword: Yup.string()
-    .oneOf([Yup.ref("password"), null], "Passwords must match")
-    .required("Confirm Password is required"),
+  phone: Yup.number()
+      .typeError("Phone number must be a number") // Ensure it's a number
+      .integer("Phone number must be an integer") // Ensure it's an integer
+      .min(1000000000, "Phone number must be exactly 10 digits") // Minimum 10 digits
+      .max(9999999999, "Phone number must be exactly 10 digits") // Maximum 10 digits
+      .transform((value) => (value ? Math.floor(value) : null)) // Ensure it's returned as an integer
+      .nullable(), // Optional
+  role: Yup.string().required("Role is required"),
+  shopName: Yup.string().nullable(),
+  location: Yup.string().nullable(),
+  // password: Yup.string()
+  //   .min(8, "Password must be at least 8 characters")
+  //   .required("Password is required"),
+  // confirmPassword: Yup.string()
+  //   .oneOf([Yup.ref("password"), null], "Passwords must match")
+  //   .required("Confirm Password is required"),
 });
 
 export default function Edit() {
   const user = useSelector(selectCurrentUser);
+  console.log(user);
   const isAuthenticated = useSelector(selectIsAuthenticated);
-  const [profileUpdate] = useProfileUpdateMutation();
+  const dispatch = useDispatch();
+  const router = useRouter();
+
+  const [
+    updateProfile,
+    { isSuccess, isLoading, isError, data: loginData, error: loginError },
+  ] = useUpdateProfileMutation();
   const [currentDate, setCurrentDate] = useState(new Date());
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [isTailor, setIsTailor] = useState(
+    user?.userdata?.role === "Tailor" ? true : false
+  );
+
   if (!isAuthenticated) {
     router.push("/");
   }
@@ -54,18 +75,45 @@ export default function Edit() {
     setShowConfirmPassword((prev) => !prev);
   };
 
-  const handleSubmit = async (values, { setSubmitting, setErrors }) => {
+  const handleSubmit = async (values) => {
+    console.log(values);
     try {
-      const response = await profileUpdate(values).unwrap();
+      const response = await updateProfile(values).unwrap();
+      if (isError === false) {
+        dispatch(setUser({ userdata: response }));
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Profile updated successfully!",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      }
       console.log("Profile updated successfully:", response);
-      alert("Profile updated successfully!");
     } catch (error) {
       console.error("Error updating profile:", error);
-      setErrors({ submit: "Failed to update profile. Please try again." });
-    } finally {
-      setSubmitting(false);
+      Swal.fire({
+        position: "top-end",
+        icon: "error",
+        title: error.message || "An error occurred!",
+        showConfirmButton: false,
+        timer: 1500,
+      });
     }
   };
+
+  useEffect(() => {
+    console.log(loginError);
+    if (isError) {
+      Swal.fire({
+        position: "top-end",
+        icon: "error",
+        title: loginError?.data?.message,
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    }
+  }, [isError]);
 
   return (
     <div>
@@ -88,21 +136,23 @@ export default function Edit() {
             initialValues={{
               firstname: user?.userdata?.firstname || "",
               lastname: user?.userdata?.lastname || "",
+              username: user?.userdata?.username || "",
               dob: user?.userdata?.dob || "",
               gender: user?.userdata?.gender || "",
               phone: user?.userdata?.phone || "",
               email: user?.userdata?.email || "",
-              password: "",
-              confirmPassword: "",
+              role: user?.userdata?.role || "",
+              shopName: user?.userdata?.shopName || "",
+              location: user?.userdata?.location || "",
             }}
             validationSchema={validationSchema}
             onSubmit={handleSubmit}
           >
-            {({ isSubmitting, errors }) => (
-              <Form>
+            {({ handleSubmit, isSubmitting, errors }) => (
+              <Form onSubmit={handleSubmit}>
                 <div className="max-w-3xl mt-6">
                   <div className="grid gap-7 grid-cols-2 mb-7">
-                    <div className="space-y-2">
+                    <div className="">
                       <label className="inline-block mb-4 text-xs font-medium text-gray-700 tracking-wide">
                         First Name
                       </label>
@@ -118,7 +168,7 @@ export default function Edit() {
                         className="text-red-500 text-xs"
                       />
                     </div>
-                    <div className="space-y-2">
+                    <div className="">
                       <label className="inline-block mb-4 text-xs font-medium text-gray-700 tracking-wide">
                         Last Name
                       </label>
@@ -136,7 +186,7 @@ export default function Edit() {
                     </div>
                   </div>
                   <div className="grid gap-7 grid-cols-2 mb-7">
-                    <div className="space-y-2">
+                    <div className="">
                       <label className="inline-block mb-4 text-xs font-medium text-gray-700 tracking-wide">
                         Date of Birth
                       </label>
@@ -151,7 +201,7 @@ export default function Edit() {
                         className="text-red-500 text-xs"
                       />
                     </div>
-                    <div className="space-y-2">
+                    <div className="">
                       <label className="inline-block mb-4 text-xs font-medium text-gray-700 tracking-wide">
                         Gender
                       </label>
@@ -176,7 +226,37 @@ export default function Edit() {
                     </div>
                   </div>
                   <div className="grid gap-7 grid-cols-2 mb-7">
-                    <div className="space-y-2">
+                    <div className="">
+                      <label className="inline-block mb-4 text-xs font-medium text-gray-700 tracking-wide">
+                        Username
+                      </label>
+                      <Field
+                        className="w-full text-base px-4 py-3 rounded-lg border border-gray-300"
+                        type="text"
+                        name="username"
+                        placeholder="isabella-lopez"
+                      />
+                      <ErrorMessage
+                        name="username"
+                        component="div"
+                        className="text-red-500 text-sm"
+                      />
+                    </div>
+                    <div className="">
+                      <label className="inline-block mb-4 text-xs font-medium text-gray-700 tracking-wide">
+                        Email
+                      </label>
+                      <Field
+                        name="email"
+                        type="email"
+                        placeholder="Isabella@gmail.com"
+                        className="w-full text-base px-4 py-3 rounded-lg focus:outline-none focus:border-gray-300 bg-gray-100 cursor-not-allowed"
+                        readOnly
+                      />
+                    </div>
+                  </div>
+                  <div className="grid gap-7 grid-cols-2 mb-7">
+                    <div className="">
                       <label className="inline-block mb-4 text-xs font-medium text-gray-700 tracking-wide">
                         Mobile Phone
                       </label>
@@ -192,21 +272,73 @@ export default function Edit() {
                         className="text-red-500 text-xs"
                       />
                     </div>
-                    <div className="space-y-2">
+                    <div>
                       <label className="inline-block mb-4 text-xs font-medium text-gray-700 tracking-wide">
-                        Email
+                        Role
                       </label>
                       <Field
-                        name="email"
-                        type="email"
-                        placeholder="Isabella@gmail.com"
-                        className="w-full text-base px-4 py-3 rounded-lg focus:outline-none focus:border-gray-300 bg-gray-100 cursor-not-allowed"
-                        readOnly
+                        name="role"
+                        as="select"
+                        className="w-full text-base px-4 py-3 rounded-lg border border-gray-300"
+                        onChange={(e) => {
+                          const selectedRole = e.target.value;
+                          setFieldValue("role", selectedRole);
+                          setIsTailor(selectedRole === "Tailor");
+                        }}
+                        disabled={true}
+                      >
+                        <option value="">Select Role</option>
+                        <option value="Admin">Admin</option>
+                        <option value="Sales">Sales Agent</option>
+                        <option value="Tailor">Tailor</option>
+                      </Field>
+                      <ErrorMessage
+                        name="role"
+                        component="div"
+                        className="text-red-500 text-sm mt-1"
                       />
                     </div>
                   </div>
-                  <div className="grid gap-7 grid-cols-2 mb-7">
-                    <div className="space-y-2">
+                  {isTailor && (
+                    <>
+                      <div className="grid gap-7 grid-cols-2 mb-7">
+                        <div>
+                          <label className="inline-block mb-4 text-xs font-medium text-gray-700 tracking-wide">
+                            Shop Name
+                          </label>
+                          <Field
+                            name="shopName"
+                            type="text"
+                            className="w-full text-base px-4 py-3 rounded-lg border border-gray-300"
+                            placeholder="Enter Shop Name"
+                          />
+                          <ErrorMessage
+                            name="shopName"
+                            component="div"
+                            className="text-red-500 text-sm mt-1"
+                          />
+                        </div>
+                        <div>
+                          <label className="inline-block mb-4 text-xs font-medium text-gray-700 tracking-wide">
+                            Location
+                          </label>
+                          <Field
+                            name="location"
+                            type="text"
+                            className="w-full text-base px-4 py-3 rounded-lg border border-gray-300"
+                            placeholder="Enter Location"
+                          />
+                          <ErrorMessage
+                            name="location"
+                            component="div"
+                            className="text-red-500 text-sm mt-1"
+                          />
+                        </div>
+                      </div>
+                    </>
+                  )}
+                  {/* <div className="grid gap-7 grid-cols-2 mb-7">
+                    <div className="">
                       <label className="inline-block mb-4 text-xs font-medium text-gray-700 tracking-wide">
                         Password
                       </label>
@@ -231,7 +363,7 @@ export default function Edit() {
                         className="text-red-500 text-xs"
                       />
                     </div>
-                    <div className="space-y-2">
+                    <div className="">
                       <label className="inline-block mb-4 text-xs font-medium text-gray-700 tracking-wide">
                         Confirm Password
                       </label>
@@ -244,7 +376,7 @@ export default function Edit() {
                         />
                         <button
                           onClick={toggleConfirmPasswordVisibility}
-                          type="button"
+                          type="button"number
                           className="absolute right-3 top-3 px-2 py-1 text-sm border rounded-md text-gray-600 hover:bg-gray-100"
                         >
                           {showConfirmPassword ? "Hide" : "Show"}
@@ -256,7 +388,7 @@ export default function Edit() {
                         className="text-red-500 text-xs"
                       />
                     </div>
-                  </div>
+                  </div> */}
                   <Button
                     type="submit"
                     disabled={isSubmitting}

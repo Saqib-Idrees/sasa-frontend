@@ -83,10 +83,7 @@ export default function Login() {
       console.log("saqib");
       const jwtToken = await loginUser({ email, password }).unwrap();
       console.log(`loginUser result?: ${jwtToken}`);
-      dispatch(setToken(jwtToken.accessToken));
-      if(loginIsError){
-       
-      }
+      dispatch(setToken(jwtToken.accessToken));       
       handleLoadUser(jwtToken.accessToken);
       if (jwtToken.status === 401) {
         console.alert("401, user not found. signup first");
@@ -202,7 +199,7 @@ export default function Login() {
                   <div className="space-y-5">
                     <div className="space-y-2">
                       <label className="text-sm font-medium text-gray-700 tracking-wide">
-                        Email address or username
+                        Email address
                       </label>
 
                       <input

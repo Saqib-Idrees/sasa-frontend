@@ -20,10 +20,15 @@ import {
   Typography,
 } from "@material-tailwind/react";
 // import { useMaterialTailwindController, setOpenSidenav } from "@/context";
+import { useDispatch, useSelector } from "react-redux";
+import { setLogout } from "./../../slices/authSlice";
+import { useRouter } from "next/router";
 
 export function LeftSideNav() {
   // const [controller, dispatch] = useMaterialTailwindController();
   // const { sidenavColor, sidenavType, openSidenav } = controller;
+  const dispatch = useDispatch();
+  const router = useRouter();
   const icon = {
     className: "w-5 h-5 text-inherit",
   };
@@ -255,7 +260,7 @@ export function LeftSideNav() {
           </li>
 
           <li className="">
-            <Link href="/profile/edit/1">
+            <Link href="/profile">
               <Button
                 variant={"text"}
                 color={"dark"}
@@ -274,12 +279,18 @@ export function LeftSideNav() {
         </ul>
         <ul>
           <li className="">
-            <Link href="/">
+            {/* <Link href="/"> */}
               <Button
                 variant={"text"}
                 color={"dark"}
                 className="flex items-center gap-4 px-4 capitalize"
                 fullWidth
+                onClick={() => {
+                  // Add a breakpoint or console to debug
+                  console.log("Button clicked");
+                  dispatch(setLogout());
+                  router.push("/");
+                }}
               >
                 <ArrowRightIcon {...icon} />
                 <Typography
@@ -288,7 +299,7 @@ export function LeftSideNav() {
                   Log out
                 </Typography>
               </Button>
-            </Link>
+            {/* </Link> */}
           </li>
         </ul>
       </div>

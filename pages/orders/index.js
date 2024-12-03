@@ -30,6 +30,7 @@ const useStyle = createStyles(({ css, token }) => {
     `,
   };
 });
+
 const columns = [
   {
     title: 'Sales Agent',
@@ -127,6 +128,7 @@ const columns = [
 const onChange = (pagination, filters, sorter, extra) => {
   console.log('params', pagination, filters, sorter, extra);
 };
+
 const dataSource = [
   {
     key: '1',
