@@ -64,7 +64,7 @@ export default function Login() {
   };
   const handleLoadUser = async (access) => {
     try {
-      const response = await fetch("http://localhost:4001/auth/users/getUser", {
+      const response = await fetch("https://api.3acesoftware.com/auth/users/getUser", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
