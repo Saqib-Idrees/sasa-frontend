@@ -17,13 +17,9 @@ const validationSchema = Yup.object({
   username: Yup.string().required("Username is required"),
   dob: Yup.date().required("Date of Birth is required"),
   gender: Yup.string().required("Gender is required"),
-  phone: Yup.number()
-      .typeError("Phone number must be a number") // Ensure it's a number
-      .integer("Phone number must be an integer") // Ensure it's an integer
-      .min(1000000000, "Phone number must be exactly 10 digits") // Minimum 10 digits
-      .max(9999999999, "Phone number must be exactly 10 digits") // Maximum 10 digits
-      .transform((value) => (value ? Math.floor(value) : null)) // Ensure it's returned as an integer
-      .nullable(), // Optional
+  phone: Yup.string()
+  .required("Phone number is required") // Ensure the field is required
+  .max(15, "Phone number cannot exceed 15 digits"), // Maximum 15 digits
   role: Yup.string().required("Role is required"),
   shopName: Yup.string().nullable(),
   location: Yup.string().nullable(),
@@ -262,7 +258,7 @@ export default function Edit() {
                       </label>
                       <Field
                         name="phone"
-                        type="tel"
+                        type="text"
                         placeholder="559 355 37320"
                         className="w-full text-base px-4 py-3 rounded-lg border border-gray-300"
                       />

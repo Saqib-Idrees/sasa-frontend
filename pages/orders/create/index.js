@@ -20,47 +20,80 @@ import { Switch } from "@material-tailwind/react";
 import { useGetAllPostsQuery } from "slices/postsAPI";
 import Layout from "@/components/Layouts/DashLayout/Layout";
 import { Input, Button, IconButton } from "@material-tailwind/react";
-import TailorCard from "@/components/cards/tailorCard";
+import AssignTailorCard from "@/components/cards/assignTailor";
+import { useGetAllUsersQuery } from "slices/authAPI";
+import { useGetAllTypesQuery } from "slices/typesApi";
 
+import CustomerDetails from "components/Customer/Customer";
+import ComponentDesignList from "@/components/cards/buttonCard";
+import MeasurementsForm from "@/components/Measurement/MeasurementForm";
+import { useCreateOrderMutation } from "slices/orderApi";
+import Swal from "sweetalert2";
 export default function Edit() {
   const user = useSelector(selectCurrentUser);
-  const [currentDate, setCurrentDate] = useState(new Date());
   const isAuthenticated = useSelector(selectIsAuthenticated);
+  const [showStep, setShowStep] = useState("step1");
+  const [customerData, setCustomerData] = useState({});
+  const [selectedTailorId, setSelectedTailorId] = useState(null);
+  const [types, setTypes] = useState([]);
+  const [typeIndex, setTypeIndex] = useState(null);
+  const [selectedDesign, setSelectedDesign] = useState({});
+  const [typeComponents, setTypeComponents] = useState([]);
+  const [price, setPrice] = useState(""); // State for price
+  const [paid, setPaid] = useState("");
+  // Create state for Initials and Special Instructions
+  const [initials, setInitials] = useState("");
+  const [specialInstructions, setSpecialInstructions] = useState("");
+  const [fabricDetails, setFabricDetails] = useState({
+    jacketFabric: "",
+    jacketLining: "",
+    button: "",
+    vestFabric: "",
+    vestLining: "",
+    trouserFabric: "",
+  });
+  const [additionalOptions, setAdditionalOptions] = useState({
+    sleeveButtonHoles: false,
+    shirt: false,
+    vest: false,
+  });
+  const {
+    data: typesData,
+    error: typesError,
+    isLoading: typesIsLoading,
+    isError: typesIsError,
+    isFetching: typesIsFetching,
+  } = useGetAllTypesQuery([]);
+  const [
+    createOrder,
+    { isSuccess, isLoading, isError, data: loginData, error: loginError },
+  ] = useCreateOrderMutation();
+
+  const handleFabricChange = (e) => {
+    const { name, value } = e.target;
+    setFabricDetails((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSwitchChange = (optionName) => {
+    setAdditionalOptions((prevState) => ({
+      ...prevState,
+      [optionName]: !prevState[optionName], // Toggle the current value
+    }));
+  };
+
+  const [currentDate, setCurrentDate] = useState(new Date());
   useEffect(() => {
     setCurrentDate(new Date());
   }, []);
-
   const formattedDate = currentDate.toLocaleDateString("en-US", {
     weekday: "long", // Displays the full weekday (e.g., "Monday")
     year: "numeric",
     month: "long", // Full month name
     day: "numeric",
   });
-
-  const {
-    data: postsData,
-    error: postsError,
-    isLoading: postsIsLoading,
-    isError: postsIsError,
-    isFetching: postsIsFetching,
-  } = useGetAllPostsQuery("");
-
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
-  const togglePasswordVisibility = () => {
-    setShowPassword((prev) => !prev);
-  };
-
-  const toggleConfirmPasswordVisibility = () => {
-    setShowConfirmPassword((prev) => !prev);
-  };
-
-  useEffect(() => {
-    if (postsIsError) {
-      console.log(postsError);
-    }
-  }, [postsIsError]);
 
   const Tailors = [
     {
@@ -136,50 +169,213 @@ export default function Edit() {
       location: "Venice, Italy",
     },
   ];
-
-  const [showStep, setShowStep] = useState("step1");
+  const [tailors, setTailors] = useState([]);
   const router = useRouter();
+  const {
+    data: usersData,
+    error: usersError,
+    isLoading: usersIsLoading,
+    isError: usersIsError,
+    isFetching: usersIsFetching,
+  } = useGetAllUsersQuery("");
+
+  useEffect(() => {
+    if (typesData) {
+      setTypes([...typesData]);
+    }
+  }, [typesData]);
+
+  useEffect(() => {
+    if (typeIndex !== null) {
+      setTypeComponents([...typesData[typeIndex].typeComponents]);
+    }
+  }, [typeIndex]);
+
+  useEffect(() => {
+    if (usersData) {
+      const users = Object.values(usersData);
+      if (Array.isArray(users) && users.length > 0) {
+        const tailors = users.filter((user) => user.role !== "Admin");
+        setTailors([...tailors]);
+      }
+    }
+    console.log(usersData);
+    console.log(usersError);
+    console.log(usersIsLoading);
+    console.log(usersIsFetching);
+  }, [usersData]);
+
+  useEffect(() => {
+    if (usersIsError) {
+      console.log(usersIsError);
+    }
+  }, [usersIsError]);
+
+  useEffect(() => {
+    console.log(typesData);
+    console.log(types);
+    console.log(selectedDesign);
+    console.log(customerData);
+    console.log(fabricDetails);
+    console.log(additionalOptions);
+    console.log(typeComponents);
+    console.log(initials);
+    console.log(specialInstructions);
+  }, [
+    customerData,
+    fabricDetails,
+    additionalOptions,
+    typesData,
+    types,
+    typeComponents,
+    initials,
+    specialInstructions,
+    selectedDesign,
+  ]);
+
+  const onCustomerUpdate = (data) => {
+    setCustomerData({ ...data });
+  };
+
+  const handleSelectTailor = (id) => {
+    setSelectedTailorId(id); // Update the state with the selected tailor's ID
+    console.log("Selected Tailor ID:", id); // Optional: Log the selected ID
+  };
+
+  const handleSelectionChange = (design) => {
+    setSelectedDesign(design);
+    console.log("Selected Design:", design);
+  };
+
+  const handleItemClick = (index) => {
+    setTypeIndex(index);
+    console.log("Selected Index:", index);
+  };
+
+  const handleMeasurementChange = (componentId, index, value) => {
+    setTypeComponents((prevComponents) =>
+      prevComponents.map((component) =>
+        component.id === componentId
+          ? {
+              ...component,
+              measurement: {
+                ...component.measurement,
+                [index]: {
+                  ...component.measurement[index],
+                  value,
+                },
+              },
+            }
+          : component
+      )
+    );
+  };
+
+  // Handle change for Initials
+  const handleInitialsChange = (e) => {
+    setInitials(e.target.value);
+  };
+
+  // Handle change for Special Instructions
+  const handleSpecialInstructionsChange = (e) => {
+    setSpecialInstructions(e.target.value);
+  };
+
+  const handlePriceChange = (e) => {
+    setPrice(e.target.value === "" ? "" : parseFloat(e.target.value) || 0);
+  };
+
+  const handlePaidChange = (e) => {
+    setPaid(e.target.value === "" ? "" : parseFloat(e.target.value) || 0);
+  };
+
+  const handleSubmit = async () => {
+    const currentDate = new Date();
+    currentDate.setDate(currentDate.getDate() + 3);
+    const formattedDate = currentDate.toISOString().split("T")[0];
+    const orderPayload = {
+      design: types[typeIndex].type,
+      agent_id: user.userdata.id,
+      tailor_id: selectedTailorId,
+      customer: {
+        firstname: customerData.firstname,
+        lastname: customerData.lastname,
+        email: customerData.email,
+        phone: customerData.phone,
+      },
+      delivery_date: formattedDate,
+      fabricDetails: { ...fabricDetails },
+      type_id: types[typeIndex].id,
+      type: types[typeIndex].type,
+      image_url: types[typeIndex].image_url,
+
+      style_id: selectedDesign.id,
+      styleName: selectedDesign.styleName,
+      styleLabel: selectedDesign.label,
+      styleValue: selectedDesign.value,
+      styleImageUrl: selectedDesign.imageurl,
+      modelNumber: selectedDesign.modelNumber,
+
+      initials: initials,
+      specialInstructions: specialInstructions,
+      additionalOptions: { ...additionalOptions },
+      price: price,
+      paid: paid,
+      orderDetails: typeComponents.map((detail) => ({
+        component_id: detail.id,
+        componentName: detail.componentName,
+        image_url: detail.image_url,
+        measurements: detail.measurement,
+      })),
+    };
+
+    try {
+      debugger;
+      const response = await createOrder({
+        orderPayload,
+      }).unwrap();
+      if (isError === false) {
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Order Created Successfully!",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        console.log("Order Created Successfully: ", response);
+        debugger;
+        router.push("/thankyou");
+      }
+    } catch (error) {
+      console.error("Error Order Creation:", error);
+      Swal.fire({
+        position: "top-end",
+        icon: "error",
+        title: error.message || "An error occurred!",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    }
+  };
 
   return (
     <div>
       <Layout>
         <h3 className="text-2xl mb-5">Create Order</h3>
-
         {showStep == "step1" && (
           <div className="order-create-step1">
-            <div className="bg-white border rounded-3xl px-9 py-8">
+            <div className="px-9 py-8">
               <div className="max-w-[550px] w-full mx-auto">
-                <div className="flex flex-wrap mx-[-12px] mt-[-24px]">
-                  <div className="w-[75%] px-3 mt-6">
-                    <Input label="Customer ID" />
-                  </div>
-                  <div className="w-[25%] px-3 mt-6">
-                    <Button className="bg-black text-white rounded-3xl w-full p-3">
-                      Look Up
-                    </Button>
-                  </div>
-                  <div className="w-[50%] px-3 mt-6">
-                    <Input label="First Name" />
-                  </div>
-                  <div className="w-[50%] px-3 mt-6">
-                    <Input label="Last Name" />
-                  </div>
-                  <div className="w-[50%] px-3 mt-6">
-                    <Input label="Email Adress" type="email" />
-                  </div>
-                  <div className="w-[50%] px-3 mt-6">
-                    <Input label="Phone Number" type="number" />
-                  </div>
-                  <div className="w-[100%] px-3 mt-6">
-                    <Button
-                      className="bg-black text-white rounded-3xl w-full p-3"
-                      onClick={() => {
-                        setShowStep("step2");
-                      }}
-                    >
-                      Next
-                    </Button>
-                  </div>
+                <CustomerDetails onCustomerUpdate={onCustomerUpdate} />
+                <div className="w-[100%] mt-16">
+                  <Button
+                    className="bg-black text-white rounded-3xl w-full p-4"
+                    onClick={() => {
+                      setShowStep("step2");
+                    }}
+                  >
+                    Next
+                  </Button>
                 </div>
               </div>
             </div>
@@ -188,26 +384,52 @@ export default function Edit() {
 
         {showStep == "step2" && (
           <div className="order-create-step2">
-            <div className="bg-white border rounded-3xl px-9 py-8">
-              <div className="flex flex-wrap mx-[-8px] mt-[-24px]">
-                {Tailors.map((item, index) => {
-                  return (
-                    <div className="w-[25%] px-2 mt-4">
-                      <TailorCard
-                        key={index}
-                        tailorName={item.tailorName}
-                        orders={item.orders}
-                        shopName={item.shopName}
-                        location={item.location}
-                      />
-                    </div>
-                  );
-                })}
-
-                <div className="w-[100%] px-3 mt-6">
+            <div className="p-4">
+              {/* <div className="space-y-2 justify-self-end content-center">
+                <Button
+                  className="py-3 px-5 font-normal normal-case text-sm mb-5"
+                  onClick={() => {
+                    router.push("/users/create");
+                  }}
+                >
+                  + Create Tailor
+                </Button>
+              </div> */}
+              <div className="grid gap-y-10 gap-x-6 md:grid-cols-2 xl:grid-cols-4">
+                {usersIsLoading ||
+                usersIsFetching ||
+                usersData === undefined ? (
+                  <Spinner animation="border" variant="success" />
+                ) : (
+                  <>
+                    {tailors.map((item, index) => {
+                      return (
+                        <AssignTailorCard
+                          key={index}
+                          type="Tailor"
+                          item={item}
+                          tailorName={item.firstname}
+                          orders={item.orders || "10"}
+                          shopName={item.shopName || "Cuciture di Lusso"}
+                          location={item.location || "Venice, Italy "}
+                          onSelectTailor={handleSelectTailor}
+                          isSelected={selectedTailorId === item.id}
+                        />
+                      );
+                    })}
+                  </>
+                )}
+              </div>
+              {tailors.length === 0 && (
+                <div className="full-height">
+                  <p className="text-center">No Tailor Found.</p>
+                </div>
+              )}
+              <div className="">
+                <div className="w-[100%] px-3 mt-16">
                   <div className="max-w-[550px] w-full mx-auto">
                     <Button
-                      className="bg-black text-white rounded-3xl w-full p-3"
+                      className="bg-black text-white rounded-3xl w-full p-4"
                       onClick={() => {
                         setShowStep("step3");
                       }}
@@ -223,144 +445,230 @@ export default function Edit() {
 
         {showStep == "step3" && (
           <div className="order-create-step3">
-            <div className="bg-white border rounded-3xl px-9 py-8">
-              <div className="max-w-[550px] w-full mx-auto">
-                <h4 className="font-bold text-2xl mb-12">Order ID #917583</h4>
-                <div className="flex flex-wrap mx-[-8px] mt-[-24px]">
-                  <div className="w-[50%] px-2 mt-4">
-                    <h6 className="text-black text-lg font-semibold pb-4">
-                      Customer Name:
-                    </h6>
-                  </div>
-                  <div className="w-[50%] px-2 mt-4">
-                    <div>Richard Grey</div>
-                  </div>
-                </div>
-                <div className="flex flex-wrap mx-[-8px] mt-[-24px]">
-                  <div className="w-[50%] px-2 mt-4">
-                    <h6 className="text-black text-lg font-semibold pb-4">
-                      Email:
-                    </h6>
-                  </div>
-                  <div className="w-[50%] px-2 mt-4">
-                    <div>info@gmail.com</div>
-                  </div>
-                </div>
-                <div className="flex flex-wrap mx-[-8px] mt-[-24px]">
-                  <div className="w-[50%] px-2 mt-4">
-                    <h6 className="text-black text-lg font-semibold pb-4">
-                      Contact Num:
-                    </h6>
-                  </div>
-                  <div className="w-[50%] px-2 mt-4">
-                    <div>+00123456789</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="bg-white border rounded-3xl px-9 py-8 mt-5">
-              <div className="mb-10">
+            <div className="bg-white border rounded-3xl px-9 py-8 max-w-[1100px] w-full mx-auto">
+              <div className="max-w-[400px] w-full mx-auto">
                 <h4 className="font-bold text-2xl mb-12 text-center">
-                  Product
+                  Customer Information
                 </h4>
-              </div>
-              <div className="grid gap-6 grid-cols-6 mb-7">
-                <div className="">
-                  <img src="/assets/images/Suit (1).png" />
-                  <p className="font-normal text-center mt-6"> Suit </p>
+
+                {/* Customer Name */}
+                <div className="flex justify-between items-center mt-4">
+                  <h6 className="text-black text-lg font-semibold">
+                    Customer Name:
+                  </h6>
+                  <div>{`${customerData.firstname} ${customerData.lastname}`}</div>
                 </div>
-                <div className="">
-                  <img src="/assets/images/Coats (1).png" />
-                  <p className="font-normal text-center mt-6"> Coat </p>
+
+                {/* Email Address */}
+                <div className="flex justify-between items-center mt-4">
+                  <h6 className="text-black text-lg font-semibold">
+                    Email Address:
+                  </h6>
+                  <div>{customerData.email}</div>
                 </div>
-                <div className="">
-                  <img src="/assets/images/Jackets (1).png" />
-                  <p className="font-normal text-center mt-6"> Jacket </p>
-                </div>
-                <div className="">
-                  <img src="/assets/images/Pants (1).png" />
-                  <p className="font-normal text-center mt-6"> Trouser </p>
-                </div>
-                <div className="">
-                  <img src="/assets/images/Vest (1).png" />
-                  <p className="font-normal text-center mt-6"> Vest </p>
-                </div>
-                <div className="">
-                  <img src="/assets/images/Shirts (1).png" />
-                  <p className="font-normal text-center mt-6"> Shirt </p>
+
+                {/* Contact Number */}
+                <div className="flex justify-between items-center mt-4">
+                  <h6 className="text-black text-lg font-semibold">
+                    Contact Number:
+                  </h6>
+                  <div>{customerData.phone}</div>
                 </div>
               </div>
             </div>
-            <div className="bg-white border rounded-3xl px-9 py-8 mt-5">
+            <div className="bg-white border rounded-3xl px-9 py-8 mt-5 max-w-[1100px] w-full mx-auto">
+              <div className="">
+                <div className="mb-10">
+                  <h4 className="font-bold text-2xl mb-12 text-center">
+                    Products
+                  </h4>
+                </div>
+                {types.length === 0 ? (
+                  <div className="flex justify-center items-center h-64">
+                    <p className="text-gray-500 text-lg">No data available</p>
+                  </div>
+                ) : (
+                  <div className="grid gap-6 grid-cols-6 mb-7">
+                    {types.map((item, index) => (
+                      <div
+                        key={item.id}
+                        className={`p-4 border-2 rounded-lg cursor-pointer ${
+                          typeIndex === index
+                            ? "border-green-500"
+                            : "border-gray-300"
+                        }`}
+                        onClick={() => handleItemClick(index)}
+                      >
+                        <img
+                          src={item.image_url}
+                          alt={item.type}
+                          className="w-full rounded-full h-32 object-cover"
+                        />
+                        <p className="font-normal text-center mt-6">
+                          {item.type}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+            {types[typeIndex] ? (
+              <div className="bg-white border rounded-3xl px-9 py-8 mt-5 max-w-[1100px] w-full mx-auto">
+                <div className="mb-16">
+                  <h4 className="font-bold text-2xl mb-8 text-center">Style</h4>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start w-full">
+                  <div className="space-y-16">
+                    <div className="flex flex-col items-start">
+                      <label className="text-base font-medium mb-8">
+                        Select Styles:
+                      </label>
+                      <ComponentDesignList
+                        componentDesigns={
+                          types[typeIndex].componentDesigns || []
+                        }
+                        onSelectionChange={handleSelectionChange}
+                      />
+                    </div>
+
+                    <div className="flex items-center">
+                      <span className="text-black text-base font-medium mr-4 w-1/4">
+                        Model Num:
+                      </span>
+                      <label className="text-base bg-[#F3F2F2] p-4 rounded-lg w-full text-center">
+                        {selectedDesign.modelNumber}
+                      </label>
+                    </div>
+                  </div>
+
+                  <div className="flex justify-center items-center">
+                    {selectedDesign.imageurl && (
+                      <img
+                        src={selectedDesign.imageurl}
+                        alt="Selected Design"
+                        className="w-3/4 max-w-md"
+                      />
+                    )}
+                  </div>
+                </div>
+              </div>
+            ) : (
+              ""
+            )}
+            <div className="bg-white border rounded-3xl px-9 py-8 mt-5 max-w-[1100px] w-full mx-auto">
               <div className="mb-10">
                 <h4 className="font-bold text-2xl mb-12 text-center">
                   Fabric Details
                 </h4>
               </div>
-              <div className="grid gap-16 grid-cols-2 my-7">
-                <div className="space-y-5">
-                  <div className="pb-7 place-self-end">
-                    <label className="font-normal mr-7">Jacket Fabric# </label>
-                    <input
-                      className="text-base px-4 py-3 bg-[#EEEDED] rounded-lg "
-                      type="text"
-                    />
+              <div className="max-w-[650px] w-full mx-auto">
+                <div className="grid gap-8 grid-cols-1 md:grid-cols-2 my-7">
+                  {/* Left Column */}
+                  <div className="space-y-6">
+                    <div className="flex flex-col">
+                      <label className="text-lg font-medium text-black mb-4">
+                        Jacket Fabric#
+                      </label>
+                      <input
+                        name="jacketFabric"
+                        value={fabricDetails.jacketFabric}
+                        onChange={handleFabricChange}
+                        className="text-base px-4 py-3 bg-gray-100 border rounded-lg focus:outline-none focus:border-black"
+                        type="text"
+                        placeholder="Enter Jacket Fabric#"
+                      />
+                    </div>
+                    <div className="flex flex-col">
+                      <label className="text-lg font-medium text-black mb-4">
+                        Jacket Lining#
+                      </label>
+                      <input
+                        name="jacketLining"
+                        value={fabricDetails.jacketLining}
+                        onChange={handleFabricChange}
+                        className="text-base px-4 py-3 bg-gray-100 border rounded-lg focus:outline-none focus:border-black"
+                        type="text"
+                        placeholder="Enter Jacket Lining#"
+                      />
+                    </div>
+                    <div className="flex flex-col">
+                      <label className="text-lg font-medium text-black mb-4">
+                        Button#
+                      </label>
+                      <input
+                        name="button"
+                        value={fabricDetails.button}
+                        onChange={handleFabricChange}
+                        className="text-base px-4 py-3 bg-gray-100 border rounded-lg focus:outline-none focus:border-black"
+                        type="text"
+                        placeholder="Enter Button#"
+                      />
+                    </div>
                   </div>
-                  <div className="pb-7 place-self-end">
-                    <label className="font-normal mr-7">Jacket Lining# </label>
-                    <input
-                      className="text-base px-4 py-3 bg-[#EEEDED] rounded-lg"
-                      type="text"
-                    />
-                  </div>
-                  <div className="pb-7 place-self-end">
-                    <label className="font-normal mr-7">Button# </label>
-                    <input
-                      className="text-base px-4 py-3 bg-[#EEEDED] rounded-lg"
-                      type="text"
-                    />
-                  </div>
-                </div>
-                <div className="space-y-5">
-                  <div className="pb-7">
-                    <label className="font-normal mr-7">Vest Fabric# </label>
-                    <input
-                      className="text-base px-4 py-3 bg-[#EEEDED] rounded-lg"
-                      type="text"
-                    />
-                  </div>
-                  <div className="pb-7">
-                    <label className="font-normal mr-7">Vest Lining# </label>
-                    <input
-                      className="text-base px-4 py-3 bg-[#EEEDED] rounded-lg"
-                      type="text"
-                    />
-                  </div>
-                  <div className="pb-7">
-                    <label className="font-normal mr-7">Trouser Fabric# </label>
-                    <input
-                      className="text-base px-4 py-3 bg-[#EEEDED] rounded-lg"
-                      type="text"
-                    />
+                  {/* Right Column */}
+                  <div className="space-y-6">
+                    <div className="flex flex-col">
+                      <label className="text-lg font-medium text-black mb-4">
+                        Vest Fabric#
+                      </label>
+                      <input
+                        name="vestFabric"
+                        value={fabricDetails.vestFabric}
+                        onChange={handleFabricChange}
+                        className="text-base px-4 py-3 bg-gray-100 border rounded-lg focus:outline-none focus:border-black"
+                        type="text"
+                        placeholder="Enter Vest Fabric#"
+                      />
+                    </div>
+                    <div className="flex flex-col">
+                      <label className="text-lg font-medium text-black mb-4">
+                        Vest Lining#
+                      </label>
+                      <input
+                        name="vestLining"
+                        value={fabricDetails.vestLining}
+                        onChange={handleFabricChange}
+                        className="text-base px-4 py-3 bg-gray-100 border rounded-lg focus:outline-none focus:border-black"
+                        type="text"
+                        placeholder="Enter Vest Lining#"
+                      />
+                    </div>
+                    <div className="flex flex-col">
+                      <label className="text-lg font-medium text-black mb-4">
+                        Trouser Fabric#
+                      </label>
+                      <input
+                        name="trouserFabric"
+                        value={fabricDetails.trouserFabric}
+                        onChange={handleFabricChange}
+                        className="text-base px-4 py-3 bg-gray-100 border rounded-lg focus:outline-none focus:border-black"
+                        type="text"
+                        placeholder="Enter Trouser Fabric#"
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-            <div className="bg-white border rounded-3xl px-9 py-8 mt-5">
+            <div className="bg-white border rounded-3xl px-9 py-8 mt-5 max-w-[1100px] w-full mx-auto">
               <div className="mb-16">
                 <h4 className="font-bold text-2xl mb-12 text-center">
                   Additional Options
                 </h4>
               </div>
               <div className="grid gap-6 grid-cols-3 my-8 justify-items-center">
+                {/* Sleeve Button Holes */}
                 <div className="inline-flex items-center gap-12">
                   <div className="relative inline-block self-center">
-                    <p className="">Sleeve Button Holes</p>
+                    <p>Sleeve Button Holes</p>
                   </div>
                   <div className="relative inline-block">
                     <Switch
                       id="custom-switch-component-one"
                       ripple={false}
+                      checked={additionalOptions.sleeveButtonHoles}
+                      onChange={() => handleSwitchChange("sleeveButtonHoles")}
                       className="h-full w-full checked:bg-[#2ec946]"
                       containerProps={{
                         className: "w-12 h-6",
@@ -371,14 +679,18 @@ export default function Edit() {
                     />
                   </div>
                 </div>
+
+                {/* Shirt */}
                 <div className="inline-flex gap-12">
                   <div className="relative inline-block self-center">
-                    <p className="">Shirt</p>
+                    <p>Shirt</p>
                   </div>
                   <div className="relative inline-block">
                     <Switch
                       id="custom-switch-component-two"
                       ripple={false}
+                      checked={additionalOptions.shirt}
+                      onChange={() => handleSwitchChange("shirt")}
                       className="h-full w-full checked:bg-[#2ec946]"
                       containerProps={{
                         className: "w-12 h-6",
@@ -389,14 +701,18 @@ export default function Edit() {
                     />
                   </div>
                 </div>
+
+                {/* Vest */}
                 <div className="inline-flex gap-12">
                   <div className="relative inline-block self-center">
-                    <p className="">Vest</p>
+                    <p>Vest</p>
                   </div>
                   <div className="relative inline-block">
                     <Switch
                       id="custom-switch-component-three"
                       ripple={false}
+                      checked={additionalOptions.vest}
+                      onChange={() => handleSwitchChange("vest")}
                       className="h-full w-full checked:bg-[#2ec946]"
                       containerProps={{
                         className: "w-12 h-6",
@@ -409,197 +725,46 @@ export default function Edit() {
                 </div>
               </div>
             </div>
-            <div className="bg-white border rounded-3xl px-9 py-8 mt-5">
-              <div className="mb-16">
-                <h4 className="font-bold text-2xl mb-12 text-center">Style</h4>
-              </div>
-              <div className="grid gap-6 grid-cols-2 my-8">
-                <div className="justify-items-center">
-                  <div className="ml-5 mt-14 flex items-center gap-3">
-                    <span className="mr-3">Regular:</span>
-                    <div className="flex items-center ps-4 border border-gray-200 rounded dark:border-gray-700">
-                      <input
-                        id="bordered-radio-1"
-                        type="radio"
-                        value=""
-                        name="bordered-radio"
-                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                      />
-                      <label
-                        for="bordered-radio-1"
-                        className="w-full py-4 pe-4 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                      >
-                        Single-Breasted
-                      </label>
-                    </div>
-                    <div className="flex items-center ps-4 border border-gray-200 rounded dark:border-gray-700">
-                      <input
-                        checked
-                        id="bordered-radio-2"
-                        type="radio"
-                        value=""
-                        name="bordered-radio"
-                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                      />
-                      <label
-                        for="bordered-radio-2"
-                        className="w-full py-4 pe-4 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                      >
-                        Double-Breasted
-                      </label>
-                    </div>
-                  </div>
-                  <div className="ml-5 mt-14 flex items-center gap-3">
-                    <span className="mr-3">Shawl:</span>
-                    <div className="flex items-center ps-4 border border-gray-200 rounded dark:border-gray-700">
-                      <input
-                        id="bordered-radio-1"
-                        type="radio"
-                        value=""
-                        name="bordered-radio2"
-                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                      />
-                      <label
-                        for="bordered-radio2-1"
-                        className="w-full py-4 pe-4 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                      >
-                        Single-Breasted
-                      </label>
-                    </div>
-                    <div className="flex items-center ps-4 border border-gray-200 rounded dark:border-gray-700">
-                      <input
-                        checked
-                        id="bordered-radio2-2"
-                        type="radio"
-                        value=""
-                        name="bordered-radio2"
-                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                      />
-                      <label
-                        for="bordered-radio2-2"
-                        className="w-full py-4 pe-4 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                      >
-                        Double-Breasted
-                      </label>
-                    </div>
-                  </div>
-                  <div className="ml-5 mt-20">
-                    <span className="text-black text-base font-normal mr-14">
-                      Model Num:
-                    </span>
-                    <label className=" text-base bg-[#F3F2F2] px-32 py-4 rounded-lg focus:outline-none">
-                      224C4
-                    </label>
-                  </div>
-                </div>
-                <div className="space-y-5 justify-items-center">
-                  <img
-                    src="/assets/images/Single Breasted Tuxedo.svg"
-                    className="w-2/5"
-                  />
-                </div>
-              </div>
-            </div>
-            <div className="bg-white border rounded-3xl px-9 py-8 mt-5">
-              <div className="mb-10">
-                <h4 className="font-bold text-2xl mb-12 text-center">
-                  Measurements
+            {types[typeIndex] &&
+              typeComponents.map((component) => (
+                <MeasurementsForm
+                  key={component.id}
+                  component={component}
+                  onMeasurementChange={handleMeasurementChange}
+                />
+              ))}
+            <div className="bg-white border rounded-3xl px-9 py-8 mt-5 max-w-[1100px] w-full mx-auto">
+              {/* Initials Section */}
+              <div>
+                <h4 className="text-black text-2xl font-semibold my-6">
+                  Initials
                 </h4>
+                <input
+                  className="text-base bg-[#EEEDED] px-3 py-2 rounded-lg focus:outline-none"
+                  type="text"
+                  placeholder="Type your text here........"
+                  value={initials} // Set the value from state
+                  onChange={handleInitialsChange} // Update state on change
+                />
               </div>
-              <div className="grid gap-32 grid-cols-2 my-7">
-                <div className="space-y-4 ml-10 mt-7">
-                  <div className="pb-7 ml-5">
-                    <label className="font-normal">1. Center Back </label>
-                    <input
-                      className="text-base px-4 py-3 bg-[#EEEDED] rounded-lg float-end"
-                      type="text"
-                    />
-                  </div>
-                  <div className="pb-7 ml-5">
-                    <label className="font-normal">2. Sleeve Length </label>
-                    <input
-                      className="text-base px-4 py-3 bg-[#EEEDED] rounded-lg float-end"
-                      type="text"
-                    />
-                  </div>
-                  <div className="pb-7 ml-5">
-                    <label className="font-normal">3. 1/2 Chest </label>
-                    <input
-                      className="text-base px-4 py-3 bg-[#EEEDED] rounded-lg float-end"
-                      type="text"
-                    />
-                  </div>
-                  <div className="pb-7 ml-5">
-                    <label className="font-normal">4. 1/2 Waist Open </label>
-                    <input
-                      className="text-base px-4 py-3 bg-[#EEEDED] rounded-lg float-end"
-                      type="text"
-                    />
-                  </div>
-                  <div className="pb-7 ml-5">
-                    <label className="font-normal">5. 1/2 Hip </label>
-                    <input
-                      className="text-base px-4 py-3 bg-[#EEEDED] rounded-lg float-end"
-                      type="text"
-                    />
-                  </div>
-                  <div className="pb-7 ml-5">
-                    <label className="font-normal">6. SH. To Shoulder </label>
-                    <input
-                      className="text-base px-4 py-3 bg-[#EEEDED] rounded-lg float-end"
-                      type="text"
-                    />
-                  </div>
-                  <div className="pb-7 ml-5">
-                    <label className="font-normal">7. Lapel Width </label>
-                    <input
-                      className="text-base px-4 py-3 bg-[#EEEDED] rounded-lg float-end"
-                      type="text"
-                    />
-                  </div>
-                  <div className="pb-7 ml-5">
-                    <label className="font-normal">8. Cuff Opening </label>
-                    <input
-                      className="text-base px-4 py-3 bg-[#EEEDED] rounded-lg float-end"
-                      type="text"
-                    />
-                  </div>
-                  <div className="pb-7 ml-5">
-                    <label className="font-normal">9. 1/2 Biceps </label>
-                    <input
-                      className="text-base px-4 py-3 bg-[#EEEDED] rounded-lg float-end"
-                      type="text"
-                    />
-                  </div>
-                  <div>
-                    <h4 className="text-black text-2xl font-semibold my-6">
-                      Initials
-                    </h4>
-                    <input
-                      className=" text-base bg-[#EEEDED] px-3 py-2 rounded-lg focus:outline-none"
-                      type="text"
-                      placeholder="Type your text here........"
-                    />
-                  </div>
-                  <div className="mt-10">
-                    <h4 className="text-black text-2xl font-semibold my-6">
-                      Special Instructions / Recorded Preferences
-                    </h4>
-                    <textarea
-                      rows="8"
-                      placeholder="Type your text here........"
-                      className="w-full font-light bg-[#EEEDED] border rounded-lg p-6"
-                    ></textarea>
-                  </div>
-                </div>
-                <div className="mt-28">
-                  <img src="/assets/images/Coat.png" />
-                </div>
+
+              {/* Special Instructions Section */}
+              <div className="mt-10">
+                <h4 className="text-black text-2xl font-semibold my-6">
+                  Special Instructions / Recorded Preferences
+                </h4>
+                <textarea
+                  rows="8"
+                  placeholder="Type your text here........"
+                  className="w-full font-light bg-[#EEEDED] border rounded-lg p-6"
+                  value={specialInstructions} // Set the value from state
+                  onChange={handleSpecialInstructionsChange} // Update state on change
+                ></textarea>
               </div>
-              <div className="w-[100%] px-3 mt-6">
+              <div className="w-[100%] px-3 mt-16">
                 <div className="max-w-[550px] w-full mx-auto">
                   <Button
-                    className="bg-black text-white rounded-3xl w-full p-3"
+                    className="bg-black text-white rounded-3xl w-full p-4"
                     onClick={() => {
                       setShowStep("step4");
                     }}
@@ -614,49 +779,44 @@ export default function Edit() {
 
         {showStep == "step4" && (
           <div className="order-create-step4">
-            <div className="bg-white border rounded-3xl px-9 py-8">
+            <div className="bg-white border rounded-3xl px-9 py-8 max-w-[1100px] w-full mx-auto">
               <div className=" w-full mx-auto">
-                <h4 class="font-bold text-2xl mb-12 text-center">STEP 4</h4>
                 <div className="w-full">
-                  <h2 className="font-bold text-3xl">Order Details</h2>
-                  <div className="grid grid-cols-3 gap-6  mt-6">
-                    <div className="col-span-2 bg-white border rounded-3xl px-14 pb-12">
-                      <div className="grid gap-7 grid-cols-2 mb-7">
+                  <h2 className="text-3xl">Order Details</h2>
+                  <div className="grid grid-cols-1 gap-6  mt-6">
+                    <div className="col-span-2 bg-white border rounded-3xl p-10">
+                      <div className="grid gap-7 grid-cols-2 ">
                         <div className="space-y-2">
-                          <h3 className="text-black text-lg font-semibold mt-10">
-                            Order ID &nbsp; #917583
-                          </h3>
-                          <h3 className="text-black text-lg font-semibold mt-10">
+                          <h3 className="text-black text-lg font-semibold">
                             Customer ID &nbsp;{" "}
-                            <span className="font-normal"> #002586691022 </span>
-                          </h3>
-                        </div>
-                        <div className="space-y-2 justify-self-end pr-8">
-                          <h3 className="text-black text-lg font-semibold mt-10">
-                            Paid: &nbsp; $300.00
-                          </h3>
-                          <h3 className="text-black text-lg font-semibold mt-10">
-                            Balance: &nbsp; $700.00
+                            <span className="font-normal">
+                              {" "}
+                              #SASA-{customerData.id}{" "}
+                            </span>
                           </h3>
                         </div>
                       </div>
                       <div className="grid gap-7 grid-cols-3 mb-7">
                         <div className="space-y-2">
-                          <p className="text-black text-base font-semibold mt-10">
+                          <p className="text-black text-base font-semibold mt-4">
                             Customer Name: &nbsp;{" "}
-                            <span className="font-normal">Richard Grey </span>
+                            <span className="font-normal">
+                              {customerData.firstname} {customerData.lastname}
+                            </span>
                           </p>
                         </div>
                         <div className="space-y-2 justify-self-center">
-                          <p className="text-black text-base font-semibold mt-10">
+                          <p className="text-black text-base font-semibold mt-4">
                             Product: &nbsp;{" "}
-                            <span className="font-normal"> Suit</span>
+                            <span className="font-normal">
+                              {types[typeIndex].type}
+                            </span>
                           </p>
                         </div>
                         <div className="space-y-2">
-                          <p className="text-black text-base font-semibold mt-10">
+                          <p className="text-black text-base font-semibold mt-4">
                             Expected Delivery Date &nbsp;{" "}
-                            <span className="font-normal"> 25/12/24</span>
+                            <span className="font-normal"> 31/12/24</span>
                           </p>
                         </div>
                       </div>
@@ -672,7 +832,7 @@ export default function Edit() {
                                 Jacket Fabric#{" "}
                               </span>
                               <label className="bg-[#EEEDED] px-14 py-0.5 border rounded-2xl float-end">
-                                <b>77T854</b>
+                                <b>{fabricDetails.jacketFabric}</b>
                               </label>{" "}
                             </div>
                             <div className="ml-5">
@@ -680,7 +840,31 @@ export default function Edit() {
                                 Jacket Lining#{" "}
                               </span>
                               <label className="bg-[#EEEDED] px-14 py-0.5 border rounded-2xl float-end">
-                                <b>99QW75</b>
+                                <b>{fabricDetails.jacketLining}</b>
+                              </label>{" "}
+                            </div>
+                            <div className="ml-5">
+                              <span className="font-normal mr-20">
+                                Vest Fabric#{" "}
+                              </span>
+                              <label className="bg-[#EEEDED] px-14 py-0.5 border rounded-2xl float-end">
+                                <b>{fabricDetails.vestFabric}</b>
+                              </label>{" "}
+                            </div>
+                            <div className="ml-5">
+                              <span className="font-normal mr-20">
+                                Vest Lining#{" "}
+                              </span>
+                              <label className="bg-[#EEEDED] px-14 py-0.5 border rounded-2xl float-end">
+                                <b>{fabricDetails.vestLining}</b>
+                              </label>{" "}
+                            </div>
+                            <div className="ml-5">
+                              <span className="font-normal mr-20">
+                                Trouser Fabric#{" "}
+                              </span>
+                              <label className="bg-[#EEEDED] px-14 py-0.5 border rounded-2xl float-end">
+                                <b>{fabricDetails.trouserFabric}</b>
                               </label>{" "}
                             </div>
                             <div className="ml-5">
@@ -688,97 +872,40 @@ export default function Edit() {
                                 Button#{" "}
                               </span>
                               <label className="bg-[#EEEDED] px-14 py-0.5 border rounded-2xl float-end">
-                                <b>00S125</b>
+                                <b>{fabricDetails.button}</b>
                               </label>{" "}
                             </div>
                           </div>
-                          <div className="space-y-4">
-                            <h4 className="text-black text-base font-semibold my-6">
-                              Measurements
-                            </h4>
-                            <div className="ml-5">
-                              <span className="font-normal mr-7">
-                                1. Center Back{" "}
-                              </span>
-                              <label className="bg-[#EEEDED] px-14 py-0.5 border rounded-2xl float-end">
-                                <b>75 cm</b>
-                              </label>{" "}
+                          {typeComponents.map((component) => (
+                            <div className="space-y-4" key={component.id}>
+                              <h4 className="text-black text-base font-semibold my-6">
+                                {component.componentName} Measurements
+                              </h4>
+
+                              <div>
+                                {/* Loop through each measurement inside the component */}
+                                {Object.values(component.measurement).map(
+                                  (measurement, index) => (
+                                    <div
+                                      key={index}
+                                      className="ml-5 flex items-center justify-between mb-4"
+                                    >
+                                      <span className="font-normal">
+                                        {measurement.label}
+                                      </span>
+                                      <label className="bg-[#EEEDED] px-14 py-0.5 border rounded-2xl">
+                                        <b>
+                                          {measurement.value
+                                            ? `${measurement.value} cm`
+                                            : "N/A"}
+                                        </b>
+                                      </label>
+                                    </div>
+                                  )
+                                )}
+                              </div>
                             </div>
-                            <div className="ml-5">
-                              <span className="font-normal mr-7">
-                                2. Sleeve Length
-                              </span>
-                              <label className="bg-[#EEEDED] px-14 py-0.5 border rounded-2xl float-end">
-                                <b>65 cm</b>
-                              </label>{" "}
-                            </div>
-                            <div className="ml-5">
-                              <span className="font-normal mr-20">
-                                3. 1/2 Chest
-                              </span>
-                              <label className="bg-[#EEEDED] px-14 py-0.5 border rounded-2xl float-end">
-                                <b>72 cm</b>
-                              </label>{" "}
-                            </div>
-                            <div className="ml-5">
-                              <span className="font-normal mr-20">
-                                4. 1/2 Waist Open
-                              </span>
-                              <label className="bg-[#EEEDED] px-14 py-0.5 border rounded-2xl float-end">
-                                <b>65 cm</b>
-                              </label>{" "}
-                            </div>
-                            <div className="ml-5">
-                              <span className="font-normal mr-20">
-                                5. 1/2 Hip
-                              </span>
-                              <label className="bg-[#EEEDED] px-14 py-0.5 border rounded-2xl float-end">
-                                <b>64 cm</b>
-                              </label>{" "}
-                            </div>
-                            <div className="ml-5">
-                              <span className="font-normal mr-20">
-                                6. SH. To Shoulder
-                              </span>
-                              <label className="bg-[#EEEDED] px-14 py-0.5 border rounded-2xl float-end">
-                                <b>88 cm</b>
-                              </label>{" "}
-                            </div>
-                            <div className="ml-5">
-                              <span className="font-normal mr-20">
-                                7. Lapel Width
-                              </span>
-                              <label className="bg-[#EEEDED] px-14 py-0.5 border rounded-2xl float-end">
-                                <b>24 cm</b>
-                              </label>{" "}
-                            </div>
-                            <div className="ml-5">
-                              <span className="font-normal mr-20">
-                                8. Cuff Opening
-                              </span>
-                              <label className="bg-[#EEEDED] px-14 py-0.5 border rounded-2xl float-end">
-                                <b>30 cm</b>
-                              </label>{" "}
-                            </div>
-                            <div className="ml-5">
-                              <span className="font-normal mr-20">
-                                9. 1/2 Biceps
-                              </span>
-                              <label className="bg-[#EEEDED] px-14 py-0.5 border rounded-2xl float-end">
-                                <b>44 cm</b>
-                              </label>{" "}
-                            </div>
-                          </div>
-                          <div className="space-y-4">
-                            <h4 className="text-black text-base font-semibold my-6">
-                              Shipping
-                            </h4>
-                            <div className="ml-5">
-                              <span className="font-normal mr-7">
-                                Express Delivery{" "}
-                              </span>
-                            </div>
-                          </div>
+                          ))}
                         </div>
                         <div>
                           <div className="space-y-4">
@@ -790,7 +917,11 @@ export default function Edit() {
                                 Sleeves Button Holes{" "}
                               </span>
                               <label className="bg-[#EEEDED] px-14 py-0.5 border rounded-2xl float-end">
-                                <b>Yes</b>
+                                <b>
+                                  {additionalOptions?.sleeveButtonHoles
+                                    ? "Yes"
+                                    : "No"}
+                                </b>
                               </label>
                             </div>
                             <div className="ml-5">
@@ -798,128 +929,29 @@ export default function Edit() {
                                 Initials{" "}
                               </span>
                               <label className="bg-[#EEEDED] px-14 py-0.5 border rounded-2xl float-end">
-                                <b>Rich</b>
+                                <b>{initials ? initials : "N/A"}</b>
                               </label>
                             </div>
                           </div>
-                          <div className="mt-28">
-                            <img src="/assets/images/Coat.png" />
+                          <div className="mt-10">
+                            <img src={selectedDesign.imageurl} />
                             <h3 className="text-black text-lg font-semibold mt-10 text-center">
                               Model Num: &nbsp;{" "}
-                              <span className="font-normal"> 224C4 </span>
+                              <span className="font-normal">
+                                {" "}
+                                {selectedDesign.modelNumber}
+                              </span>
                             </h3>
-                          </div>
-                        </div>
-                      </div>
-                      <div>
-                        <h4 className="text-black text-base font-semibold my-6">
-                          Quotation
-                        </h4>
-                        <input
-                          className=" text-base bg-[#EEEDED] px-3 py-2 rounded-lg focus:outline-none"
-                          type="text"
-                        />
-                        <Button className="py-3 px-6 ml-2">Approve</Button>
-                        <span className="mx-3">or</span>
-                        <Button className="py-3 px-6">Disapprove</Button>
-                      </div>
-                    </div>
-                    <div className="col-span-1">
-                      <div className="bg-white border rounded-xl p-6">
-                        <div className="flex flex-row justify-end mr-6 mb-3">
-                          <Button className="py-3 px-8 rounded-md">
-                            + Send
-                          </Button>
-                        </div>
-                        <hr className="border-t-1 border-gray-300"></hr>
-                        <textarea
-                          rows="3"
-                          placeholder="Start typing to leave a note..."
-                          className="w-full font-light mt-6"
-                        ></textarea>
-                        <div className="flex justify-end mr-6 w-full">
-                          <input
-                            type="file"
-                            className="file:bg[#F4F4F4] file:p-3 file:border-0 file:text-[#666666]"
-                          ></input>
-                        </div>
-                      </div>
-                      <div className="space-y-4">
-                        <h4 className="text-black text-base font-semibold my-6">
-                          Activity
-                        </h4>
-                        <div className="bg-[#C9D2FF] border rounded-md p-5">
-                          <div className="flex flex-row justify-between mb-4">
-                            <span className="font-semibold">
-                              Mahnoor, The Boss
-                            </span>
-                            <span className="font-semibold">24 October</span>
-                          </div>
-                          <div className="w-9/12">
-                            <span className="font-extralight text-[#00000073]">
-                              Lorem Ipsum is simply dummy text of the printing
-                              and typesetting industry. Lorem Ipsum has been.
-                            </span>
-                          </div>
-                        </div>
-                        <div className="bg-[#FFFFFF] border rounded-md p-5">
-                          <div className="flex flex-row justify-between mb-4">
-                            <span className="font-semibold">Adeel Tailor</span>
-                            <span className="font-semibold">24 October</span>
-                          </div>
-                          <div className="w-9/12">
-                            <span className="font-extralight text-[#00000073]">
-                              Lorem Ipsum is simply dummy text of the printing
-                              and typesetting industry. Lorem Ipsum has been.
-                            </span>
-                          </div>
-                        </div>
-                        <div className="bg-[#FFFFFF] border rounded-md p-5">
-                          <div className="flex flex-row justify-between mb-4">
-                            <span className="font-semibold">
-                              Mahnoor, The Boss
-                            </span>
-                            <span className="font-semibold">24 October</span>
-                          </div>
-                          <div className="w-9/12">
-                            <span className="font-extralight text-[#00000073]">
-                              Lorem Ipsum is simply dummy text of the printing
-                              and typesetting industry. Lorem Ipsum has been.
-                            </span>
-                          </div>
-                        </div>
-                        <div className="bg-[#FFFFFF] border rounded-md p-5">
-                          <div className="flex flex-row justify-between mb-4">
-                            <span className="font-semibold">Adeel Tailor</span>
-                            <span className="font-semibold">24 October</span>
-                          </div>
-                          <div className="w-9/12">
-                            <span className="font-extralight text-[#00000073]">
-                              Lorem Ipsum is simply dummy text of the printing
-                              and typesetting industry. Lorem Ipsum has been.
-                            </span>
-                          </div>
-                        </div>
-                        <div className="bg-[#FFFFFF] border rounded-md p-5">
-                          <div className="flex flex-row justify-between mb-4">
-                            <span className="font-semibold">Added Note</span>
-                            <span className="font-semibold">24 October</span>
-                          </div>
-                          <div className="w-9/12">
-                            <span className="font-extralight text-[#00000073]">
-                              Lorem Ipsum is simply dummy text of the printing
-                              and typesetting industry. Lorem Ipsum has been.
-                            </span>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div className="max-w-[550px] mt-4 mx-auto">
+                <div className="max-w-[550px] mt-10 mx-auto">
                   <div className="">
                     <Button
-                      className="bg-black text-white rounded-3xl w-full p-3"
+                      className="bg-black text-white rounded-3xl w-full p-4"
                       onClick={() => {
                         setShowStep("step5");
                       }}
@@ -933,86 +965,153 @@ export default function Edit() {
           </div>
         )}
 
-{showStep == "step5" &&
+        {showStep == "step5" && (
           <div className="order-create-step4">
-            <div className="bg-white border rounded-3xl px-9 py-8">
+            <div className="bg-white border rounded-3xl px-9 py-8 max-w-[1100px] w-full mx-auto">
               <div className="w-full mx-auto">
-                <h4 class="font-bold text-2xl mb-1 text-center">STEP 5</h4>
                 <div className="grid grid-cols-3 gap-9  mt-6">
-            <div className="col-span-2 px-14">
-            <div className="bg-white border rounded-3xl px-9 py-8 mt-5">
-              <div className="mb-16">
-                <h4 className="font-bold text-3xl mb-12">Shipping</h4>
-              </div>
-              <div className="grid gap-6 grid-cols-2 my-8 justify-items-center">
-                <div className="inline-flex items-center gap-12">
-                  <div className="relative inline-block self-center">
-                    <p className="text-xl">Standard</p>
+                  <div className="col-span-2">
+                    <div className="bg-white border rounded-3xl px-9 py-8 mt-5">
+                      <div className="mb-16">
+                        <h4 className="font-bold text-2xl mb-12">Shipping</h4>
+                      </div>
+                      <div className="grid gap-6 grid-cols-2 my-8 justify-items-center">
+                        <div className="inline-flex items-center gap-12">
+                          <div className="relative inline-block self-center">
+                            <p className="text-xl">Standard</p>
+                          </div>
+                          <div className="relative inline-block">
+                            <Switch
+                              id="custom-switch-component-one"
+                              ripple={false}
+                              className="h-full w-full checked:bg-[#2EC946]"
+                              containerProps={{
+                                className: "w-12 h-6",
+                              }}
+                              circleProps={{
+                                className: "h-8 w-8 before:hidden border-none",
+                              }}
+                            />
+                          </div>
+                        </div>
+                        <div className="inline-flex gap-12">
+                          <div className="relative inline-block self-center">
+                            <p className="text-xl">Express</p>
+                          </div>
+                          <div className="relative inline-block">
+                            <Switch
+                              id="custom-switch-component-two"
+                              ripple={false}
+                              className="h-full w-full checked:bg-[#2EC946]"
+                              containerProps={{
+                                className: "w-12 h-6",
+                              }}
+                              circleProps={{
+                                className: "h-8 w-8 before:hidden border-none",
+                              }}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="bg-white border rounded-3xl px-9 py-8 mt-5">
+                      <div className="mb-16">
+                        <h4 className="font-bold text-2xl mb-12">Payment</h4>
+                      </div>
+                      <div className="my-8">
+                        <div className="space-y-4">
+                          <div className="flex items-center pb-4">
+                            <label className="font-normal w-1/3">
+                              {"Price ($):"}
+                            </label>
+                            <input
+                              className="text-base text-center  px-4 py-3 bg-gray-100 border rounded-lg focus:outline-none focus:border-black w-2/3"
+                              type="text"
+                              value={price}
+                              onChange={handlePriceChange}
+                            />
+                          </div>
+                          <div className="flex items-center pb-4">
+                            <label className="font-normal w-1/3">
+                              {"Paid ($):"}
+                            </label>
+                            <input
+                              className="text-base text-center  px-4 py-3 bg-gray-100 border rounded-lg focus:outline-none focus:border-black w-2/3"
+                              type="text"
+                              value={paid}
+                              onChange={handlePaidChange}
+                            />
+                          </div>
+                          <hr />
+                          <div className="flex items-center pb-4">
+                            <label className="font-normal w-1/3">
+                              {"Balance ($):"}
+                            </label>
+                            <input
+                              className="text-base text-center px-4 py-3 bg-gray-100 border rounded-lg focus:outline-none focus:border-black w-2/3"
+                              type="text"
+                              value={price - paid}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <div className="relative inline-block">
-                    <Switch
-                      id="custom-switch-component-one"
-                      ripple={false}
-                      className="h-full w-full checked:bg-[#2EC946]"
-                      containerProps={{
-                        className: "w-12 h-6",
-                      }}
-                      circleProps={{
-                        className: "h-8 w-8 before:hidden border-none",
-                      }}
-                    />
+                  <div className="col-span-1">
+                    <div className="bg-white border mt-5">
+                      <div className="mb-4">
+                        <h4 className="font-bold text-2xl text-center p-4 bg-black text-white">
+                          Order Summary
+                        </h4>
+                      </div>
+                      <div className="p-6">
+                        <div className="space-y-4">
+                          <div className="flex items-center pb-2">
+                            <label className="font-normal w-1/3">
+                              {"Price:"}
+                            </label>
+                            <p className="text-base text-center px-4 py-3 w-2/3">
+                              ${price}
+                            </p>
+                          </div>
+                          <div className="flex items-center pb-2">
+                            <label className="font-normal w-1/3">
+                              {"Paid:"}
+                            </label>
+                            <p className="text-base text-center px-4 py-3 w-2/3">
+                              ${paid}
+                            </p>
+                          </div>
+                          <div className="flex items-center pb-2">
+                            <label className="font-normal w-1/3">
+                              {"Balance:"}
+                            </label>
+                            <p className="text-base text-center px-4 py-3 w-2/3">
+                              ${price - paid}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="w-[100%] px-3 mt-10">
+                      <div className="max-w-[550px] w-full mx-auto">
+                        <Button
+                          className="bg-black text-white rounded-3xl w-full p-4"
+                          onClick={() => {
+                            handleSubmit();
+                          }}
+                        >
+                          Confirm Order
+                        </Button>
+                      </div>
+                    </div>
                   </div>
                 </div>
-                <div className="inline-flex gap-12">
-                  <div className="relative inline-block self-center">
-                    <p className="text-xl">Express</p>
-                  </div>
-                  <div className="relative inline-block">
-                    <Switch
-                      id="custom-switch-component-two"
-                      ripple={false}
-                      className="h-full w-full checked:bg-[#2EC946]"
-                      containerProps={{
-                        className: "w-12 h-6",
-                      }}
-                      circleProps={{
-                        className: "h-8 w-8 before:hidden border-none",
-                      }}
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="bg-white border rounded-3xl px-9 py-8 mt-5">
-              <div className="mb-16">
-                <h4 className="font-bold text-3xl mb-12">Payment</h4>
-              </div>
-              <div className="grid gap-6 grid-cols-2 my-8 justify-items-center">
-              </div>
-            </div>
-            </div>
-            <div className="col-span-1"></div>
-                </div>
-                <div className="w-[100%] px-3 mt-6">
-                <div className="max-w-[550px] w-full mx-auto">
-                  <Button className="bg-black text-white rounded-3xl w-full p-3" onClick={() => { router.push('/thankyou') }}>Confirm Order</Button>
-                </div>
-              </div>
               </div>
             </div>
           </div>
-        }
+        )}
       </Layout>
-      {postsIsLoading || postsIsFetching || postsData === undefined ? (
-        <Spinner animation="border" variant="success" />
-      ) : (
-        <>
-          <h4>All Posts</h4>
-          {postsData.posts.map((post) => (
-            <Post key={post.id} post={post} />
-          ))}
-        </>
-      )}
     </div>
   );
 }

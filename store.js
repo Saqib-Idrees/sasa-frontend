@@ -2,6 +2,8 @@ import { configureStore } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/query/react";
 import { authApi } from "slices/authAPI";
 import { profileApi } from "slices/profileAPI";
+import { customerApi } from "slices/customerAPI";
+import { typesApi } from "slices/typesApi";
 import { postsApi } from "slices/postsAPI";
 import { searchApi } from "slices/searchAPI";
 import { messagesApi } from "slices/messagesAPI";
@@ -9,6 +11,8 @@ import { pageApi } from "slices/pageApi";
 import { eventApi } from "slices/eventApi";
 import auth from 'slices/authSlice';
 import profile from 'slices/profileSlice'
+import customer from 'slices/customerSlice'
+import types from 'slices/typesSlice'
 import posts from 'slices/postsSlice'
 import search from 'slices/searchSlice'
 import messages from 'slices/messagesSlice'
@@ -21,11 +25,15 @@ import storage from "redux-persist/lib/storage";
 import {
   FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER
 } from 'redux-persist'
+import { ordersApi } from "slices/orderApi";
 
 const reducers = combineReducers({
   // Add the generated reducer as a specific top-level slice
   [authApi.reducerPath]: authApi.reducer,
   [profileApi.reducerPath]: profileApi.reducer,
+  [customerApi.reducerPath]: customerApi.reducer,
+  [ordersApi.reducerPath]: ordersApi.reducer,
+  [typesApi.reducerPath]: typesApi.reducer,
   [postsApi.reducerPath]: postsApi.reducer,
   [searchApi.reducerPath]: searchApi.reducer,
   [messagesApi.reducerPath]: messagesApi.reducer,
@@ -33,6 +41,8 @@ const reducers = combineReducers({
   [eventApi.reducerPath]: eventApi.reducer,
   auth,
   profile,
+  customer,
+  types,
   posts,
   search,
   messages,
@@ -47,6 +57,9 @@ const persistConfig = {
   blacklist: [
     authApi.reducerPath,
     profileApi.reducerPath,
+    ordersApi.reducerPath,
+    customerApi.reducerPath,
+    typesApi.reducerPath,
     postsApi.reducerPath,
     searchApi.reducerPath,
     messagesApi.reducerPath,
@@ -54,6 +67,8 @@ const persistConfig = {
     eventApi.reducerPath,
     auth, 
     profile,
+    customer,
+    types,
     posts,
     search,
     messages,
@@ -68,7 +83,7 @@ export const makeStore = () =>
   configureStore({
     reducer: persistedReducer,
     // Adding the api middleware enables caching, invalidation, polling,
-    // and other useful features of `rtk-query`.
+    // and other uordersApiseful features of `rtk-query`.
     middleware: (getDefaultMiddleware) => 
       getDefaultMiddleware({
         serializableCheck: {
@@ -77,6 +92,9 @@ export const makeStore = () =>
       })
         .concat(authApi.middleware)
         .concat(profileApi.middleware)
+        .concat(ordersApi.middleware)
+        .concat(customerApi.middleware)
+        .concat(typesApi.middleware)
         .concat(postsApi.middleware)
         .concat(searchApi.middleware)
         .concat(messagesApi.middleware)
