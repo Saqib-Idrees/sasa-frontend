@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const profileApi = createApi({
   reducerPath: "profileApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:4001/auth/",
+    baseUrl: "https://api.3acesoftware.com/auth/",
     prepareHeaders: (headers, { getState }) => {
       const isAuthenticated = getState().auth.isAuthenticated;
       const token = getState().auth.token;
