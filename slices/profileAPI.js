@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const profileApi = createApi({
   reducerPath: "profileApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://api.3acesoftware.com/auth/",
+    baseUrl: "http://localhost:4001/auth/",
     prepareHeaders: (headers, { getState }) => {
       const isAuthenticated = getState().auth.isAuthenticated;
       const token = getState().auth.token;
@@ -100,12 +100,6 @@ export const profileApi = createApi({
   }),
   refetchOnMountOrArgChange: true,
 });
-
-// format to generate hook for specific api endpoint query:
-// for POST/PUT/PATCH/DELETE requests:
-//    use<nameOfQuery>Mutation
-// for GET requests:
-//    use<nameOfQuery>Query
 export const {
   useGetProfileByEmailQuery,
   useUpdateProfileMutation,

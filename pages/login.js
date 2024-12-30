@@ -64,7 +64,7 @@ export default function Login() {
   };
   const handleLoadUser = async (access) => {
     try {
-      const response = await fetch("https://api.3acesoftware.com/auth/users/getUser", {
+      const response = await fetch("http://localhost:4001/auth/users/getUser", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -223,7 +223,7 @@ export default function Login() {
                         <input
                           type={showPassword ? "text" : "password"}
                           placeholder="Password"
-                          className="w-full pl-4 pr-20 text-base px-4 py-3 border rounded-md focus:outline-none focus:border-blue-500"
+                          className="w-full pl-4 pr-20 text-base px-4 py-3 border rounded-md focus:outline-none focus:border-black"
                           name="password"
                           onChange={handleLoginFormChange}
                           value={password}
