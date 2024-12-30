@@ -292,11 +292,11 @@ export default function Edit() {
   const handleSubmit = async () => {
     const currentDate = new Date();
     currentDate.setDate(currentDate.getDate() + 3);
-    const formattedDate = currentDate.toISOString().split('T')[0];
+    const formattedDate = currentDate.toISOString().split("T")[0];
     const orderPayload = {
       design: types[typeIndex].type,
-      agent_id: 101,
-      tailor_id: 202,
+      agent_id: user.userdata.id,
+      tailor_id: selectedTailorId,
       customer: {
         firstname: customerData.firstname,
         lastname: customerData.lastname,
@@ -344,7 +344,7 @@ export default function Edit() {
         });
         console.log("Order Created Successfully: ", response);
         debugger;
-        router.push('/thankyou');
+        router.push("/thankyou");
       }
     } catch (error) {
       console.error("Error Order Creation:", error);
@@ -367,92 +367,6 @@ export default function Edit() {
             <div className="px-9 py-8">
               <div className="max-w-[550px] w-full mx-auto">
                 <CustomerDetails onCustomerUpdate={onCustomerUpdate} />
-                {/* <div className="customer-details">
-                  <div className="grid grid-cols-1 md:grid-cols-4 gap-6 items-center mb-6">
-                    <div className="col-span-3">
-                      <div className="relative flex items-center">
-                        <input
-                          name="customer_id"
-                          type="number"
-                          placeholder="Customer ID"
-                          className="w-full pl-4 pr-20 text-base px-4 py-3 border rounded-lg focus:outline-none focus:border-black"
-                        />
-                      </div>
-                    </div>
-                    <div className="col-span-1">
-                      <Button className="bg-black text-white rounded-3xl w-full p-3">
-                        Look Up
-                      </Button>
-                    </div>
-                  </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 ">
-                    <div className="space-y-2">
-                      <label className="mb-5 text-sm font-medium text-gray-700 tracking-wide">
-                        First Name
-                      </label>
-                      <div className="relative flex items-center">
-                        <input
-                          type="text"
-                          placeholder="First Name"
-                          className="w-full pl-4 pr-20 text-base px-4 py-3 border rounded-lg focus:outline-none focus:border-black"
-                          name="fname"
-                        />
-                      </div>
-                    </div>
-
-                    <div className="space-y-2">
-                      <label className="mb-5 text-sm font-medium text-gray-700 tracking-wide">
-                        Last Name
-                      </label>
-                      <div className="relative flex items-center">
-                        <input
-                          type="text"
-                          placeholder="Last Name"
-                          className="w-full pl-4 pr-20 text-base px-4 py-3 border rounded-lg focus:outline-none focus:border-black"
-                          name="lname"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  <div className="grid grid-cols-1 gap-4 mt-6">
-                    <div className="space-y-2">
-                      <label className="mb-5 text-sm font-medium text-gray-700 tracking-wide">
-                        Email Address
-                      </label>
-                      <div className="relative flex items-center">
-                        <input
-                          type="email"
-                          name="email"
-                          placeholder="Email"
-                          className="w-full pl-4 pr-20 text-base px-4 py-3 border rounded-lg focus:outline-none focus:border-black"
-                        />
-                      </div>
-                    </div>
-                    <div className="space-y-2">
-                      <label className="mb-5 text-sm font-medium text-gray-700 tracking-wide">
-                        Mobile Phone
-                      </label>
-                      <div className="relative flex items-center">
-                        <input
-                          name="phone"
-                          type="text"
-                          placeholder="559 355 37320"
-                          className="w-full pl-4 pr-20 text-base px-4 py-3 border rounded-lg focus:outline-none focus:border-black"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  <div className="w-[100%] mt-16">
-                    <Button
-                      className="bg-black text-white rounded-3xl w-full p-4 "
-                      onClick={() => {
-                        setShowStep("step2");
-                      }}
-                    >
-                      Next
-                    </Button>
-                  </div>
-                </div> */}
                 <div className="w-[100%] mt-16">
                   <Button
                     className="bg-black text-white rounded-3xl w-full p-4"

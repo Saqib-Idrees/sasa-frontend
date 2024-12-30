@@ -25,12 +25,14 @@ import storage from "redux-persist/lib/storage";
 import {
   FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER
 } from 'redux-persist'
+import { ordersApi } from "slices/orderApi";
 
 const reducers = combineReducers({
   // Add the generated reducer as a specific top-level slice
   [authApi.reducerPath]: authApi.reducer,
   [profileApi.reducerPath]: profileApi.reducer,
   [customerApi.reducerPath]: customerApi.reducer,
+  [ordersApi.reducerPath]: ordersApi.reducer,
   [typesApi.reducerPath]: typesApi.reducer,
   [postsApi.reducerPath]: postsApi.reducer,
   [searchApi.reducerPath]: searchApi.reducer,
@@ -55,6 +57,7 @@ const persistConfig = {
   blacklist: [
     authApi.reducerPath,
     profileApi.reducerPath,
+    ordersApi.reducerPath,
     customerApi.reducerPath,
     typesApi.reducerPath,
     postsApi.reducerPath,
@@ -80,7 +83,7 @@ export const makeStore = () =>
   configureStore({
     reducer: persistedReducer,
     // Adding the api middleware enables caching, invalidation, polling,
-    // and other useful features of `rtk-query`.
+    // and other uordersApiseful features of `rtk-query`.
     middleware: (getDefaultMiddleware) => 
       getDefaultMiddleware({
         serializableCheck: {
@@ -89,6 +92,7 @@ export const makeStore = () =>
       })
         .concat(authApi.middleware)
         .concat(profileApi.middleware)
+        .concat(ordersApi.middleware)
         .concat(customerApi.middleware)
         .concat(typesApi.middleware)
         .concat(postsApi.middleware)

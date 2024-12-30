@@ -51,7 +51,7 @@ export const authApi = createApi({
             password: `${password}`,
             re_password: `${re_password}`,
             role: role,
-            phone: parseInt(phone) || null,
+            phone: phone || null,
             dob: dob || null,
             gender: gender || null,
             shopName: shopName || null,

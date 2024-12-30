@@ -30,8 +30,12 @@ export const ordersApi = createApi({
         body: payload.orderPayload,
       }),
     }),
+    getOrdersBySalesAgent: builder.query({
+      query: (salesAgentId) => `orders/sales-agent/${salesAgentId}`,
+    }),
   }),
 });
 
 // Export the hooks for usage in components
-export const { useCreateOrderMutation } = ordersApi;
+export const { useCreateOrderMutation, useGetOrdersBySalesAgentQuery } =
+  ordersApi;
