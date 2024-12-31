@@ -13,8 +13,8 @@ const CustomerDetails = ({ onCustomerUpdate }) => {
 
   const [formData, setFormData] = useState({
     customer_id: "",
-    fname: "",
-    lname: "",
+    firstname: "",
+    lastname: "",
     email: "",
     phone: "",
   });
@@ -28,8 +28,8 @@ const CustomerDetails = ({ onCustomerUpdate }) => {
       dispatch(setCustomer(fetchedCustomerData));
       setFormData({
         customer_id: fetchedCustomerData.customer_id || "",
-        fname: fetchedCustomerData.firstname || "",
-        lname: fetchedCustomerData.lastname || "",
+        firstname: fetchedCustomerData.firstname || "",
+        lastname: fetchedCustomerData.lastname || "",
         email: fetchedCustomerData.email || "",
         phone: fetchedCustomerData.phone || "",
       });
@@ -41,10 +41,13 @@ const CustomerDetails = ({ onCustomerUpdate }) => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
+    const updatedFormData = {
+      ...formData,
       [name]: value,
-    }));
+    };
+    setFormData(updatedFormData);
+    dispatch(setCustomer({...updatedFormData}));
+    onCustomerUpdate({...updatedFormData});
   };
 
 
@@ -88,8 +91,8 @@ const CustomerDetails = ({ onCustomerUpdate }) => {
             type="text"
             placeholder="First Name"
             className="w-full pl-4 pr-20 text-base px-4 py-3 border rounded-lg focus:outline-none focus:border-black"
-            name="fname"
-            value={formData.fname}
+            name="firstname"
+            value={formData.firstname}
             onChange={handleInputChange}
           />
         </div>
@@ -100,8 +103,8 @@ const CustomerDetails = ({ onCustomerUpdate }) => {
             type="text"
             placeholder="Last Name"
             className="w-full pl-4 pr-20 text-base px-4 py-3 border rounded-lg focus:outline-none focus:border-black"
-            name="lname"
-            value={formData.lname}
+            name="lastname"
+            value={formData.lastname}
             onChange={handleInputChange}
           />
         </div>
