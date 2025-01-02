@@ -52,12 +52,15 @@ const columns = [
     dataIndex: "customer",
     key: "customer.firstname",
     width: 150,
+    render: (text, record) => <span >{record.customer.firstname} {record.customer.lastname}</span>
+
   },
   {
     title: "Customer  ID",
     dataIndex: "customer_id",
     key: "customer_id",
     width: 150,
+    render: (text, record) => <span >{record.customer_id}</span>
   },
   {
     title: "Item",
@@ -125,7 +128,7 @@ const columns = [
     key: "operation",
     fixed: "right",
     width: 100,
-    render: () => <a href="#">View</a>,
+    render: (text, record) => <a href={`orders/view/${record.id}`}>View</a>,
   },
 ];
 const onChange = (pagination, filters, sorter, extra) => {
