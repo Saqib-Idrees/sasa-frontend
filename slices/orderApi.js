@@ -30,12 +30,24 @@ export const ordersApi = createApi({
         body: payload.orderPayload,
       }),
     }),
+    createNote: builder.mutation({
+      query: ({ orderId, notePayload }) => ({
+        url: `orders/${orderId}/notes`,
+        method: "POST",
+        body: notePayload,
+      }),
+      invalidatesTags: (result, error, { orderId }) => [{ type: "Order", id: orderId }],
+    }),
     getOrdersBySalesAgent: builder.query({
       query: (salesAgentId) => `orders/sales-agent/${salesAgentId}`,
+    }),
+    getOrderByOrderId: builder.query({
+      query: (orderId) => `orders/${orderId}`,
+      providesTags: (result, error, orderId) => [{ type: "Order", id: orderId }],
     }),
   }),
 });
 
 // Export the hooks for usage in components
-export const { useCreateOrderMutation, useGetOrdersBySalesAgentQuery } =
+export const { useCreateOrderMutation, useCreateNoteMutation, useGetOrdersBySalesAgentQuery, useGetOrderByOrderIdQuery } =
   ordersApi;
