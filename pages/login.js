@@ -207,7 +207,7 @@ export default function Login() {
                       </label>
 
                       <input
-                        className=" w-full text-base px-4 py-2 border  border-gray-300 rounded-lg focus:outline-none focus:border-black"
+                        className=" w-full text-base px-4 py-3 border rounded-md focus:outline-none focus:border-black"
                         type="email"
                         placeholder="Isabella@gmail.com"
                         name="email"
@@ -223,7 +223,7 @@ export default function Login() {
                         <input
                           type={showPassword ? "text" : "password"}
                           placeholder="Password"
-                          className="w-full pl-4 pr-20 text-base px-4 py-3 border rounded-md focus:outline-none focus:border-black"
+                          className="w-full pr-20 text-base px-4 py-3 border rounded-md focus:outline-none focus:border-black"
                           name="password"
                           onChange={handleLoginFormChange}
                           value={password}

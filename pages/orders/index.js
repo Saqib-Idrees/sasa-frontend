@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { Table } from "antd";
+import React, { useEffect, useState } from "react";
+import { ConfigProvider, Table } from "antd";
 import { createStyles } from "antd-style";
 import { useSelector } from "react-redux";
 import { Spinner } from "react-bootstrap";
@@ -16,6 +16,19 @@ import {
   setUser,
 } from "slices/authSlice";
 import { useGetOrdersBySalesAgentQuery } from "slices/orderApi";
+import {
+  HomeIcon,
+  UserCircleIcon,
+  TableCellsIcon,
+  InformationCircleIcon,
+  ServerStackIcon,
+  RectangleStackIcon,
+  ArchiveBoxIcon,
+  UserIcon,
+  UsersIcon,
+  ArrowRightIcon,
+  EyeIcon,
+} from "@heroicons/react/24/solid";
 const useStyle = createStyles(({ css, token }) => {
   const { antCls } = token;
   return {
@@ -52,15 +65,18 @@ const columns = [
     dataIndex: "customer",
     key: "customer.firstname",
     width: 150,
-    render: (text, record) => <span >{record.customer.firstname} {record.customer.lastname}</span>
-
+    render: (text, record) => (
+      <span>
+        {record.customer.firstname} {record.customer.lastname}
+      </span>
+    ),
   },
   {
     title: "Customer  ID",
     dataIndex: "customer_id",
     key: "customer_id",
     width: 150,
-    render: (text, record) => <span >{record.customer_id}</span>
+    render: (text, record) => <span>{record.customer_id}</span>,
   },
   {
     title: "Item",
@@ -128,7 +144,17 @@ const columns = [
     key: "operation",
     fixed: "right",
     width: 100,
-    render: (text, record) => <a href={`orders/view/${record.id}`}>View</a>,
+    render: (text, record) => (
+      <div className="text-center">
+        <a
+          className="flex items-center justify-center"
+          title="View"
+          href={`orders/view/${record.id}`}
+        >
+          <EyeIcon className="size-6" />
+        </a>
+      </div>
+    ),
   },
 ];
 const onChange = (pagination, filters, sorter, extra) => {
@@ -209,23 +235,45 @@ const dataSource = [
 ];
 
 const OrderList = () => {
+  const [searchText, setSearchText] = useState("");
+  const [filteredData, setFilteredData] = useState([]); // For table data
+
   const user = useSelector(selectCurrentUser);
   const isAuthenticated = useSelector(selectIsAuthenticated);
   console.log(user.userdata.id);
   const router = useRouter();
   const { styles } = useStyle();
 
-  const { data: ordersData, error, isLoading, isFetching } = 
-    useGetOrdersBySalesAgentQuery(user?.userdata?.id, {
-      skip: !user?.userdata?.id, // Skip query if no user ID is available
-    });
+  const {
+    data: ordersData,
+    error,
+    isLoading,
+    isFetching,
+  } = useGetOrdersBySalesAgentQuery(user?.userdata?.id, {
+    skip: !user?.userdata?.id, // Skip query if no user ID is available
+  });
 
   useEffect(() => {
     if (ordersData) {
       console.log("Fetched orders:", ordersData);
+      setFilteredData([...ordersData]);
     }
   }, [ordersData]);
-  
+
+  useEffect(() => {
+    if (searchText) {
+      const filtered = ordersData.filter((item) =>
+        Object.values(item)
+          .join(" ")
+          .toLowerCase()
+          .includes(searchText.toLowerCase())
+      );
+      setFilteredData(filtered);
+    } else {
+      setFilteredData(ordersData);
+    }
+  }, [searchText]);
+
   return (
     <div>
       {isLoading || isFetching || ordersData === undefined ? (
@@ -240,7 +288,12 @@ const OrderList = () => {
               <div className="grid grid-cols-2">
                 <div className="space-y-2 justify-self-start">
                   <div className="mr-auto md:mr-4 md:w-72 my-8">
-                    <Input label="Search" />
+                    <input
+                      className="text-base px-4 py-3 border rounded-md focus:outline-none focus:border-black"
+                      placeholder="Search here ..."
+                      onChange={(e) => setSearchText(e.target.value)} // Update search query
+                      value={searchText}
+                    />
                   </div>
                   <IconButton
                     variant="text"
@@ -265,20 +318,24 @@ const OrderList = () => {
                   </Button>
                 </div>
               </div>
-              <Table
-                className={styles.customTable}
-                columns={columns}
-                dataSource={ordersData}
-                scroll={{
-                  x: "max-content",
-                  y: 55 * 5,
+              <ConfigProvider
+                theme={{
+                  components: {
+                    Table: {
+                      cellPaddingBlock: 32,
+                    },
+                  },
                 }}
-              />
+              >
+                <Table
+                  className={styles.customTable}
+                  columns={columns}
+                  dataSource={filteredData}
+                  scroll={{ x: 1500 }}
+                />
+              </ConfigProvider>
             </div>
           </Layout>
-          {/* {postsData.posts.map((post) => (
-            <Post key={post.id} post={post} />
-          ))} */}
         </>
       )}
     </div>

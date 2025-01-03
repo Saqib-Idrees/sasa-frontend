@@ -4,11 +4,24 @@ import { Button, IconButton, Input, Spinner } from "@material-tailwind/react";
 import { useEffect, useState } from "react";
 import { useGetAllUsersQuery } from "slices/authAPI";
 import { useRouter } from "next/router";
-
+import {
+  selectCurrentUser,
+  selectIsAuthenticated,
+  selectCreateUserRole,
+  setCreateUserRole
+} from "slices/authSlice";
+import { useDispatch, useSelector } from "react-redux";
 const Tailors = () => {
   const [tailors, setTailors] = useState([]);
   const router = useRouter();
-
+  const user = useSelector(selectCurrentUser);
+  console.log(user);
+  const createUserRole = useSelector(selectCreateUserRole);
+  const isAuthenticated = useSelector(selectIsAuthenticated);
+  if (!isAuthenticated) {
+    router.push("/");
+  }
+  const dispatch = useDispatch();
   const {
     data: usersData,
     error: usersError,
@@ -45,6 +58,7 @@ const Tailors = () => {
           <Button
             className="py-3 px-5 font-normal normal-case text-sm mb-5"
             onClick={() => {
+              dispatch(setCreateUserRole({createUserRole: "Sales"}));
               router.push("/users/create");
             }}
           >

@@ -3,7 +3,11 @@ import { useRouter } from "next/router";
 import Layout from "@/components/Layouts/DashLayout/Layout";
 import { Button } from "@material-tailwind/react";
 import { useUserCreateMutation } from "slices/authAPI";
-import { selectCurrentUser } from "slices/authSlice";
+import {
+  selectCurrentUser,
+  selectIsAuthenticated,
+  selectCreateUserRole,
+} from "slices/authSlice";
 import { useSelector } from "react-redux";
 import { Formik, Form as FormikForm, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
@@ -11,18 +15,21 @@ import Swal from "sweetalert2";
 
 export default function Create() {
   const user = useSelector(selectCurrentUser);
+  const createUserRole = useSelector(selectCreateUserRole);
+  const isAuthenticated = useSelector(selectIsAuthenticated);
+  if (!isAuthenticated) {
+    router.push("/");
+  }
   const router = useRouter();
-
-  // if (user) {
-  //   router.push("/");
-  // }
   const [currentDate, setCurrentDate] = useState(new Date());
   // RTK Query Signup Hook
   const [
     userCreate,
     { isSuccess, isLoading, isError, data: loginData, error: loginError },
   ] = useUserCreateMutation();
-  const [isTailor, setIsTailor] = useState(false);
+  const [isTailor, setIsTailor] = useState(
+    createUserRole.createUserRole === "Tailor" ? true : false
+  );
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -94,13 +101,10 @@ export default function Create() {
       .nullable()
       .max(new Date(), "Date of Birth cannot be in the future"), // Optional
     email: Yup.string().email("Invalid email").required("Email is required"),
-    phone: Yup.number()
-      .typeError("Phone number must be a number") // Ensure it's a number
-      .integer("Phone number must be an integer") // Ensure it's an integer
-      .min(1000000000, "Phone number must be exactly 10 digits") // Minimum 10 digits
-      .max(9999999999, "Phone number must be exactly 10 digits") // Maximum 10 digits
-      .transform((value) => (value ? Math.floor(value) : null)) // Ensure it's returned as an integer
-      .nullable(), // Optional
+    phone: Yup.string()
+      .required("Phone number is required") // Ensure the field is required
+      .max(15, "Phone number cannot exceed 15 digits"), // Maximum 15 digits
+    role: Yup.string().required("Role is required"),
     password: Yup.string()
       .min(8, "Password must be at least 8 characters")
       .required("Password is required"),
@@ -131,18 +135,20 @@ export default function Create() {
 
   return (
     <Layout>
-      <h2 className="font-bold text-3xl">Create User</h2>
+      <h2 className="font-bold text-2xl capitalize">
+        Create {createUserRole.createUserRole} Agent
+      </h2>
       <div className="mr-auto md:mr-4 my-8">
         <h2 className="font-semibold text-[#3E435D] text-2xl">
           Welcome, {user?.userdata?.firstname}
         </h2>
-        <div className="text-[#ADA7A7] font-extralight text-base mt-2">
+        <div className="text-[#ADA7A7] font-extralight text-base">
           {formattedDate}
         </div>
-        <h2 className="font-medium text-black text-2xl mt-10">
+        <h2 className="font-medium text-[#3E435D] text-2xl mt-8">
           Account Information
         </h2>
-        <p className="text-[#ADA7A7] font-extralight text-base mt-4">
+        <p className="text-[#ADA7A7] font-extralight text-base">
           Complete the fields below
         </p>
         <div className="grid gap-7 grid-cols-2 mb-5 mt-5">
@@ -157,7 +163,9 @@ export default function Create() {
               phone: "",
               password: "",
               re_password: "",
-              role: "",
+              role: createUserRole.createUserRole
+                ? createUserRole.createUserRole
+                : "",
               shopName: "", // Ensure this is initialized
               location: "", // Ensure this is initialized
             }}
@@ -176,7 +184,7 @@ export default function Create() {
                     <Field
                       name="firstname"
                       type="text"
-                      className="w-full text-base px-4 py-3 rounded-lg border border-gray-300"
+                      className="w-full text-base px-4 py-3 border rounded-md focus:outline-none focus:border-black"
                       placeholder="Isabella"
                     />
                     <ErrorMessage
@@ -192,7 +200,7 @@ export default function Create() {
                     <Field
                       name="lastname"
                       type="text"
-                      className="w-full text-base px-4 py-3 rounded-lg border border-gray-300"
+                      className="w-full text-base px-4 py-3 border rounded-md focus:outline-none focus:border-black"
                       placeholder="Lopez"
                     />
                     <ErrorMessage
@@ -211,7 +219,7 @@ export default function Create() {
                     <Field
                       name="dob"
                       type="date"
-                      className="w-full text-base px-4 py-3 rounded-lg border border-gray-300"
+                      className="w-full text-base px-4 py-3 border rounded-md focus:outline-none focus:border-black"
                     />
                     <ErrorMessage
                       name="dob"
@@ -226,7 +234,7 @@ export default function Create() {
                     <Field
                       name="gender"
                       as="select"
-                      className="w-full text-base px-4 py-3 rounded-lg border border-gray-300"
+                      className="w-full text-base px-4 py-3 border rounded-md focus:outline-none focus:border-black"
                     >
                       <option value="">Select Gender</option>
                       <option value="Female">Female</option>
@@ -252,7 +260,7 @@ export default function Create() {
                     <Field
                       name="username"
                       type="text"
-                      className="w-full text-base px-4 py-3 rounded-lg border border-gray-300"
+                      className="w-full text-base px-4 py-3 border rounded-md focus:outline-none focus:border-black"
                       placeholder="isabella-lopez"
                     />
                     <ErrorMessage
@@ -268,7 +276,7 @@ export default function Create() {
                     <Field
                       name="email"
                       type="email"
-                      className="w-full text-base px-4 py-3 rounded-lg border border-gray-300"
+                      className="w-full text-base px-4 py-3 border rounded-md focus:outline-none focus:border-black"
                       placeholder="Isabella@gmail.com"
                     />
                     <ErrorMessage
@@ -288,15 +296,15 @@ export default function Create() {
                       <Field
                         name="password"
                         type={showPassword ? "text" : "password"}
-                        className="w-full text-base px-4 py-3 rounded-lg border border-gray-300"
+                        className="w-full text-base px-4 py-3 border rounded-md focus:outline-none focus:border-black"
                       />
-                      <button
+                      {/* <button
                         onClick={togglePasswordVisibility}
                         type="button"
                         className="absolute right-3 top-3 px-2 py-1 text-sm border rounded-md text-gray-600 hover:bg-gray-100"
                       >
                         {showPassword ? "Hide" : "Show"}
-                      </button>
+                      </button> */}
                     </div>
                     <ErrorMessage
                       name="password"
@@ -312,15 +320,15 @@ export default function Create() {
                       <Field
                         name="re_password"
                         type={showConfirmPassword ? "text" : "password"}
-                        className="w-full text-base px-4 py-3 rounded-lg border border-gray-300"
+                        className="w-full text-base px-4 py-3 border rounded-md focus:outline-none focus:border-black"
                       />
-                      <button
+                      {/* <button
                         onClick={toggleConfirmPasswordVisibility}
                         type="button"
                         className="absolute right-3 top-3 px-2 py-1 text-sm border rounded-md text-gray-600 hover:bg-gray-100"
                       >
                         {showConfirmPassword ? "Hide" : "Show"}
-                      </button>
+                      </button> */}
                     </div>
                     <ErrorMessage
                       name="re_password"
@@ -337,8 +345,8 @@ export default function Create() {
                     </label>
                     <Field
                       name="phone"
-                      type="tel"
-                      className="w-full text-base px-4 py-3 rounded-lg border border-gray-300"
+                      type="text"
+                      className="w-full text-base px-4 py-3 border rounded-md focus:outline-none focus:border-black"
                       placeholder="559 355 3732"
                     />
                     <ErrorMessage
@@ -347,31 +355,35 @@ export default function Create() {
                       className="text-red-500 text-sm mt-1"
                     />
                   </div>
-                  <div>
-                    <label className="inline-block mb-4 text-xs font-medium text-gray-700 tracking-wide">
-                      Role
-                    </label>
-                    <Field
-                      name="role"
-                      as="select"
-                      className="w-full text-base px-4 py-3 rounded-lg border border-gray-300"
-                      onChange={(e) => {
-                        const selectedRole = e.target.value;
-                        setFieldValue("role", selectedRole);
-                        setIsTailor(selectedRole === "Tailor");
-                      }}
-                    >
-                      <option value="">Select Role</option>
-                      <option value="Admin">Admin</option>
-                      <option value="Sales">Sales Agent</option>
-                      <option value="Tailor">Tailor</option>
-                    </Field>
-                    <ErrorMessage
-                      name="role"
-                      component="div"
-                      className="text-red-500 text-sm mt-1"
-                    />
-                  </div>
+                  {!createUserRole.createUserRole ? (
+                    <div>
+                      <label className="inline-block mb-4 text-xs font-medium text-gray-700 tracking-wide">
+                        Role
+                      </label>
+                      <Field
+                        name="role"
+                        as="select"
+                        className="w-full text-base px-4 py-3 border rounded-md focus:outline-none focus:border-black"
+                        onChange={(e) => {
+                          const selectedRole = e.target.value;
+                          setFieldValue("role", selectedRole);
+                          setIsTailor(selectedRole === "Tailor");
+                        }}
+                      >
+                        <option value="">Select Role</option>
+                        <option value="Admin">Admin</option>
+                        <option value="Sales">Sales Agent</option>
+                        <option value="Tailor">Tailor</option>
+                      </Field>
+                      <ErrorMessage
+                        name="role"
+                        component="div"
+                        className="text-red-500 text-sm mt-1"
+                      />
+                    </div>
+                  ) : (
+                    ""
+                  )}
                 </div>
                 {isTailor && (
                   <>
@@ -383,7 +395,7 @@ export default function Create() {
                         <Field
                           name="shopName"
                           type="text"
-                          className="w-full text-base px-4 py-3 rounded-lg border border-gray-300"
+                          className="w-full text-base px-4 py-3 border rounded-md focus:outline-none focus:border-black"
                           placeholder="Enter Shop Name"
                         />
                         <ErrorMessage
@@ -399,7 +411,7 @@ export default function Create() {
                         <Field
                           name="location"
                           type="text"
-                          className="w-full text-base px-4 py-3 rounded-lg border border-gray-300"
+                          className="w-full text-base px-4 py-3 border rounded-md focus:outline-none focus:border-black"
                           placeholder="Enter Location"
                         />
                         <ErrorMessage

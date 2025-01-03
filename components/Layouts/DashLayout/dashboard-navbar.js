@@ -1,5 +1,5 @@
 // import { useLocation, Link } from "react-router-dom";
-import Link from "next/dist/client/link";
+import Link from "next/link";
 
 import {
   Navbar,
@@ -22,6 +22,10 @@ import {
   CreditCardIcon,
   Bars3Icon,
 } from "@heroicons/react/24/solid";
+import { setLogout } from "../../../slices/authSlice";
+import { useRouter } from "next/router";
+import { useDispatch } from "react-redux";
+
 // import {
 //   useMaterialTailwindController,
 //   setOpenConfigurator,
@@ -33,7 +37,8 @@ export function DashboardNavbar() {
   // const { fixedNavbar, openSidenav } = controller;
   // const { pathname } = useLocation();
   // const [layout, page] = pathname.split("/").filter((el) => el !== "");
-
+  const dispatch = useDispatch();
+  const router = useRouter();
   return (
     // <Navbar
     //   color={fixedNavbar ? "white" : "transparent"}
@@ -103,7 +108,7 @@ export function DashboardNavbar() {
                 className="hidden items-center gap-1 px-4 xl:flex normal-case"
               >
                 <UserCircleIcon className="h-5 w-5 text-blue-gray-500" />
-                Sign In
+                Account
               </Button>
               <IconButton
                 variant="text"
@@ -115,55 +120,58 @@ export function DashboardNavbar() {
             </a>
           </MenuHandler>
           <MenuList className="w-max border-0">
+            <MenuItem className="flex items-center gap-4">
+              {/* <Avatar
+                src="https://demos.creative-tim.com/material-dashboard/assets/img/small-logos/logo-spotify.svg"
+                alt="item-1"
+                size="sm"
+                variant="circular"
+              /> */}
+              <Link href="/profile">
+                <div>
+                  <Typography
+                    variant="small"
+                    color="blue-gray"
+                    className="mb-1 font-normal"
+                  >
+                    <strong>My Profile</strong>
+                  </Typography>
+                </div>
+              </Link>
+            </MenuItem>
             <MenuItem className="flex items-center gap-3">
-              <Avatar
+              {/* <Avatar
                 src="https://demos.creative-tim.com/material-dashboard/assets/img/team-2.jpg"
                 alt="item-1"
                 size="sm"
                 variant="circular"
-              />
-              <div>
+              /> */}
+              <div
+                onClick={() => {
+                  // Add a breakpoint or console to debug
+                  console.log("Button clicked");
+                  dispatch(setLogout());
+                  router.push("/");
+                }}
+              >
                 <Typography
                   variant="small"
                   color="blue-gray"
-                  className="mb-1 font-normal"
+                  className="mb-1 font-normal text-center"
                 >
-                  <strong>New message</strong> from Laur
+                  <strong>Logout</strong>
                 </Typography>
-                <Typography
+                {/* <Typography
                   variant="small"
                   color="blue-gray"
                   className="flex items-center gap-1 text-xs font-normal opacity-60"
                 >
                   <ClockIcon className="h-3.5 w-3.5" /> 13 minutes ago
-                </Typography>
+                </Typography> */}
               </div>
             </MenuItem>
-            <MenuItem className="flex items-center gap-4">
-              <Avatar
-                src="https://demos.creative-tim.com/material-dashboard/assets/img/small-logos/logo-spotify.svg"
-                alt="item-1"
-                size="sm"
-                variant="circular"
-              />
-              <div>
-                <Typography
-                  variant="small"
-                  color="blue-gray"
-                  className="mb-1 font-normal"
-                >
-                  <strong>New album</strong> by Travis Scott
-                </Typography>
-                <Typography
-                  variant="small"
-                  color="blue-gray"
-                  className="flex items-center gap-1 text-xs font-normal opacity-60"
-                >
-                  <ClockIcon className="h-3.5 w-3.5" /> 1 day ago
-                </Typography>
-              </div>
-            </MenuItem>
-            <MenuItem className="flex items-center gap-4">
+
+            {/*<MenuItem className="flex items-center gap-4">
               <div className="grid h-9 w-9 place-items-center rounded-full bg-gradient-to-tr from-blue-gray-800 to-blue-gray-900">
                 <CreditCardIcon className="h-4 w-4 text-white" />
               </div>
@@ -183,7 +191,7 @@ export function DashboardNavbar() {
                   <ClockIcon className="h-3.5 w-3.5" /> 2 days ago
                 </Typography>
               </div>
-            </MenuItem>
+            </MenuItem> */}
           </MenuList>
         </Menu>
         {/* <Menu>
