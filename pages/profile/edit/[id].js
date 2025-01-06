@@ -138,14 +138,14 @@ export default function Edit() {
       ) : (
         <>
           <Layout>
-            <h2 className="font-bold text-3xl">
+            <h2 className="font-bold text-2xl">
               Profile: {`${userData?.role} Agent`}
             </h2>
             <div className="mr-auto md:mr-4 my-8">
               <h2 className="font-semibold text-[#3E435D] text-2xl">
-                Welcome, {userData?.firstname}
+                Welcome, {user.userdata?.firstname}
               </h2>
-              <div className="text-[#ADA7A7] font-extralight text-base mt-2">
+              <div className="text-[#ADA7A7] font-extralight text-base">
                 {formattedDate}
               </div>
               {/* <h2 className="font-medium text-black text-2xl mt-10">
@@ -182,7 +182,7 @@ export default function Edit() {
                             name="firstname"
                             type="text"
                             placeholder="Isabella"
-                            className="w-full text-base px-4 py-3 rounded-lg border border-gray-300"
+                            className="w-full text-base px-4 py-3 border rounded-md focus:outline-none focus:border-black"
                           />
                           <ErrorMessage
                             name="firstname"
@@ -198,7 +198,7 @@ export default function Edit() {
                             name="lastname"
                             type="text"
                             placeholder="Lopez"
-                            className="w-full text-base px-4 py-3 rounded-lg border border-gray-300"
+                            className="w-full text-base px-4 py-3 border rounded-md focus:outline-none focus:border-black"
                           />
                           <ErrorMessage
                             name="lastname"
@@ -215,7 +215,7 @@ export default function Edit() {
                           <Field
                             name="dob"
                             type="date"
-                            className="w-full text-base px-4 py-3 rounded-lg border border-gray-300"
+                            className="w-full text-base px-4 py-3 border rounded-md focus:outline-none focus:border-black"
                           />
                           <ErrorMessage
                             name="dob"
@@ -230,7 +230,7 @@ export default function Edit() {
                           <Field
                             name="gender"
                             as="select"
-                            className="w-full text-base px-4 py-3 rounded-lg border border-gray-300"
+                            className="w-full text-base px-4 py-3 border rounded-md focus:outline-none focus:border-black"
                           >
                             <option value="">Select Gender</option>
                             <option value="Female">Female</option>
@@ -253,7 +253,7 @@ export default function Edit() {
                             Username
                           </label>
                           <Field
-                            className="w-full text-base px-4 py-3 rounded-lg border border-gray-300"
+                            className="w-full text-base px-4 py-3 border rounded-md focus:outline-none focus:border-black"
                             type="text"
                             name="username"
                             placeholder="isabella-lopez"
@@ -286,7 +286,7 @@ export default function Edit() {
                             name="phone"
                             type="tel"
                             placeholder="559 355 37320"
-                            className="w-full text-base px-4 py-3 rounded-lg border border-gray-300"
+                            className="w-full text-base px-4 py-3 border rounded-md focus:outline-none focus:border-black"
                           />
                           <ErrorMessage
                             name="phone"
@@ -301,7 +301,7 @@ export default function Edit() {
                           <Field
                             name="role"
                             as="select"
-                            className="w-full text-base px-4 py-3 rounded-lg border border-gray-300"
+                            className="w-full text-base px-4 py-3 border rounded-md focus:outline-none focus:border-black"
                             onChange={(e) => {
                               const selectedRole = e.target.value;
                               setFieldValue("role", selectedRole);
@@ -331,7 +331,7 @@ export default function Edit() {
                               <Field
                                 name="shopName"
                                 type="text"
-                                className="w-full text-base px-4 py-3 rounded-lg border border-gray-300"
+                                className="w-full text-base px-4 py-3 border rounded-md focus:outline-none focus:border-black"
                                 placeholder="Enter Shop Name"
                               />
                               <ErrorMessage
@@ -347,7 +347,7 @@ export default function Edit() {
                               <Field
                                 name="location"
                                 type="text"
-                                className="w-full text-base px-4 py-3 rounded-lg border border-gray-300"
+                                className="w-full text-base px-4 py-3 border rounded-md focus:outline-none focus:border-black"
                                 placeholder="Enter Location"
                               />
                               <ErrorMessage
@@ -369,7 +369,7 @@ export default function Edit() {
                           name="password"
                           type={showPassword ? "text" : "password"}
                           placeholder="Password"
-                          className="w-full text-base px-4 py-3 rounded-lg border border-gray-300"
+                          className="w-full text-base px-4 py-3 border rounded-md focus:outline-none focus:border-black"
                         />
                         <button
                           onClick={togglePasswordVisibility}
@@ -394,7 +394,7 @@ export default function Edit() {
                           name="confirmPassword"
                           type={showConfirmPassword ? "text" : "password"}
                           placeholder="Confirm Password"
-                          className="w-full text-base px-4 py-3 rounded-lg border border-gray-300"
+                          className="w-full text-base px-4 py-3 border rounded-md focus:outline-none focus:border-black"
                         />
                         <button
                           onClick={toggleConfirmPasswordVisibility}

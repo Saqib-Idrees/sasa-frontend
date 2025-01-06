@@ -15,7 +15,7 @@ import customer from 'slices/customerSlice'
 import types from 'slices/typesSlice'
 import posts from 'slices/postsSlice'
 import search from 'slices/searchSlice'
-import messages from 'slices/messagesSlice'
+import order from 'slices/orderSlice'
 import page from "slices/pageSlice";
 import event from "slices/eventSlice";
 
@@ -45,7 +45,7 @@ const reducers = combineReducers({
   types,
   posts,
   search,
-  messages,
+  order,
   page,
   event
 })
@@ -71,7 +71,7 @@ const persistConfig = {
     types,
     posts,
     search,
-    messages,
+    order,
     page,
     event
   ],

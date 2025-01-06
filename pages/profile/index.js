@@ -56,6 +56,11 @@ export default function Edit() {
     setCurrentDate(new Date());
   }, []);
 
+  const formatDate = (isoDate) => {
+    const date = new Date(isoDate);
+    return date.toISOString().split("T")[0]; // Extract only the YYYY-MM-DD part
+  };
+
   const formattedDate = currentDate.toLocaleDateString("en-US", {
     weekday: "long",
     year: "numeric",
@@ -72,6 +77,7 @@ export default function Edit() {
   };
 
   const handleSubmit = async (values) => {
+    debugger;
     console.log(values);
     try {
       const response = await updateProfile(values).unwrap();
@@ -114,18 +120,18 @@ export default function Edit() {
   return (
     <div>
       <Layout>
-        <h2 className="font-bold text-3xl">Profile</h2>
+        <h2 className="font-bold text-2xl">Profile</h2>
         <div className="mr-auto md:mr-4 my-8">
           <h2 className="font-semibold text-[#3E435D] text-2xl">
             Welcome, {user?.userdata?.firstname}
           </h2>
-          <div className="text-[#ADA7A7] font-extralight text-base mt-2">
+          <div className="text-[#ADA7A7] font-extralight text-base">
             {formattedDate}
           </div>
-          <h2 className="font-medium text-black text-2xl mt-10">
+          <h2 className="font-medium text-[#3E435D] text-2xl mt-8">
             Account Information
           </h2>
-          <p className="text-[#ADA7A7] font-extralight text-base mt-4">
+          <p className="text-[#ADA7A7] font-extralight text-base">
             Update your account information
           </p>
           <Formik
@@ -133,7 +139,7 @@ export default function Edit() {
               firstname: user?.userdata?.firstname || "",
               lastname: user?.userdata?.lastname || "",
               username: user?.userdata?.username || "",
-              dob: user?.userdata?.dob || "",
+              dob: user?.userdata?.dob ? formatDate(user?.userdata?.dob) : "",
               gender: user?.userdata?.gender || "",
               phone: user?.userdata?.phone || "",
               email: user?.userdata?.email || "",
@@ -156,7 +162,7 @@ export default function Edit() {
                         name="firstname"
                         type="text"
                         placeholder="Isabella"
-                        className="w-full text-base px-4 py-3 rounded-lg border border-gray-300"
+                        className="w-full text-base px-4 py-3 border rounded-md focus:outline-none focus:border-black"
                       />
                       <ErrorMessage
                         name="firstname"
@@ -172,7 +178,7 @@ export default function Edit() {
                         name="lastname"
                         type="text"
                         placeholder="Lopez"
-                        className="w-full text-base px-4 py-3 rounded-lg border border-gray-300"
+                        className="w-full text-base px-4 py-3 border rounded-md focus:outline-none focus:border-black"
                       />
                       <ErrorMessage
                         name="lastname"
@@ -189,7 +195,7 @@ export default function Edit() {
                       <Field
                         name="dob"
                         type="date"
-                        className="w-full text-base px-4 py-3 rounded-lg border border-gray-300"
+                        className="w-full text-base px-4 py-3 border rounded-md focus:outline-none focus:border-black"
                       />
                       <ErrorMessage
                         name="dob"
@@ -204,7 +210,7 @@ export default function Edit() {
                       <Field
                         name="gender"
                         as="select"
-                        className="w-full text-base px-4 py-3 rounded-lg border border-gray-300"
+                        className="w-full text-base px-4 py-3 border rounded-md focus:outline-none focus:border-black"
                       >
                         <option value="">Select Gender</option>
                         <option value="Female">Female</option>
@@ -227,7 +233,7 @@ export default function Edit() {
                         Username
                       </label>
                       <Field
-                        className="w-full text-base px-4 py-3 rounded-lg border border-gray-300"
+                        className="w-full text-base px-4 py-3 border rounded-md focus:outline-none focus:border-black"
                         type="text"
                         name="username"
                         placeholder="isabella-lopez"
@@ -260,7 +266,7 @@ export default function Edit() {
                         name="phone"
                         type="text"
                         placeholder="559 355 37320"
-                        className="w-full text-base px-4 py-3 rounded-lg border border-gray-300"
+                        className="w-full text-base px-4 py-3 border rounded-md focus:outline-none focus:border-black"
                       />
                       <ErrorMessage
                         name="phone"
@@ -275,7 +281,7 @@ export default function Edit() {
                       <Field
                         name="role"
                         as="select"
-                        className="w-full text-base px-4 py-3 rounded-lg border border-gray-300"
+                        className="w-full text-base px-4 py-3 border rounded-md focus:outline-none focus:border-black"
                         onChange={(e) => {
                           const selectedRole = e.target.value;
                           setFieldValue("role", selectedRole);
@@ -305,7 +311,7 @@ export default function Edit() {
                           <Field
                             name="shopName"
                             type="text"
-                            className="w-full text-base px-4 py-3 rounded-lg border border-gray-300"
+                            className="w-full text-base px-4 py-3 border rounded-md focus:outline-none focus:border-black"
                             placeholder="Enter Shop Name"
                           />
                           <ErrorMessage
@@ -321,7 +327,7 @@ export default function Edit() {
                           <Field
                             name="location"
                             type="text"
-                            className="w-full text-base px-4 py-3 rounded-lg border border-gray-300"
+                            className="w-full text-base px-4 py-3 border rounded-md focus:outline-none focus:border-black"
                             placeholder="Enter Location"
                           />
                           <ErrorMessage

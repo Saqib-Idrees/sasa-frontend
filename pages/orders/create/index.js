@@ -358,6 +358,52 @@ export default function Edit() {
     }
   };
 
+
+  const handleNext1 = () => {
+    // Check if `customerData` is empty
+    if (Object.keys(customerData).length === 0) {
+      Swal.fire({
+        position: "top-end",
+        title: "Incomplete Data",
+        text: "Please enter customer data before proceeding.",
+        icon: "warning",
+        showConfirmButton: true,
+      });
+    } else {
+      setShowStep("step2");
+    }
+  };
+
+  const handleNext2 = () => {
+    if (!selectedTailorId) {
+      // Trigger alert if no tailor is selected
+      Swal.fire({
+        position: "top-end",
+        title: "Tailor not selected",
+        text: "Please select a tailor before proceeding.",
+        icon: "warning",
+        showConfirmButton: true,
+      });
+    } else {
+      setShowStep("step3");
+    }
+  };
+
+  const handleNext3 = () => {
+    if (typeIndex === null) {
+      // Trigger alert if no tailor is selected
+      Swal.fire({
+        position: "top-end",
+        title: "Product not selected",
+        text: "Please select a product before proceeding.",
+        icon: "warning",
+        showConfirmButton: true,
+      });
+    } else {
+      setShowStep("step4");
+    }
+  };
+
   return (
     <div>
       <Layout>
@@ -370,9 +416,7 @@ export default function Edit() {
                 <div className="w-[100%] mt-16">
                   <Button
                     className="bg-black text-white rounded-3xl w-full p-4"
-                    onClick={() => {
-                      setShowStep("step2");
-                    }}
+                    onClick={handleNext1}
                   >
                     Next
                   </Button>
@@ -395,7 +439,7 @@ export default function Edit() {
                   + Create Tailor
                 </Button>
               </div> */}
-              <div className="grid gap-y-10 gap-x-6 md:grid-cols-2 xl:grid-cols-4">
+              <div className="grid gap-y-10 gap-x-6 md:grid-cols-2 xl:grid-cols-4 min-h-[500px]">
                 {usersIsLoading ||
                 usersIsFetching ||
                 usersData === undefined ? (
@@ -430,9 +474,7 @@ export default function Edit() {
                   <div className="max-w-[550px] w-full mx-auto">
                     <Button
                       className="bg-black text-white rounded-3xl w-full p-4"
-                      onClick={() => {
-                        setShowStep("step3");
-                      }}
+                      onClick={handleNext2}
                     >
                       Next
                     </Button>
@@ -765,9 +807,7 @@ export default function Edit() {
                 <div className="max-w-[550px] w-full mx-auto">
                   <Button
                     className="bg-black text-white rounded-3xl w-full p-4"
-                    onClick={() => {
-                      setShowStep("step4");
-                    }}
+                    onClick={handleNext3}
                   >
                     Next
                   </Button>
@@ -967,15 +1007,15 @@ export default function Edit() {
 
         {showStep == "step5" && (
           <div className="order-create-step4">
-            <div className="bg-white border rounded-3xl px-9 py-8 max-w-[1100px] w-full mx-auto">
+            <div className="bg-white border rounded-3xl px-8 py-8 max-w-[1100px] w-full mx-auto">
               <div className="w-full mx-auto">
-                <div className="grid grid-cols-3 gap-9  mt-6">
+                <div className="grid grid-cols-3 gap-9 ">
                   <div className="col-span-2">
-                    <div className="bg-white border rounded-3xl px-9 py-8 mt-5">
-                      <div className="mb-16">
-                        <h4 className="font-bold text-2xl mb-12">Shipping</h4>
+                    <div className="bg-white border rounded-3xl px-8 py-8 ">
+                      <div className="mb-10">
+                        <h4 className="font-bold text-2xl">Shipping</h4>
                       </div>
-                      <div className="grid gap-6 grid-cols-2 my-8 justify-items-center">
+                      <div className="grid gap-6 grid-cols-2 mb-8 justify-items-center">
                         <div className="inline-flex items-center gap-12">
                           <div className="relative inline-block self-center">
                             <p className="text-xl">Standard</p>
@@ -1015,17 +1055,17 @@ export default function Edit() {
                       </div>
                     </div>
                     <div className="bg-white border rounded-3xl px-9 py-8 mt-5">
-                      <div className="mb-16">
-                        <h4 className="font-bold text-2xl mb-12">Payment</h4>
+                      <div className="mb-10">
+                        <h4 className="font-bold text-2xl mb-10">Payment</h4>
                       </div>
-                      <div className="my-8">
+                      <div className="mb-8">
                         <div className="space-y-4">
                           <div className="flex items-center pb-4">
                             <label className="font-normal w-1/3">
                               {"Price ($):"}
                             </label>
                             <input
-                              className="text-base text-center  px-4 py-3 bg-gray-100 border rounded-lg focus:outline-none focus:border-black w-2/3"
+                              className="text-base text-center  p-4 bg-gray-100 border rounded-lg focus:outline-none focus:border-black w-2/3"
                               type="text"
                               value={price}
                               onChange={handlePriceChange}
@@ -1043,7 +1083,7 @@ export default function Edit() {
                             />
                           </div>
                           <hr />
-                          <div className="flex items-center pb-4">
+                          <div className="flex items-center pb-4 ">
                             <label className="font-normal w-1/3">
                               {"Balance ($):"}
                             </label>
@@ -1058,7 +1098,7 @@ export default function Edit() {
                     </div>
                   </div>
                   <div className="col-span-1">
-                    <div className="bg-white border mt-5">
+                    <div className="bg-white border ">
                       <div className="mb-4">
                         <h4 className="font-bold text-2xl text-center p-4 bg-black text-white">
                           Order Summary
@@ -1100,6 +1140,7 @@ export default function Edit() {
                           onClick={() => {
                             handleSubmit();
                           }}
+                          disabled={!price || !paid} // Disable if price or paid is empty
                         >
                           Confirm Order
                         </Button>

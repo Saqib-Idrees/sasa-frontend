@@ -19,12 +19,12 @@ const AssignTailorCard = ({
     <>
       {type === "Tailor" && item.role === "Tailor" ? (
         <div
-          className={`relative flex flex-col cursor-pointer rounded-xl ${
-            isSelected ? "border-2 border-green-500 " : "border"
-          }`}
+          className={`relative flex flex-col cursor-pointer rounded-xl `}
           onClick={handleCardClick} // Trigger callback on click
         >
-          <div className="p-10 bg-clip-border rounded-xl bg-white text-gray-700">
+          <div className={`p-10 bg-clip-border rounded-xl bg-white text-gray-700 ${
+            isSelected ? "border-2 border-green-500 " : "border"
+          }`}>
             <div className="flex mb-4">
               <div className="w-1/2">
                 <h6 className="mb-0 font-bold text-black text-xl">

@@ -2,41 +2,47 @@ import { createSlice } from "@reduxjs/toolkit";
 import { PURGE } from "redux-persist";
 
 const slice = createSlice({
-  name: 'auth',
+  name: "auth",
   initialState: {
     user: null,
     isAuthenticated: false,
     access: null,
-    refresh: null
+    refresh: null,
+    createUserRole: null,
   },
   reducers: {
-    setToken: (state, {payload}) => {
-      state.access = payload
-      state.token = payload
+    setToken: (state, { payload }) => {
+      state.access = payload;
+      state.token = payload;
       // state.refresh = refresh
-      state.isAuthenticated = true
+      state.isAuthenticated = true;
     },
     setUser: (state, { payload }) => {
-      state.user = payload
+      state.user = payload;
+    },
+    setCreateUserRole: (state, { payload }) => {
+      state.createUserRole = payload;
     },
     setAuthenticated: (state) => {
-      state.isAuthenticated = true
+      state.isAuthenticated = true;
     },
-    setLogout: (PURGE, (state) => {
-      debugger;
-      state.user = null
-      state.isAuthenticated = false
-      state.access = null
-      state.refresh = null
-    })
+    setLogout:
+      (PURGE,
+      (state) => {
+        state.user = null;
+        state.isAuthenticated = false;
+        state.access = null;
+        state.refresh = null;
+        state.createUserRole = null;
+      }),
   },
   extraReducers: (builder) => {
     // https://redux-toolkit.js.org/usage/usage-guide#use-with-redux-persist
     // this case is needed on logout to purge persisted storage or you get phantom calls in the cache? idk
     builder.addCase(PURGE, (state) => {
       setLogout.removeAll(state);
-    })
-  // extraReducers: (builder) => {
+    });
+    // extraReducers: (builder) => {
     // example from official docs if you need to access login status from other Apis?
     // builder
     //   .addMatcher(postApi.endpoints.login.matchPending, (state, action) => {
@@ -50,21 +56,22 @@ const slice = createSlice({
     //   .addMatcher(postApi.endpoints.login.matchRejected, (state, action) => {
     //     console.log('rejected', action);
     //   });
-  }
-})
-
+  },
+});
 
 // export const {  } = slice.actions
-export const { 
+export const {
   setLogout,
   setCredentials,
   setToken,
   setUser,
-  setAuthenticated
-} = slice.actions
-export default slice.reducer
-export const selectCurrentUser = (state) => state.auth.user
-export const selectIsAuthenticated = (state) => state.auth.isAuthenticated
-export const selectToken = (state) => state.auth.token
-export const selectAccess = (state) => state.auth.access
-export const selectRefresh = (state) => state.auth.refresh
+  setAuthenticated,
+  setCreateUserRole,
+} = slice.actions;
+export default slice.reducer;
+export const selectCurrentUser = (state) => state.auth.user;
+export const selectCreateUserRole = (state) => state.auth.createUserRole;
+export const selectIsAuthenticated = (state) => state.auth.isAuthenticated;
+export const selectToken = (state) => state.auth.token;
+export const selectAccess = (state) => state.auth.access;
+export const selectRefresh = (state) => state.auth.refresh;
