@@ -29,6 +29,7 @@ import {
   ArrowRightIcon,
   EyeIcon,
 } from "@heroicons/react/24/solid";
+import { selectCurrentOrderStatus } from "slices/orderSlice";
 const useStyle = createStyles(({ css, token }) => {
   const { antCls } = token;
   return {
@@ -240,6 +241,8 @@ const OrderList = () => {
 
   const user = useSelector(selectCurrentUser);
   const isAuthenticated = useSelector(selectIsAuthenticated);
+  const orderStatus = useSelector(selectCurrentOrderStatus);
+
   console.log(user.userdata.id);
   const router = useRouter();
   const { styles } = useStyle();
@@ -273,6 +276,22 @@ const OrderList = () => {
       setFilteredData(ordersData);
     }
   }, [searchText]);
+
+  useEffect(()=>{
+    console.log(orderStatus);
+    if (orderStatus !== 'all' && ordersData) {
+      const filtered = ordersData.filter((item) =>
+        Object.values(item)
+          .join(" ")
+          .toLowerCase()
+          .includes(orderStatus.toLowerCase())
+      );
+      setFilteredData(filtered);
+    } else {
+      setFilteredData(ordersData);
+    }
+  },[orderStatus]);
+
 
   return (
     <div>

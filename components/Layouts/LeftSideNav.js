@@ -21,12 +21,20 @@ import {
 } from "@material-tailwind/react";
 // import { useMaterialTailwindController, setOpenSidenav } from "@/context";
 import { useDispatch, useSelector } from "react-redux";
-import { setLogout } from "./../../slices/authSlice";
+import {
+  selectCurrentUser,
+  selectIsAuthenticated,
+  setLogout,
+} from "./../../slices/authSlice";
 import { useRouter } from "next/router";
+import { setOrderStatus } from "slices/orderSlice";
 
 export function LeftSideNav() {
   // const [controller, dispatch] = useMaterialTailwindController();
   // const { sidenavColor, sidenavType, openSidenav } = controller;
+  const user = useSelector(selectCurrentUser);
+  console.log(user);
+  const isAuthenticated = useSelector(selectIsAuthenticated);
   const dispatch = useDispatch();
   const router = useRouter();
   const icon = {
@@ -85,8 +93,7 @@ export function LeftSideNav() {
     <aside className="bg-white -translate-x-80 fixed inset-0 z-50 min-h-[calc(100vh-32px)] w-72 transition-transform duration-300 xl:translate-x-0">
       <div className={`relative`}>
         <Link href="/" className="py-6 px-4 block">
-          <img src="/assets/images/logo.svg"
-            className="w-24 mx-auto" />
+          <img src="/assets/images/logo.svg" className="w-24 mx-auto" />
         </Link>
         {/* <IconButton
           variant="text"
@@ -110,9 +117,7 @@ export function LeftSideNav() {
                 fullWidth
               >
                 <HomeIcon {...icon} />
-                <Typography
-                  className="text-lg text-base text-black font-medium"
-                >
+                <Typography className="text-lg text-base text-black font-medium">
                   Dashboard
                 </Typography>
               </Button>
@@ -120,7 +125,13 @@ export function LeftSideNav() {
           </li>
 
           <li className="">
-            <Link href="/orders">
+            <Link
+              href="/orders"
+              onClick={() => {
+                dispatch(setOrderStatus("all"));
+                router.push("/orders");
+              }}
+            >
               <Button
                 variant={"text"}
                 color={"dark"}
@@ -128,25 +139,27 @@ export function LeftSideNav() {
                 fullWidth
               >
                 <ArchiveBoxIcon {...icon} />
-                <Typography
-                  className="text-lg text-base text-black font-medium"
-                >
+                <Typography className="text-lg text-base text-black font-medium">
                   Orders
                 </Typography>
               </Button>
             </Link>
             <ul className="pl-[38px]">
               <li className="">
-                <Link href="javascript:void(0)">
+                <Link
+                  href="javascript:void(0)"
+                  onClick={() => {
+                    console.log("Button clicked");
+                    dispatch(setOrderStatus("pending"));
+                  }}
+                >
                   <Button
                     variant={"text"}
                     color={"dark"}
                     className="flex items-center gap-4 px-4 capitalize"
                     fullWidth
                   >
-                    <Typography
-                      className="text-lg text-base text-black font-medium"
-                    >
+                    <Typography className="text-lg text-base text-black font-medium">
                       Pending
                     </Typography>
                   </Button>
@@ -154,16 +167,20 @@ export function LeftSideNav() {
               </li>
 
               <li className="">
-                <Link href="javascript:void(0)">
+                <Link
+                  href="javascript:void(0)"
+                  onClick={() => {
+                    console.log("Button clicked");
+                    dispatch(setOrderStatus("InProduction"));
+                  }}
+                >
                   <Button
                     variant={"text"}
                     color={"dark"}
                     className="flex items-center gap-4 px-4 capitalize"
                     fullWidth
                   >
-                    <Typography
-                      className="text-lg text-base text-black font-medium"
-                    >
+                    <Typography className="text-lg text-base text-black font-medium">
                       In-Production
                     </Typography>
                   </Button>
@@ -171,16 +188,17 @@ export function LeftSideNav() {
               </li>
 
               <li className="">
-                <Link href="javascript:void(0)">
+                <Link href="javascript:void(0)" onClick={() => {
+                    console.log("Button clicked");
+                    dispatch(setOrderStatus("Shipped"));
+                  }}>
                   <Button
                     variant={"text"}
                     color={"dark"}
                     className="flex items-center gap-4 px-4 capitalize"
                     fullWidth
                   >
-                    <Typography
-                      className="text-lg text-base text-black font-medium"
-                    >
+                    <Typography className="text-lg text-base text-black font-medium">
                       Shipped
                     </Typography>
                   </Button>
@@ -188,16 +206,17 @@ export function LeftSideNav() {
               </li>
 
               <li className="">
-                <Link href="javascript:void(0)">
+                <Link href="javascript:void(0)" onClick={() => {
+                    console.log("Button clicked");
+                    dispatch(setOrderStatus("Cancelled"));
+                  }}>
                   <Button
                     variant={"text"}
                     color={"dark"}
                     className="flex items-center gap-4 px-4 capitalize"
                     fullWidth
                   >
-                    <Typography
-                      className="text-lg text-base text-black font-medium"
-                    >
+                    <Typography className="text-lg text-base text-black font-medium">
                       Cancelled
                     </Typography>
                   </Button>
@@ -205,16 +224,17 @@ export function LeftSideNav() {
               </li>
 
               <li className="">
-                <Link href="javascript:void(0)">
+                <Link href="javascript:void(0)" onClick={() => {
+                    console.log("Button clicked");
+                    dispatch(setOrderStatus("Completed"));
+                  }}>
                   <Button
                     variant={"text"}
                     color={"dark"}
                     className="flex items-center gap-4 px-4 capitalize"
                     fullWidth
                   >
-                    <Typography
-                      className="text-lg text-base text-black font-medium"
-                    >
+                    <Typography className="text-lg text-base text-black font-medium">
                       Received
                     </Typography>
                   </Button>
@@ -223,41 +243,41 @@ export function LeftSideNav() {
             </ul>
           </li>
 
-          <li className="">
-            <Link href="/users/sales-team">
-              <Button
-                variant={"text"}
-                color={"dark"}
-                className="flex items-center gap-4 px-4 capitalize"
-                fullWidth
-              >
-                <UsersIcon {...icon} />
-                <Typography
-                  className="text-lg text-base text-black font-medium"
-                >
-                  Sales Team
-                </Typography>
-              </Button>
-            </Link>
-          </li>
+          {user?.userdata?.role === "Admin" && (
+            <>
+              <li>
+                <Link href="/users/sales-team">
+                  <Button
+                    variant="text"
+                    color="dark"
+                    className="flex items-center gap-4 px-4 capitalize"
+                    fullWidth
+                  >
+                    <UsersIcon {...icon} />
+                    <Typography className="text-lg text-black font-medium">
+                      Sales Team
+                    </Typography>
+                  </Button>
+                </Link>
+              </li>
 
-          <li className="">
-            <Link href="/users/tailors">
-              <Button
-                variant={"text"}
-                color={"dark"}
-                className="flex items-center gap-4 px-4 capitalize"
-                fullWidth
-              >
-                <UsersIcon {...icon} />
-                <Typography
-                  className="text-lg text-base text-black font-medium"
-                >
-                  Tailors
-                </Typography>
-              </Button>
-            </Link>
-          </li>
+              <li>
+                <Link href="/users/tailors">
+                  <Button
+                    variant="text"
+                    color="dark"
+                    className="flex items-center gap-4 px-4 capitalize"
+                    fullWidth
+                  >
+                    <UsersIcon {...icon} />
+                    <Typography className="text-lg text-black font-medium">
+                      Tailors
+                    </Typography>
+                  </Button>
+                </Link>
+              </li>
+            </>
+          )}
 
           <li className="">
             <Link href="/profile">
@@ -268,9 +288,7 @@ export function LeftSideNav() {
                 fullWidth
               >
                 <UserIcon {...icon} />
-                <Typography
-                  className="text-lg text-base text-black font-medium"
-                >
+                <Typography className="text-lg text-base text-black font-medium">
                   Profile
                 </Typography>
               </Button>
@@ -280,25 +298,23 @@ export function LeftSideNav() {
         <ul>
           <li className="">
             {/* <Link href="/"> */}
-              <Button
-                variant={"text"}
-                color={"dark"}
-                className="flex items-center gap-4 px-4 capitalize"
-                fullWidth
-                onClick={() => {
-                  // Add a breakpoint or console to debug
-                  console.log("Button clicked");
-                  dispatch(setLogout());
-                  router.push("/");
-                }}
-              >
-                <ArrowRightIcon {...icon} />
-                <Typography
-                  className="text-lg text-base text-black font-medium"
-                >
-                  Log out
-                </Typography>
-              </Button>
+            <Button
+              variant={"text"}
+              color={"dark"}
+              className="flex items-center gap-4 px-4 capitalize"
+              fullWidth
+              onClick={() => {
+                // Add a breakpoint or console to debug
+                console.log("Button clicked");
+                dispatch(setLogout());
+                router.push("/");
+              }}
+            >
+              <ArrowRightIcon {...icon} />
+              <Typography className="text-lg text-base text-black font-medium">
+                Log out
+              </Typography>
+            </Button>
             {/* </Link> */}
           </li>
         </ul>
