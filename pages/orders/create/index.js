@@ -330,7 +330,6 @@ export default function Edit() {
     };
 
     try {
-      debugger;
       const response = await createOrder({
         orderPayload,
       }).unwrap();
@@ -343,7 +342,6 @@ export default function Edit() {
           timer: 1500,
         });
         console.log("Order Created Successfully: ", response);
-        debugger;
         router.push("/thankyou");
       }
     } catch (error) {

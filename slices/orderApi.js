@@ -36,18 +36,66 @@ export const ordersApi = createApi({
         method: "POST",
         body: notePayload,
       }),
-      invalidatesTags: (result, error, { orderId }) => [{ type: "Order", id: orderId }],
+      invalidatesTags: (result, error, { orderId }) => [
+        { type: "Order", id: orderId },
+      ],
     }),
     getOrdersBySalesAgent: builder.query({
       query: (salesAgentId) => `orders/sales-agent/${salesAgentId}`,
     }),
     getOrderByOrderId: builder.query({
       query: (orderId) => `orders/${orderId}`,
-      providesTags: (result, error, orderId) => [{ type: "Order", id: orderId }],
+      providesTags: (result, error, orderId) => [
+        { type: "Order", id: orderId },
+      ],
+    }),
+    updateQuotation: builder.mutation({
+      query({ orderId, values }) {
+        return {
+          url: `orders/quotation/${orderId}`,
+          method: "PUT",
+          body: values,
+        };
+      },
+    }),
+    approveQuotation: builder.mutation({
+      query({ orderId }) {
+        return {
+          url: `orders/approve-quotation`,
+          method: "POST",
+          body: { orderId: orderId },
+        };
+      },
+    }),
+    disapproveQuotation: builder.mutation({
+      query({ orderId }) {
+        return {
+          url: `orders/disapprove-quotation`,
+          method: "POST",
+          body: { orderId: orderId },
+        };
+      },
+    }),
+    addTracking: builder.mutation({
+      query(payload) {
+        debugger;
+        return {
+          url: `orders/update-tracking`,
+          method: "POST",
+          body: payload,
+        };
+      },
     }),
   }),
 });
 
-// Export the hooks for usage in components
-export const { useCreateOrderMutation, useCreateNoteMutation, useGetOrdersBySalesAgentQuery, useGetOrderByOrderIdQuery } =
-  ordersApi;
+export const {
+  useCreateOrderMutation,
+  useCreateNoteMutation,
+  useGetOrdersBySalesAgentQuery,
+  useGetOrderByOrderIdQuery,
+  useUpdateQuotationMutation,
+  useApproveQuotationMutation,
+  useDisapproveQuotationMutation,
+  useAddTrackingMutation,
+} = ordersApi;
