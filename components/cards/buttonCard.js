@@ -9,7 +9,7 @@ const ComponentDesignList = ({ componentDesigns, onSelectionChange }) => {
   };
 
   return (
-    <div className=" flex items-start gap-6">
+    <div className=" flex items-start gap-6 flex-wrap">
       {componentDesigns.map((design) => (
         <div
           key={design.id}
