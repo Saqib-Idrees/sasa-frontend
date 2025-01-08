@@ -21,6 +21,7 @@ import {
   useGetOrderByOrderIdQuery,
   useCreateNoteMutation,
 } from "slices/orderApi";
+import QuotationComponent from "@/components/Quotation/Quotation";
 
 export default function View() {
   const user = useSelector(selectCurrentUser);
@@ -291,7 +292,8 @@ export default function View() {
                     </div>
                   </div>
                 </div>
-                <div>
+                <QuotationComponent orderData={orderData} userRole={user?.userdata?.role} />
+                {/* <div>
                   <h4 className="text-black text-base font-semibold my-6">
                     Quotation
                   </h4>
@@ -302,7 +304,7 @@ export default function View() {
                   <Button className="py-3 px-6 ml-2">Approve</Button>
                   <span className="mx-3">or</span>
                   <Button className="py-3 px-6">Disapprove</Button>
-                </div>
+                </div> */}
               </div>
               <div className="col-span-1">
                 <div className="bg-white border rounded-xl p-6">

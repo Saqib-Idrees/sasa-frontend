@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import Layout from "@/components/Layouts/DashLayout/Layout";
 import { Button } from "@material-tailwind/react";
@@ -22,6 +22,8 @@ export default function Create() {
   }
   const router = useRouter();
   const [currentDate, setCurrentDate] = useState(new Date());
+  const passwordRegEx =
+    /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*(),.?":{}|<>]).{6,20}$/;
   // RTK Query Signup Hook
   const [
     userCreate,
@@ -30,6 +32,7 @@ export default function Create() {
   const [isTailor, setIsTailor] = useState(
     createUserRole.createUserRole === "Tailor" ? true : false
   );
+  const resetFormRef = useRef(null); // Create a ref to store the resetForm function
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -53,21 +56,9 @@ export default function Create() {
 
   const handleSubmit = async (values, { resetForm }) => {
     console.log(values);
-    debugger;
+    resetFormRef.current = resetForm; // Store the resetForm function in the ref
     try {
       await userCreate(values);
-      if (isError === false) {
-        debugger;
-        Swal.fire({
-          position: "top-end",
-          icon: "success",
-          title: "User has been created successfully!!",
-          showConfirmButton: false,
-          timer: 1500,
-        });
-        // Reset the form after success
-        resetForm();
-      }
     } catch (error) {
       Swal.fire({
         position: "top-end",
@@ -78,19 +69,26 @@ export default function Create() {
       });
     }
   };
-
   useEffect(() => {
-    console.log(loginError);
     if (isError) {
       Swal.fire({
         position: "top-end",
         icon: "error",
-        title: loginError?.data?.message,
+        title: loginError?.data?.message || "An error occurred!",
         showConfirmButton: false,
         timer: 1500,
       });
+    } else if (isSuccess) {
+      Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "User has been created successfully!",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      resetFormRef.current?.(); // Reset the form when the operation is successful
     }
-  }, [isError]);
+  }, [isError, isSuccess, loginError]);
 
   // Validation Schema
   const validationSchema = Yup.object({
@@ -106,7 +104,10 @@ export default function Create() {
       .max(15, "Phone number cannot exceed 15 digits"), // Maximum 15 digits
     role: Yup.string().required("Role is required"),
     password: Yup.string()
-      .min(8, "Password must be at least 8 characters")
+      .matches(
+        passwordRegEx,
+        "Password must be 6-20 characters long, include at least one uppercase letter, one lowercase letter, one number, and one special character"
+      )
       .required("Password is required"),
     re_password: Yup.string()
       .oneOf([Yup.ref("password"), null], "Passwords must match")
@@ -173,7 +174,7 @@ export default function Create() {
             onSubmit={handleSubmit}
           >
             {({ handleSubmit, setFieldValue, isSubmitting, resetForm }) => (
-              <FormikForm onSubmit={handleSubmit}>
+              <FormikForm >
                 <div className="grid gap-7 grid-cols-2 mb-7"></div>
 
                 <div className="grid gap-7 grid-cols-2 mb-7">

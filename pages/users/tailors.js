@@ -18,11 +18,11 @@ const Tailors = () => {
   console.log(user);
   const createUserRole = useSelector(selectCreateUserRole);
   const isAuthenticated = useSelector(selectIsAuthenticated);
+  const dispatch = useDispatch();
+  const router = useRouter();
   if (!isAuthenticated) {
     router.push("/");
   }
-  const dispatch = useDispatch();
-  const router = useRouter();
   const {
     data: usersData,
     error: usersError,
@@ -58,7 +58,7 @@ const Tailors = () => {
           <Button
             className="py-3 px-5 font-normal normal-case text-sm mb-5"
             onClick={() => {
-              dispatch(setCreateUserRole({createUserRole: "Sales"}));
+              dispatch(setCreateUserRole({createUserRole: "Tailor"}));
               router.push("/users/create");
             }}
           >
