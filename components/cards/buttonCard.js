@@ -13,7 +13,7 @@ const ComponentDesignList = ({ componentDesigns, onSelectionChange }) => {
       {componentDesigns.map((design) => (
         <div
           key={design.id}
-          className={`flex items-center py-6 px-8  border rounded-lg cursor-pointer transition ${
+          className={`flex items-center py-4 px-4  border rounded-lg cursor-pointer transition ${
             selectedId === design.id
               ? "bg-black text-white border-black"
               : "bg-[#F4F4F4] text-gray-900 border-gray-200"

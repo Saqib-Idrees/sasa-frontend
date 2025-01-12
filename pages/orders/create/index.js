@@ -528,11 +528,11 @@ export default function Edit() {
                     <p className="text-gray-500 text-lg">No data available</p>
                   </div>
                 ) : (
-                  <div className="grid gap-6 grid-cols-6 mb-7">
+                  <div className="grid gap-4 grid-cols-6 mb-7">
                     {types.map((item, index) => (
                       <div
                         key={item.id}
-                        className={`p-4 border-2 rounded-lg cursor-pointer ${
+                        className={`p-2 border-1 rounded-lg cursor-pointer ${
                           typeIndex === index
                             ? "border-green-500"
                             : "border-gray-300"
@@ -542,9 +542,9 @@ export default function Edit() {
                         <img
                           src={item.image_url}
                           alt={item.type}
-                          className="w-full rounded-full h-32 object-cover"
+                          className="w-full"
                         />
-                        <p className="font-normal text-center mt-6">
+                        <p className="font-normal text-center mt-1">
                           {item.type}
                         </p>
                       </div>
@@ -587,7 +587,7 @@ export default function Edit() {
                       <img
                         src={selectedDesign.imageurl}
                         alt="Selected Design"
-                        className="w-3/4 max-w-md"
+                        className="h-96"
                       />
                     )}
                   </div>
@@ -971,8 +971,8 @@ export default function Edit() {
                               </label>
                             </div>
                           </div>
-                          <div className="mt-10">
-                            <img src={selectedDesign.imageurl} />
+                          <div className="mt-10 text-center">
+                            <img src={selectedDesign.imageurl} className="h-96 inline-block" />
                             <h3 className="text-black text-lg font-semibold mt-10 text-center">
                               Model Num: &nbsp;{" "}
                               <span className="font-normal">

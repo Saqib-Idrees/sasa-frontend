@@ -31,7 +31,7 @@ const MeasurementsForm = ({ component, onMeasurementChange }) => {
           <img
             src={component.image_url}
             alt={component.componentName}
-            className="w-full"
+            className="h-96"
           />
         </div>
       </div>

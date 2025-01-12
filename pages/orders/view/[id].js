@@ -109,25 +109,24 @@ export default function View() {
             <h2 className="font-bold text-3xl">Order Details</h2>
             <div className="grid grid-cols-3 gap-6  mt-6">
               <div className="col-span-2 bg-white border rounded-3xl px-14 pb-12">
-                <div className="grid gap-7 grid-cols-2 mb-7">
+                <div className="grid gap-7 grid-cols-2 mb-0">
                   <div className="space-y-2">
-                    <h3 className="text-black text-lg font-semibold mt-10">
-                      Order ID: {orderData.order_id}
+                    <h3 className="text-black text-lg  mt-10">
+                      <span className="font-semibold">Order ID:</span>&nbsp;{orderData.order_id}
                     </h3>
-                    <h3 className="text-black text-lg font-semibold mt-10">
-                      Customer ID 
+                    <h3 className="text-black text-lg font-semibold">
+                      Customer ID:&nbsp;
                       <span className="font-normal">
-                        {" "}
-                        {orderData.customer_id}{" "}
+                        #SASA-{orderData.customer_id}
                       </span>
                     </h3>
                   </div>
                   <div className="space-y-2 justify-self-end pr-8">
-                    <h3 className="text-black text-lg font-semibold mt-10">
-                      Paid: ${orderData.paid}
+                    <h3 className="text-black text-lg mt-10">
+                    <span className="font-semibold">Paid:</span>&nbsp;${orderData.paid}
                     </h3>
-                    <h3 className="text-black text-lg font-semibold mt-10">
-                      Balance: ${orderData.price - orderData.paid}
+                    <h3 className="text-black text-lg mt-10">
+                    <span className="font-semibold">Balance:</span>&nbsp;${orderData.price - orderData.paid}
                     </h3>
                   </div>
                 </div>
@@ -143,7 +142,7 @@ export default function View() {
                   </div>
                   <div className="space-y-2 justify-self-center">
                     <p className="text-black text-base font-semibold mt-10">
-                      Product: 
+                      Product:
                       <span className="font-normal"> {orderData.type}</span>
                     </p>
                   </div>
@@ -280,8 +279,11 @@ export default function View() {
                         </label>
                       </div>
                     </div>
-                    <div className="mt-10">
-                      <img src={orderData.styleImageUrl} />
+                    <div className="mt-10 text-center">
+                      <img
+                        src={orderData.styleImageUrl}
+                        className="h-96 inline-block"
+                      />
                       <h3 className="text-black text-lg font-semibold mt-10 text-center">
                         Model Num: &nbsp;{" "}
                         <span className="font-normal">
@@ -292,7 +294,10 @@ export default function View() {
                     </div>
                   </div>
                 </div>
-                <QuotationComponent orderData={orderData} userRole={user?.userdata?.role} />
+                <QuotationComponent
+                  orderData={orderData}
+                  userRole={user?.userdata?.role}
+                />
                 {/* <div>
                   <h4 className="text-black text-base font-semibold my-6">
                     Quotation
