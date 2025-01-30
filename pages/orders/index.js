@@ -154,6 +154,7 @@ const OrderList = () => {
     setSelectedOrderId(order.id);
     setOpen((cur) => !cur);
   };
+  const rowClassName = (record) => { return record.id === latestOrderId ? "latest-order-row" : ""; };
   const handleInputChange = (e) => {
     setTrackingCode(e.target.value);
   };
@@ -229,13 +230,13 @@ const OrderList = () => {
             statusClass = "bg-blue-200 text-white";
             break;
           case "InProduction":
-            statusClass = "bg-orange-200 text-white"; 
+            statusClass = "bg-orange-200 text-white";
             break;
           case "Shipped":
             statusClass = "bg-green-200 text-white";
             break;
           case "Cancelled":
-            statusClass = "bg-red-200 text-white"; 
+            statusClass = "bg-red-200 text-white";
             break;
           case "Received":
             statusClass = "bg-gray-200 text-white";
@@ -247,7 +248,9 @@ const OrderList = () => {
         return (
           <div className="flex items-center space-x-2">
             <div className={`p-2 rounded-full ${statusClass}`}></div>
-            <span className={`text-sm font-medium ${statusClass} py-1 px-4 rounded-full`}>
+            <span
+              className={`text-sm font-medium ${statusClass} py-1 px-4 rounded-full`}
+            >
               {record.status}
             </span>
           </div>
@@ -318,6 +321,15 @@ const OrderList = () => {
   } = useGetOrdersBySalesAgentQuery(user?.userdata?.id, {
     skip: !user?.userdata?.id, // Skip query if no user ID is available
   });
+
+  const getLatestOrderId = () => {
+    if (!filteredData || filteredData.length === 0) return null;
+    const latestOrder = filteredData.reduce((latest, current) =>
+    new Date(current.createdAt) > new Date(latest.createdAt) ? current : latest
+    );
+    return latestOrder.id;
+    };
+    const latestOrderId = getLatestOrderId();
 
   const [
     addTracking,
@@ -440,16 +452,18 @@ const OrderList = () => {
                     />
                   </IconButton>
                 </div>
-                <div className="space-y-2 justify-self-end content-center">
-                  <Button
-                    className="py-3 px-5 font-normal normal-case text-sm"
-                    onClick={() => {
-                      router.push("/orders/create");
-                    }}
-                  >
-                    + Create Order
-                  </Button>
-                </div>
+                {user.userdata.role !== "Tailor" && (
+                  <div className="space-y-2 justify-self-end content-center">
+                    <Button
+                      className="py-3 px-5 font-normal normal-case text-sm"
+                      onClick={() => {
+                        router.push("/orders/create");
+                      }}
+                    >
+                      + Create Order
+                    </Button>
+                  </div>
+                )}
               </div>
               <ConfigProvider
                 theme={{
@@ -461,12 +475,14 @@ const OrderList = () => {
                 }}
               >
                 <Table
+                  rowClassName={rowClassName}
                   className={styles.customTable}
                   columns={columns}
                   dataSource={filteredData}
                   scroll={{ x: 1500 }}
                 />
               </ConfigProvider>
+              <style jsx>{` .latest-order-row { background-color: #E6F7FF; /* Light blue background for latest order */ } `}</style>
             </div>
             <Dialog
               size="xs"
