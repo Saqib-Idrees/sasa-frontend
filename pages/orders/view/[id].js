@@ -50,6 +50,7 @@ export default function View() {
   useEffect(() => {
     setCurrentDate(new Date());
     console.log(orderData);
+    console.log(user);
   }, [orderData]);
 
   const formattedDate = currentDate.toLocaleDateString("en-US", {
@@ -121,6 +122,7 @@ export default function View() {
                       </span>
                     </h3>
                   </div>
+                  {user?.userdata?.role !== "Tailor" && (
                   <div className="space-y-2 justify-self-end pr-8">
                     <h3 className="text-black text-lg mt-10">
                     <span className="font-semibold">Paid:</span>&nbsp;${orderData.paid}
@@ -129,6 +131,7 @@ export default function View() {
                     <span className="font-semibold">Balance:</span>&nbsp;${orderData.price - orderData.paid}
                     </h3>
                   </div>
+                  )}
                 </div>
                 <div className="grid gap-7 grid-cols-3 mb-7">
                   <div className="space-y-2">
@@ -242,6 +245,17 @@ export default function View() {
                         </div>
                       ))}
                     </div>
+                   {/* Special Instructions Section */}
+              <div className="mt-10">
+                <h4 className="text-black text-base font-semibold my-6">
+                  Special Instructions / Recorded Preferences
+                </h4>
+                <textarea
+                  rows="4"
+                  className="w-full font-light bg-[#EEEDED] border rounded-lg p-6"
+                  value={orderData?.specialInstructions} // Set the value from state
+                ></textarea>
+              </div>
                     <div className="space-y-4">
                       <h4 className="text-black text-base font-semibold my-6">
                         Shipping

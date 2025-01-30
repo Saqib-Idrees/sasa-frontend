@@ -28,9 +28,9 @@ export default function View() {
   return (
     <div>
       <Layout>
-        <div className="w-full">
+        <div className="w-full flex">
           <h2 className="font-bold text-3xl">Customer Details</h2>
-          <div className="mt-6 bg-white rounded-xl justify-items-center content-center h-[45rem]">
+          <div className="mt-6 bg-white rounded-xl justify-items-center content-center h-[45rem] flex justify-center">
             <img src="/assets/images/check_circle.png"
                   className="w-[12%]"/>
             <h3 className="text-center text-3xl my-4">Order has been placed</h3>
