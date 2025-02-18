@@ -20,13 +20,17 @@ import Layout from "@/components/Layouts/DashLayout/Layout";
 import {
   useGetOrderByOrderIdQuery,
   useCreateNoteMutation,
+  useUpdateStatusMutation,
+  useUpdateBalanceMutation,
 } from "slices/orderApi";
 import QuotationComponent from "@/components/Quotation/Quotation";
-
+import { Select, Option, Input } from "@material-tailwind/react";
 export default function View() {
   const user = useSelector(selectCurrentUser);
   const [currentDate, setCurrentDate] = useState(new Date());
   const isAuthenticated = useSelector(selectIsAuthenticated);
+  const [status, setStatus] = useState("");
+  const [paidAmount, setPaidAmount] = useState("");
   const [noteContent, setNoteContent] = useState("");
   const [
     createNote,
@@ -38,6 +42,24 @@ export default function View() {
       error: noteError,
     },
   ] = useCreateNoteMutation();
+  const [
+    updateStatus,
+    {
+      isLoading: statusIsLoading,
+      isError: statusIsError,
+      isSuccess: statusIsSuccess,
+      error: statusError,
+    },
+  ] = useUpdateStatusMutation();
+  const [
+    updateBalance,
+    {
+      isLoading: balanceIsLoading,
+      isError: balanceIsError,
+      isSuccess: balanceIsSuccess,
+      error: balanceError,
+    },
+  ] = useUpdateBalanceMutation();
   const { id } = router.query;
   const {
     data: orderData,
@@ -48,9 +70,14 @@ export default function View() {
   } = useGetOrderByOrderIdQuery(`${id}`);
 
   useEffect(() => {
-    setCurrentDate(new Date());
-    console.log(orderData);
-    console.log(user);
+    console.log(orderIsFetching, "orderIsFetching");
+    if (!orderIsFetching) {
+      setCurrentDate(new Date());
+      setStatus(orderData.status);
+      setPaidAmount(orderData.paid);
+      console.log(orderData);
+      console.log(user);
+    }
   }, [orderData]);
 
   const formattedDate = currentDate.toLocaleDateString("en-US", {
@@ -98,6 +125,98 @@ export default function View() {
     }
   };
 
+  const handleChange = async (newStatus) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: `Change order status to "${newStatus}"?`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, Change it!",
+      cancelButtonText: "No, Cancel",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const response = await updateStatus({
+            orderId: orderData.id,
+            newStatus: newStatus,
+          });
+          if (response?.data) {
+            setStatus(newStatus);
+            Swal.fire({
+              title: "Success!",
+              text: "Order status updated successfully.",
+              icon: "success",
+              timer: 2000,
+              showConfirmButton: false,
+            });
+          } else {
+            throw new Error("Failed to update order status.");
+          }
+        } catch (error) {
+          Swal.fire({
+            title: "Error!",
+            text: error?.message || "Something went wrong. Try again!",
+            icon: "error",
+          });
+        }
+      }
+    });
+  };
+
+  const handlePaidUpdate = async () => {
+    Swal.fire({
+      title: "Confirm Payment Update",
+      text: `Are you sure you want to update the paid amount to $${paidAmount}?`,
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonText: "Yes, Update",
+      cancelButtonText: "Cancel",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        if(paidAmount>(orderData.price-orderData.paid)){
+          Swal.fire({
+            title: "Error!",
+            text: "Cannot add greater than Balance amount!",
+            icon: "error",
+          });
+          return;
+        }
+        if(paidAmount<orderData.paid){
+          Swal.fire({
+            title: "Error!",
+            text: "Cannot add less than Balance amount!",
+            icon: "error",
+          });
+          return;
+        }
+        try {
+          const response = await updateBalance({
+            orderId: orderData.id,
+            newBalance: paidAmount,
+          });
+          if (response?.data) {
+            setPaidAmount(paidAmount)
+            Swal.fire({
+              title: "Success!",
+              text: "Order Balance updated successfully.",
+              icon: "success",
+              timer: 2000,
+              showConfirmButton: false,
+            });
+          } else {
+            throw new Error("Failed to update order balance.");
+          }
+        } catch (error) {
+          Swal.fire({
+            title: "Error!",
+            text: error?.message || "Something went wrong. Try again!",
+            icon: "error",
+          });
+        }
+      }
+    });
+  };
+
   return (
     <div>
       {orderIsLoading || orderIsFetching || orderData === undefined ? (
@@ -109,11 +228,56 @@ export default function View() {
           <div className="w-full">
             <h2 className="font-bold text-3xl">Order Details</h2>
             <div className="grid grid-cols-3 gap-6  mt-6">
-              <div className="col-span-2 bg-white border rounded-3xl px-14 pb-12">
+              <div className="col-span-2 bg-white border rounded-3xl p-8 pb-12">
+                {user?.userdata?.role === "Admin" && (
+                  <div className="grid grid-cols-2 gap-7 items-center mb-5">
+                    <div className="flex flex-col justify-start items-start ">
+                      <label className="text-black text-lg font-semibold me-4 mb-3">
+                        Order Status:
+                      </label>
+                      <div className="w-[200px]">
+                        <Select
+                          label="Change Status"
+                          value={status}
+                          onChange={handleChange}
+                          className=""
+                        >
+                          <Option value="Pending">Pending</Option>
+                          <Option value="InProduction">In Production</Option>
+                          <Option value="Shipped">Shipped</Option>
+                          <Option value="Completed">Received</Option>
+                          <Option value="Cancelled">Cancelled</Option>
+                        </Select>
+                      </div>
+                    </div>
+                    <div className="flex flex-col justify-start items-end ">
+                      <div className="w-[320px]">
+                        <label className="text-black text-lg font-semibold me-4 ">
+                          Balance Paid:
+                        </label>
+                        <div className="flex items-start gap-2 mt-3">
+                          <Input
+                            min={0}
+                            type="number"
+                            inputMode="numeric"
+                            label="Add Remaining Balance"
+                            value={paidAmount}
+                            onChange={(value) => {
+                              setPaidAmount(value.currentTarget.value)
+                            }}
+                            className="appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+                          />
+                          <Button type="primary" onClick={handlePaidUpdate}>Confirm</Button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
                 <div className="grid gap-7 grid-cols-2 mb-0">
                   <div className="space-y-2">
-                    <h3 className="text-black text-lg  mt-10">
-                      <span className="font-semibold">Order ID:</span>&nbsp;{orderData.order_id}
+                    <h3 className="text-black text-lg">
+                      <span className="font-semibold">Order ID:</span>&nbsp;
+                      {orderData.order_id}
                     </h3>
                     <h3 className="text-black text-lg font-semibold">
                       Customer ID:&nbsp;
@@ -123,14 +287,16 @@ export default function View() {
                     </h3>
                   </div>
                   {user?.userdata?.role !== "Tailor" && (
-                  <div className="space-y-2 justify-self-end pr-8">
-                    <h3 className="text-black text-lg mt-10">
-                    <span className="font-semibold">Paid:</span>&nbsp;${orderData.paid}
-                    </h3>
-                    <h3 className="text-black text-lg mt-10">
-                    <span className="font-semibold">Balance:</span>&nbsp;${orderData.price - orderData.paid}
-                    </h3>
-                  </div>
+                    <div className="space-y-2 justify-self-end pr-8">
+                      <h3 className="text-black text-lg ">
+                        <span className="font-semibold">Paid:</span>&nbsp;$&nbsp;
+                        {orderData.paid}
+                      </h3>
+                      <h3 className="text-black text-lg ">
+                        <span className="font-semibold">Balance:</span>&nbsp;$&nbsp;
+                        {orderData.price - orderData.paid}
+                      </h3>
+                    </div>
                   )}
                 </div>
                 <div className="grid gap-7 grid-cols-3 mb-7">
@@ -245,17 +411,17 @@ export default function View() {
                         </div>
                       ))}
                     </div>
-                   {/* Special Instructions Section */}
-              <div className="mt-10">
-                <h4 className="text-black text-base font-semibold my-6">
-                  Special Instructions / Recorded Preferences
-                </h4>
-                <textarea
-                  rows="4"
-                  className="w-full font-light bg-[#EEEDED] border rounded-lg p-6"
-                  value={orderData?.specialInstructions} // Set the value from state
-                ></textarea>
-              </div>
+                    {/* Special Instructions Section */}
+                    <div className="mt-10">
+                      <h4 className="text-black text-base font-semibold my-6">
+                        Special Instructions / Recorded Preferences
+                      </h4>
+                      <textarea
+                        rows="4"
+                        className="w-full font-light bg-[#EEEDED] border rounded-lg p-6"
+                        value={orderData?.specialInstructions} // Set the value from state
+                      ></textarea>
+                    </div>
                     <div className="space-y-4">
                       <h4 className="text-black text-base font-semibold my-6">
                         Shipping

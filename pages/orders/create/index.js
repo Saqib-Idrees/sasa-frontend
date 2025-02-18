@@ -35,6 +35,8 @@ export default function Edit() {
   const [showStep, setShowStep] = useState("step1");
   const [customerData, setCustomerData] = useState({});
   const [selectedTailorId, setSelectedTailorId] = useState(null);
+  const [selectedTailorName, setSelectedTailorName] = useState('');
+
   const [types, setTypes] = useState([]);
   const [typeIndex, setTypeIndex] = useState(null);
   const [selectedDesign, setSelectedDesign] = useState({});
@@ -237,9 +239,10 @@ export default function Edit() {
     setCustomerData({ ...data });
   };
 
-  const handleSelectTailor = (id) => {
-    setSelectedTailorId(id); // Update the state with the selected tailor's ID
-    console.log("Selected Tailor ID:", id); // Optional: Log the selected ID
+  const handleSelectTailor = (item) => {
+    setSelectedTailorId(item.id); // Update the state with the selected tailor's ID
+    setSelectedTailorName(item.name); // Update the state with the selected tailor's ID
+    console.log("Selected Tailor:", item); // Optional: Log the selected ID
   };
 
   const handleSelectionChange = (design) => {
@@ -296,7 +299,9 @@ export default function Edit() {
     const orderPayload = {
       design: types[typeIndex].type,
       agent_id: user.userdata.id,
+      sales_agent_name: `${user.userdata.firstname} ${user.userdata.lastname}`,
       tailor_id: selectedTailorId,
+      tailor_agent_name: selectedTailorName,
       customer: {
         firstname: customerData.firstname,
         lastname: customerData.lastname,
@@ -328,7 +333,8 @@ export default function Edit() {
         measurements: detail.measurement,
       })),
     };
-
+    console.log('orderPayload:', orderPayload);
+    debugger;
     try {
       const response = await createOrder({
         orderPayload,
