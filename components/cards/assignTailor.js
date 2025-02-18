@@ -12,7 +12,7 @@ const AssignTailorCard = ({
   isSelected
 }) => {
   const handleCardClick = () => {
-    onSelectTailor(item.id); // Pass the selected tailor's ID to the parent
+    onSelectTailor({id:item.id, name: tailorName}); // Pass the selected tailor's ID to the parent
   };
 
   return (

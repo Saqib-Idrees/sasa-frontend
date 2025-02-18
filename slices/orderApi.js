@@ -78,7 +78,6 @@ export const ordersApi = createApi({
     }),
     addTracking: builder.mutation({
       query(payload) {
-        debugger;
         return {
           url: `orders/update-tracking`,
           method: "POST",
@@ -86,7 +85,32 @@ export const ordersApi = createApi({
         };
       },
     }),
+    updateStatus: builder.mutation({
+      query({ orderId, newStatus }) {
+        return {
+          url: `orders/update-status/${orderId}`,
+          method: "PUT",
+          body: {newStatus: newStatus},
+        };
+      },
+      invalidatesTags: (result, error, { orderId }) => [
+        { type: "Order", id: orderId },
+      ],
+    }),
+    updateBalance: builder.mutation({
+      query({ orderId, newBalance }) {
+        return {
+          url: `orders/update-balance/${orderId}`,
+          method: "PUT",
+          body: {newBalance: newBalance},
+        };
+      },
+      invalidatesTags: (result, error, { orderId }) => [
+        { type: "Order", id: orderId },
+      ],
+    }),
   }),
+  
 });
 
 export const {
@@ -98,4 +122,6 @@ export const {
   useApproveQuotationMutation,
   useDisapproveQuotationMutation,
   useAddTrackingMutation,
+  useUpdateStatusMutation,
+  useUpdateBalanceMutation
 } = ordersApi;

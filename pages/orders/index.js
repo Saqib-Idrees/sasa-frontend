@@ -4,6 +4,7 @@ import { createStyles } from "antd-style";
 import { useSelector } from "react-redux";
 import { Spinner } from "react-bootstrap";
 import Layout from "@/components/Layouts/DashLayout/Layout";
+import { format } from "date-fns";
 import {
   Button,
   IconButton,
@@ -162,8 +163,8 @@ const OrderList = () => {
     {
       title: "Sales Agent",
       width: 150,
-      dataIndex: "sales_agent",
-      key: "sales_agent",
+      dataIndex: "sales_agent_name",
+      key: "sales_agent_name",
     },
     {
       title: "Order Id ",
@@ -259,27 +260,36 @@ const OrderList = () => {
     },
     {
       title: "Tailor",
-      dataIndex: "tailor_id",
-      key: "tailor_id",
+      dataIndex: "tailor_agent_name",
+      key: "tailor_agent_name",
       width: 150,
     },
     {
-      title: "Delivery date",
-      dataIndex: "delivery_date",
-      key: "delivery_date",
-      width: 150,
+      title: "Order Placement Date",
+      dataIndex: "createdAt",
+      key: "createdAt",
+      width: 200,
+      render: (createdAt) => createdAt ? format(new Date(createdAt), "MM-dd-yyyy") : "-", // Format or show '-'
     },
     {
-      title: "Notes",
-      dataIndex: "initials",
-      key: "initials",
+      title: "Latest Note",
+      dataIndex: "notes",
+      key: "notes",
       width: 300,
+      render: (notes) => {
+        if (!notes || notes.length === 0) return "N/A";
+          const latestNote = [...notes].sort(
+          (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        )[0];
+        return latestNote?.content || "N/A"; 
+      },
     },
     {
       title: "Price",
       dataIndex: "price",
       key: "price",
       width: 150,
+      render: (price) => (price ? `$ ${price}` : "N/A"),
     },
     {
       title: "Tracking code",
@@ -291,6 +301,8 @@ const OrderList = () => {
           <span className="text-sm font-medium text-gray-700 bg-[#EEEDED] py-1 px-4 rounded-full">
             {record.trackingNumber}
           </span>
+        ) : user?.userdata?.role === "Admin" || user?.userdata?.role === "Sales" ? (
+          <p className="text-center">N/A</p>
         ) : (
           <Button onClick={() => handleOpen(record)}>Add Tracking</Button>
         ),
@@ -343,7 +355,6 @@ const OrderList = () => {
   ] = useAddTrackingMutation();
 
   const handleAddTracking = async () => {
-    debugger;
     const payload = {
       orderId: selectedOrderId,
       trackingNumber: trackingCode,
@@ -413,6 +424,7 @@ const OrderList = () => {
           .toLowerCase()
           .includes(orderStatus.toLowerCase())
       );
+      
       setFilteredData(filtered);
     } else {
       setFilteredData(ordersData);
