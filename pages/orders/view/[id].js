@@ -101,6 +101,7 @@ export default function View() {
     }
     const notePayload = {
       content: noteContent,
+      userName: `${user?.userdata?.firstname} ${user?.userdata?.lastname}`
     };
     const orderId = id;
     try {
@@ -552,7 +553,7 @@ export default function View() {
                             >
                               <div className="flex flex-row justify-between mb-4">
                                 <span className="font-semibold">
-                                  Mahnoor, The Boss
+                                  {note.userName}
                                 </span>
                                 <span className="font-semibold">
                                   {formattedDate}
