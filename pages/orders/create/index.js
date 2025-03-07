@@ -35,7 +35,7 @@ export default function Edit() {
   const [showStep, setShowStep] = useState("step1");
   const [customerData, setCustomerData] = useState({});
   const [selectedTailorId, setSelectedTailorId] = useState(null);
-  const [selectedTailorName, setSelectedTailorName] = useState('');
+  const [selectedTailorName, setSelectedTailorName] = useState("");
 
   const [types, setTypes] = useState([]);
   const [typeIndex, setTypeIndex] = useState(null);
@@ -79,11 +79,39 @@ export default function Edit() {
     }));
   };
 
-  const handleSwitchChange = (optionName) => {
+  const handleSwitchChange = (optionName, e) => {
+    console.log(e.target.checked);
+    debugger;
+
     setAdditionalOptions((prevState) => ({
       ...prevState,
       [optionName]: !prevState[optionName], // Toggle the current value
     }));
+
+    if (optionName === "shirt") {
+      if (e.target.checked === true) {
+        let typeComponents = [...typesData[typeIndex].typeComponents];
+        setTypeComponents([...typeComponents]);
+      } else {
+        let typeComponents = [...typesData[typeIndex].typeComponents];
+        typeComponents = typesData[typeIndex].typeComponents.filter(
+          (component) => component.componentName !== "Shirt"
+        );
+        setTypeComponents([...typeComponents]);
+      }
+    }
+    if (optionName === "vest") {
+      if (e.target.checked === true) {
+        let typeComponents = [...typesData[typeIndex].typeComponents];
+        setTypeComponents([...typeComponents]);
+      } else {
+        let typeComponents = [...typesData[typeIndex].typeComponents];
+        typeComponents = typesData[typeIndex].typeComponents.filter(
+          (component) => component.componentName !== "Vest"
+        );
+        setTypeComponents([...typeComponents]);
+      }
+    }
   };
 
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -189,7 +217,18 @@ export default function Edit() {
 
   useEffect(() => {
     if (typeIndex !== null) {
-      setTypeComponents([...typesData[typeIndex].typeComponents]);
+      let typeComponents = [...typesData[typeIndex].typeComponents];
+      if (typesData[typeIndex].additionOptions.Shirt) {
+        typeComponents = typeComponents.filter(
+          (component) => component.componentName !== "Shirt"
+        );
+      }
+      if (typesData[typeIndex].additionOptions.Vest) {
+        typeComponents = typeComponents.filter(
+          (component) => component.componentName !== "Vest"
+        );
+      }
+      setTypeComponents([...typeComponents]);
     }
   }, [typeIndex]);
 
@@ -333,7 +372,7 @@ export default function Edit() {
         measurements: detail.measurement,
       })),
     };
-    console.log('orderPayload:', orderPayload);
+    console.log("orderPayload:", orderPayload);
     debugger;
     try {
       const response = await createOrder({
@@ -361,7 +400,6 @@ export default function Edit() {
       });
     }
   };
-
 
   const handleNext1 = () => {
     // Check if `customerData` is empty
@@ -703,73 +741,83 @@ export default function Edit() {
                   Additional Options
                 </h4>
               </div>
-              <div className="grid gap-6 grid-cols-3 my-8 justify-items-center">
-                {/* Sleeve Button Holes */}
-                <div className="inline-flex items-center gap-12">
-                  <div className="relative inline-block self-center">
-                    <p>Sleeve Button Holes</p>
+              {types[typeIndex] ? (
+                <div className="grid gap-6 grid-cols-3 my-8 justify-items-center">
+                  {/* Sleeve Button Holes */}
+                  <div className="inline-flex items-center gap-12">
+                    <div className="relative inline-block self-center">
+                      <p>Sleeve Button Holes</p>
+                    </div>
+                    <div className="relative inline-block">
+                      <Switch
+                        id="custom-switch-component-one"
+                        ripple={false}
+                        checked={additionalOptions.sleeveButtonHoles}
+                        onChange={(e) =>
+                          handleSwitchChange("sleeveButtonHoles", e)
+                        }
+                        className="h-full w-full checked:bg-[#2ec946]"
+                        containerProps={{
+                          className: "w-12 h-6",
+                        }}
+                        circleProps={{
+                          className: "h-8 w-8 before:hidden border-none",
+                        }}
+                      />
+                    </div>
                   </div>
-                  <div className="relative inline-block">
-                    <Switch
-                      id="custom-switch-component-one"
-                      ripple={false}
-                      checked={additionalOptions.sleeveButtonHoles}
-                      onChange={() => handleSwitchChange("sleeveButtonHoles")}
-                      className="h-full w-full checked:bg-[#2ec946]"
-                      containerProps={{
-                        className: "w-12 h-6",
-                      }}
-                      circleProps={{
-                        className: "h-8 w-8 before:hidden border-none",
-                      }}
-                    />
-                  </div>
-                </div>
 
-                {/* Shirt */}
-                <div className="inline-flex gap-12">
-                  <div className="relative inline-block self-center">
-                    <p>Shirt</p>
-                  </div>
-                  <div className="relative inline-block">
-                    <Switch
-                      id="custom-switch-component-two"
-                      ripple={false}
-                      checked={additionalOptions.shirt}
-                      onChange={() => handleSwitchChange("shirt")}
-                      className="h-full w-full checked:bg-[#2ec946]"
-                      containerProps={{
-                        className: "w-12 h-6",
-                      }}
-                      circleProps={{
-                        className: "h-8 w-8 before:hidden border-none",
-                      }}
-                    />
-                  </div>
-                </div>
+                  {/* Shirt */}
+                  {typesData[typeIndex].additionOptions.Shirt && (
+                    <div className="inline-flex gap-12">
+                      <div className="relative inline-block self-center">
+                        <p>Shirt</p>
+                      </div>
+                      <div className="relative inline-block">
+                        <Switch
+                          id="custom-switch-component-two"
+                          ripple={false}
+                          checked={additionalOptions.shirt}
+                          onChange={(e) => handleSwitchChange("shirt", e)}
+                          className="h-full w-full checked:bg-[#2ec946]"
+                          containerProps={{
+                            className: "w-12 h-6",
+                          }}
+                          circleProps={{
+                            className: "h-8 w-8 before:hidden border-none",
+                          }}
+                        />
+                      </div>
+                    </div>
+                  )}
 
-                {/* Vest */}
-                <div className="inline-flex gap-12">
-                  <div className="relative inline-block self-center">
-                    <p>Vest</p>
-                  </div>
-                  <div className="relative inline-block">
-                    <Switch
-                      id="custom-switch-component-three"
-                      ripple={false}
-                      checked={additionalOptions.vest}
-                      onChange={() => handleSwitchChange("vest")}
-                      className="h-full w-full checked:bg-[#2ec946]"
-                      containerProps={{
-                        className: "w-12 h-6",
-                      }}
-                      circleProps={{
-                        className: "h-8 w-8 before:hidden border-none",
-                      }}
-                    />
-                  </div>
+                  {/* Vest */}
+                  {typesData[typeIndex].additionOptions.Vest && (
+                    <div className="inline-flex gap-12">
+                      <div className="relative inline-block self-center">
+                        <p>Vest</p>
+                      </div>
+                      <div className="relative inline-block">
+                        <Switch
+                          id="custom-switch-component-three"
+                          ripple={false}
+                          checked={additionalOptions.vest}
+                          onChange={(e) => handleSwitchChange("vest", e)}
+                          className="h-full w-full checked:bg-[#2ec946]"
+                          containerProps={{
+                            className: "w-12 h-6",
+                          }}
+                          circleProps={{
+                            className: "h-8 w-8 before:hidden border-none",
+                          }}
+                        />
+                      </div>
+                    </div>
+                  )}
                 </div>
-              </div>
+              ) : (
+                ""
+              )}
             </div>
             {types[typeIndex] &&
               typeComponents.map((component) => (
@@ -978,7 +1026,10 @@ export default function Edit() {
                             </div>
                           </div>
                           <div className="mt-10 text-center">
-                            <img src={selectedDesign.imageurl} className="h-96 inline-block" />
+                            <img
+                              src={selectedDesign.imageurl}
+                              className="h-96 inline-block"
+                            />
                             <h3 className="text-black text-lg font-semibold mt-10 text-center">
                               Model Num: &nbsp;{" "}
                               <span className="font-normal">
