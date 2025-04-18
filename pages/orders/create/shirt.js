@@ -205,7 +205,7 @@ export default function Edit() {
                 <img
                   src="https://bigello.com/wp-content/uploads/2025/04/Suit.png"
                   alt="Suit"
-                  className="w-36 h-36 rounded-full object-cover object-top border-4 border-green-400"
+                  className="w-36 h-36 rounded-full object-cover object-top border-4 border-gray-400"
                 />
                 <p className="mt-2">Suit</p>
               </div>
@@ -245,7 +245,7 @@ export default function Edit() {
                 <img
                   src="https://bigello.com/wp-content/uploads/2025/04/Shirt.png"
                   alt="Shirt"
-                  className="w-36 h-36 rounded-full object-cover object-top border-4 border-gray-300"
+                  className="w-36 h-36 rounded-full object-cover object-top border-4 border-green-400"
                 />
                 <p className="mt-2">Shirt</p>
               </div>
@@ -265,27 +265,7 @@ export default function Edit() {
                 <div className="space-y-6">
                   <div className="flex flex-col">
                     <label className="text-lg font-medium text-black mb-4">
-                      Jacket Fabric#
-                    </label>
-                    <input
-                      className="text-base px-4 py-3 bg-gray-100 border rounded-lg"
-                      type="text"
-                      placeholder="Enter Jacket Fabric#"
-                    />
-                  </div>
-                  <div className="flex flex-col">
-                    <label className="text-lg font-medium text-black mb-4">
-                      Jacket Lining#
-                    </label>
-                    <input
-                      className="text-base px-4 py-3 bg-gray-100 border rounded-lg"
-                      type="text"
-                      placeholder="Enter Jacket Lining#"
-                    />
-                  </div>
-                  <div className="flex flex-col">
-                    <label className="text-lg font-medium text-black mb-4">
-                      Button#
+                    Shirt Fabric#
                     </label>
                     <input
                       className="text-base px-4 py-3 bg-gray-100 border rounded-lg"
@@ -299,7 +279,7 @@ export default function Edit() {
                 <div className="space-y-6">
                   <div className="flex flex-col">
                     <label className="text-lg font-medium text-black mb-4">
-                      Shirt Fabric#
+                      Buttons#
                     </label>
                     <input
                       className="text-base px-4 py-3 bg-gray-100 border rounded-lg"
@@ -307,124 +287,7 @@ export default function Edit() {
                       placeholder="Enter Vest Fabric#"
                     />
                   </div>
-                  <div className="flex flex-col">
-                    <label className="text-lg font-medium text-black mb-4">
-                      Trouser Fabric#
-                    </label>
-                    <input
-                      className="text-base px-4 py-3 bg-gray-100 border rounded-lg"
-                      type="text"
-                      placeholder="Enter Vest Lining#"
-                    />
-                  </div>
                 </div>
-              </div>
-            </div>
-          </div>
-
-          {/* JACKET STYLE SECTION */}
-          <div className="bg-white border rounded-3xl px-9 py-8 mt-5 max-w-[1100px] w-full mx-auto">
-            <div className="mb-10">
-              <h4 className="font-bold text-2xl mb-12 text-center">Style</h4>
-            </div>
-            <div className="flex flex-col md:flex-row gap-10">
-              {/* Left Side: Options */}
-              <div className="flex-1">
-                <div className="mb-6">
-                  <h4 className="text-lg font-medium mb-2">Regular:</h4>
-                  <div className="flex space-y-2 flex-col w-fit gap-y-3">
-                    <button
-                      className={`px-4 py-2 rounded-lg text-left transition-colors ${
-                        setSelectedJacketStyle === "peak-lapel-regular"
-                          ? "bg-black text-white"
-                          : "bg-gray-100 hover:bg-black hover:text-white"
-                      }`}
-                      onClick={() =>
-                        setSelectedJacketStyle("peak-lapel-regular")
-                      }
-                    >
-                      Peak Lapel Jacket
-                    </button>
-                    <button
-                      className={`px-4 py-2 rounded-lg text-left transition-colors ${
-                        setSelectedJacketStyle === "regular-lapel"
-                          ? "bg-black text-white"
-                          : "bg-gray-100 hover:bg-black hover:text-white"
-                      }`}
-                      onClick={() => setSelectedJacketStyle("regular-lapel")}
-                    >
-                      Regular Lapel Jacket
-                    </button>
-                    <button
-                      className={`px-4 py-2 rounded-lg text-left transition-colors ${
-                        setSelectedJacketStyle === "double-breasted-regular"
-                          ? "bg-black text-white"
-                          : "bg-gray-100 hover:bg-black hover:text-white"
-                      }`}
-                      onClick={() =>
-                        setSelectedJacketStyle("double-breasted-regular")
-                      }
-                    >
-                      Double Breasted Jacket
-                    </button>
-                  </div>
-                </div>
-
-                <div className="mb-6">
-                  <h4 className="text-lg font-medium mb-2">Tuxedo:</h4>
-                  <div className="space-y-2 flex flex-col w-fit gap-y-3">
-                    <button
-                      className={`px-4 py-2 rounded-lg text-left transition-colors ${
-                        setSelectedJacketStyle === "peak-lapel-tuxedo"
-                          ? "bg-black text-white"
-                          : "bg-gray-100 hover:bg-black hover:text-white"
-                      }`}
-                      onClick={() =>
-                        setSelectedJacketStyle("peak-lapel-tuxedo")
-                      }
-                    >
-                      Peak Lapel Jacket
-                    </button>
-                    <button
-                      className={`px-4 py-2 rounded-lg text-left transition-colors ${
-                        setSelectedJacketStyle === "shawl-lapel"
-                          ? "bg-black text-white"
-                          : "bg-gray-100 hover:bg-black hover:text-white"
-                      }`}
-                      onClick={() => setSelectedJacketStyle("shawl-lapel")}
-                    >
-                      Shawl Lapel Jacket
-                    </button>
-                    <button
-                      className={`px-4 py-2 rounded-lg text-left transition-colors ${
-                        setSelectedJacketStyle === "double-breasted-tuxedo"
-                          ? "bg-black text-white"
-                          : "bg-gray-100 hover:bg-black hover:text-white"
-                      }`}
-                      onClick={() =>
-                        setSelectedJacketStyle("double-breasted-tuxedo")
-                      }
-                    >
-                      Double Breasted Jacket
-                    </button>
-                  </div>
-                </div>
-
-                <div className="mt-4">
-                  <p className="text-black-600 text-sm mb-1">Model Num:</p>
-                  <div className="bg-gray-100 px-4 py-2 rounded-lg w-3/4 text-gray-800 font-semibold">
-                    224C4
-                  </div>
-                </div>
-              </div>
-
-              {/* Right Side: Jacket Sketch - Image changes based on selection */}
-              <div className="flex-1 flex justify-center items-start">
-                <img
-                  src={jacketImage}
-                  alt="Jacket Style"
-                  className="w-60 h-auto object-contain"
-                />
               </div>
             </div>
           </div>
@@ -595,167 +458,6 @@ export default function Edit() {
               </div>
             </div>
           </div>
-          {/* PANT STYLE SECTION */}
-          <div className="bg-white border rounded-3xl px-9 py-8 mt-5 max-w-[1100px] w-full mx-auto">
-            <div className="mb-10">
-              <h4 className="font-bold text-2xl mb-12 text-center">Style</h4>
-            </div>
-            <div className="flex flex-col md:flex-row gap-10">
-              {/* Left Side: Options */}
-              <div className="flex-1">
-                <div className="mb-6">
-                  <div className="flex space-y-2 flex-col w-fit gap-y-3">
-                    <button
-                      className={`px-4 py-2 rounded-lg text-left transition-colors ${
-                        setSelectedPantStyle === "regular-pants"
-                          ? "bg-black text-white"
-                          : "bg-gray-100 hover:bg-black hover:text-white"
-                      }`}
-                      onClick={() => setSelectedPantStyle("regular-pants")}
-                    >
-                      Regular Pants
-                    </button>
-                    <button
-                      className={`px-4 py-2 rounded-lg text-left transition-colors ${
-                        setSelectedPantStyle ===
-                        "pants-with-pleats-and-side-buckles"
-                          ? "bg-black text-white"
-                          : "bg-gray-100 hover:bg-black hover:text-white"
-                      }`}
-                      onClick={() =>
-                        setSelectedPantStyle(
-                          "pants-with-pleats-and-side-buckles"
-                        )
-                      }
-                    >
-                      Pants with Pleats and Side Buckles
-                    </button>
-                    <button
-                      className={`px-4 py-2 rounded-lg text-left transition-colors ${
-                        setSelectedPantStyle === "pants-with-pleats"
-                          ? "bg-black text-white"
-                          : "bg-gray-100 hover:bg-black hover:text-white"
-                      }`}
-                      onClick={() => setSelectedPantStyle("pants-with-pleats")}
-                    >
-                      Pants with Pleats
-                    </button>
-                  </div>
-                </div>
-
-                <div className="mt-4">
-                  <p className="text-black-600 text-sm mb-1">Model Num:</p>
-                  <div className="bg-gray-100 px-4 py-2 rounded-lg w-3/4 text-gray-800 font-semibold">
-                    224C4
-                  </div>
-                </div>
-              </div>
-
-              {/* Right Side: Jacket Sketch - Image changes based on selection */}
-              <div className="flex-1 flex justify-center items-start">
-                <img
-                  src={pantImage}
-                  alt="Pant Images"
-                  className="w-32 h-auto object-contain"
-                />
-              </div>
-            </div>
-          </div>
-          {/* SUIT Measurements */}
-          <div className="bg-white border rounded-3xl px-9 py-8 mt-5 max-w-[1100px] w-full mx-auto">
-            <div className="mb-10">
-              <h4 className="font-bold text-2xl mb-12 text-center">
-                Measurements
-              </h4>
-            </div>
-            <div className="flex flex-col md:flex-row justify-around">
-              {/* Loop through each measurement inside the component */}
-              <div className="space-y-4 mt-7">
-                <div className="pb-4 flex items-center">
-                  <label className="font-normal w-4/6">1. Center Back</label>
-                  <input
-                    className="text-base px-3 py-3 bg-[#EEEDED] border rounded-lg focus:outline-none focus:border-black w-3/4 mx-2"
-                    type="text"
-                    value=""
-                  />
-                </div>
-                <div className="pb-4 flex items-center">
-                  <label className="font-normal w-4/6">2. Sleeve Length</label>
-                  <input
-                    className="text-base px-3 py-3 bg-[#EEEDED] border rounded-lg focus:outline-none focus:border-black w-3/4 mx-2"
-                    type="text"
-                    value=""
-                  />
-                </div>
-                <div className="pb-4 flex items-center">
-                  <label className="font-normal w-4/6">3. 1/2 Chest</label>
-                  <input
-                    className="text-base px-3 py-3 bg-[#EEEDED] border rounded-lg focus:outline-none focus:border-black w-3/4 mx-2"
-                    type="text"
-                    value=""
-                  />
-                </div>
-                <div className="pb-4 flex items-center">
-                  <label className="font-normal w-4/6">4. 1/2 Waist Open</label>
-                  <input
-                    className="text-base px-3 py-3 bg-[#EEEDED] border rounded-lg focus:outline-none focus:border-black w-3/4 mx-2"
-                    type="text"
-                    value=""
-                  />
-                </div>
-                <div className="pb-4 flex items-center">
-                  <label className="font-normal w-4/6">5. 1/2 Hips</label>
-                  <input
-                    className="text-base px-3 py-3 bg-[#EEEDED] border rounded-lg focus:outline-none focus:border-black w-3/4 mx-2"
-                    type="text"
-                    value=""
-                  />
-                </div>
-                <div className="pb-4 flex items-center">
-                  <label className="font-normal w-4/6">
-                    6. SH. To Shoulder
-                  </label>
-                  <input
-                    className="text-base px-3 py-3 bg-[#EEEDED] border rounded-lg focus:outline-none focus:border-black w-3/4 mx-2"
-                    type="text"
-                    value=""
-                  />
-                </div>
-                <div className="pb-4 flex items-center">
-                  <label className="font-normal w-4/6">7. Lapel Width</label>
-                  <input
-                    className="text-base px-3 py-3 bg-[#EEEDED] border rounded-lg focus:outline-none focus:border-black w-3/4 mx-2"
-                    type="text"
-                    value=""
-                  />
-                </div>
-                <div className="pb-4 flex items-center">
-                  <label className="font-normal w-4/6">8. Cuff Opening</label>
-                  <input
-                    className="text-base px-3 py-3 bg-[#EEEDED] border rounded-lg focus:outline-none focus:border-black w-3/4 mx-2"
-                    type="text"
-                    value=""
-                  />
-                </div>
-                <div className="pb-4 flex items-center">
-                  <label className="font-normal w-4/6">9. 1/2 Biceps</label>
-                  <input
-                    className="text-base px-3 py-3 bg-[#EEEDED] border rounded-lg focus:outline-none focus:border-black w-3/4 mx-2"
-                    type="text"
-                    value=""
-                  />
-                </div>
-              </div>
-              <div className="flex justify-center items-center mt-7">
-                {/* Display image of the component */}
-                <img
-                  src="https://bigello.com/wp-content/uploads/2025/04/Jacket-1.png"
-                  alt=""
-                  className="w-[250px]"
-                />
-              </div>
-            </div>
-          </div>
           {/* SHIRT Measurements */}
           <div className="bg-white border rounded-3xl px-9 py-8 mt-5 max-w-[1100px] w-full mx-auto">
             <div className="mb-10">
@@ -841,83 +543,6 @@ export default function Edit() {
                   src="https://bigello.com/wp-content/uploads/2025/04/Group-1000003366.png"
                   alt=""
                   className="w-[250px]"
-                />
-              </div>
-            </div>
-          </div>
-          {/* PANT Measurements */}
-          <div className="bg-white border rounded-3xl px-9 py-8 mt-5 max-w-[1100px] w-full mx-auto">
-            <div className="mb-10">
-              <h4 className="font-bold text-2xl mb-12 text-center">
-                Measurements
-              </h4>
-            </div>
-            <div className="flex flex-col md:flex-row gap-10 justify-around">
-              {/* Loop through each measurement inside the component */}
-              <div className="space-y-4 mt-7">
-                <div className="pb-4 flex items-center">
-                  <label className="font-normal w-4/6">A. 1/2 Waist</label>
-                  <input
-                    className="text-base px-3 py-3 bg-[#EEEDED] border rounded-lg focus:outline-none focus:border-black w-3/4 mx-2"
-                    type="text"
-                    value=""
-                  />
-                </div>
-                <div className="pb-4 flex items-center">
-                  <label className="font-normal w-4/6">B. 1/2 Seat</label>
-                  <input
-                    className="text-base px-3 py-3 bg-[#EEEDED] border rounded-lg focus:outline-none focus:border-black w-3/4 mx-2"
-                    type="text"
-                    value=""
-                  />
-                </div>
-                <div className="pb-4 flex items-center">
-                  <label className="font-normal w-4/6">C. 1/2 Thigh</label>
-                  <input
-                    className="text-base px-3 py-3 bg-[#EEEDED] border rounded-lg focus:outline-none focus:border-black w-3/4 mx-2"
-                    type="text"
-                    value=""
-                  />
-                </div>
-                <div className="pb-4 flex items-center">
-                  <label className="font-normal w-4/6">D. 1/2 Knee</label>
-                  <input
-                    className="text-base px-3 py-3 bg-[#EEEDED] border rounded-lg focus:outline-none focus:border-black w-3/4 mx-2"
-                    type="text"
-                    value=""
-                  />
-                </div>
-                <div className="pb-4 flex items-center">
-                  <label className="font-normal w-4/6">E. 1/2 Hem</label>
-                  <input
-                    className="text-base px-3 py-3 bg-[#EEEDED] border rounded-lg focus:outline-none focus:border-black w-3/4 mx-2"
-                    type="text"
-                    value=""
-                  />
-                </div>
-                <div className="pb-4 flex items-center">
-                  <label className="font-normal w-4/6">F. Inside Leg</label>
-                  <input
-                    className="text-base px-3 py-3 bg-[#EEEDED] border rounded-lg focus:outline-none focus:border-black w-3/4 mx-2"
-                    type="text"
-                    value=""
-                  />
-                </div>
-                <div className="pb-4 flex items-center">
-                  <label className="font-normal w-4/6">G+H. Crotch Total</label>
-                  <input
-                    className="text-base px-3 py-3 bg-[#EEEDED] border rounded-lg focus:outline-none focus:border-black w-3/4 mx-2"
-                    type="text"
-                    value=""
-                  />
-                </div>
-              </div>
-              <div className="flex justify-center items-center mt-7">
-                {/* Display image of the component */}
-                <img
-                  src="https://bigello.com/wp-content/uploads/2025/04/Group-1000003384-1.png"
-                  alt=""
-                  className="w-[175px]"
                 />
               </div>
             </div>
