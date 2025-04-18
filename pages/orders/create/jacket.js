@@ -8,8 +8,6 @@ import {
   setUser,
 } from "slices/authSlice";
 import { useSelector } from "react-redux";
-import { Form, ListGroup, Spinner } from "react-bootstrap";
-import Link from "next/dist/client/link";
 import { useEffect, useState } from "react";
 import Layout from "@/components/Layouts/DashLayout/Layout";
 import { Input, Button, IconButton } from "@material-tailwind/react";
@@ -24,9 +22,6 @@ export default function Edit() {
   const [customerData, setCustomerData] = useState({});
   const [selectedJacketStyle, setSelectedJacketStyle] =
     useState("peak-lapel-regular");
-  const [selectedPantStyle, setSelectedPantStyle] = useState("regular-pants");
-  const [selectedCollarStyle, setSelectedCollarStyle] = useState("bari-slim");
-  const [selectedCuffsStyle, setSelectedCuffsStyle] = useState("a-cuff");
   const jacketImages = {
     "peak-lapel-regular":
       "https://bigello.com/wp-content/uploads/2025/04/Peak-Lapel-Jacket.png",
@@ -41,41 +36,7 @@ export default function Edit() {
     "double-breasted-tuxedo":
       "https://bigello.com/wp-content/uploads/2025/04/Double-Breasted-Tux.png",
   };
-  const pantImages = {
-    "regular-pants":
-      "https://bigello.com/wp-content/uploads/2025/04/Pants-scaled.png",
-    "pants-with-pleats-and-side-buckles":
-      "https://bigello.com/wp-content/uploads/2025/04/Pants-with-pleats-and-side-buckles-scaled.png",
-    "pants-with-pleats":
-      "https://bigello.com/wp-content/uploads/2025/04/Pants-with-pleats-scaled.png",
-  };
-  const collarImages = {
-    "bari-slim":
-      "https://bigello.com/wp-content/uploads/2025/04/Bari-Slim-copy.png",
-    "como-slim":
-      "https://bigello.com/wp-content/uploads/2025/04/Como-Slim-copy.png",
-    "genova-slim":
-      "https://bigello.com/wp-content/uploads/2025/04/Genova-Slim-copy.png",
-    "napoli-regular":
-      "https://bigello.com/wp-content/uploads/2025/04/Napoli-Regular-copy.png",
-    "torino-regular":
-      "https://bigello.com/wp-content/uploads/2025/04/Torino-copy.png",
-    "varese-slim":
-      "https://bigello.com/wp-content/uploads/2025/04/Varese-Slim-copy.png",
-    "verona-slim":
-      "https://bigello.com/wp-content/uploads/2025/04/Verona-Slim-copy.png",
-  };
-  const cuffsImages = {
-    "a-cuff": "https://bigello.com/wp-content/uploads/2025/04/A.png",
-    "b-cuff": "https://bigello.com/wp-content/uploads/2025/04/B.png",
-    "c-cuff": "https://bigello.com/wp-content/uploads/2025/04/C.png",
-    "d-cuff": "https://bigello.com/wp-content/uploads/2025/04/D.png",
-    "e-mix": "https://bigello.com/wp-content/uploads/2025/04/E-Mix.png",
-  };
   const jacketImage = jacketImages[selectedJacketStyle];
-  const pantImage = pantImages[selectedPantStyle];
-  const collarImage = collarImages[selectedCollarStyle];
-  const cuffsImage = cuffsImages[selectedCuffsStyle];
   const [types, setTypes] = useState([]);
   const [typeIndex, setTypeIndex] = useState(null);
   const [selectedDesign, setSelectedDesign] = useState({});
@@ -206,7 +167,7 @@ export default function Edit() {
                 <img
                   src="https://bigello.com/wp-content/uploads/2025/04/Suit.png"
                   alt="Suit"
-                  className="w-36 h-36 rounded-full object-cover object-top border-4 border-green-400"
+                  className="w-36 h-36 rounded-full object-cover object-top border-4 border-gray-300"
                 /></a>
                 <p className="mt-2">Suit</p>
               </div>
@@ -224,7 +185,7 @@ export default function Edit() {
                 <img
                   src="https://bigello.com/wp-content/uploads/2025/04/Jacket.png"
                   alt="Jacket"
-                  className="w-36 h-36 rounded-full object-cover object-top border-4 border-gray-300"
+                  className="w-36 h-36 rounded-full object-cover object-top border-4 border-green-400"
                 /></a>
                 <p className="mt-2">Jacket</p>
               </div>
@@ -257,7 +218,6 @@ export default function Edit() {
               </div>
             </div>
           </div>
-
           {/* Fabric Details */}
           <div className="bg-white border rounded-3xl px-9 py-8 mt-5 max-w-[1100px] w-full mx-auto">
             <div className="mb-10">
@@ -281,16 +241,6 @@ export default function Edit() {
                   </div>
                   <div className="flex flex-col">
                     <label className="text-lg font-medium text-black mb-4">
-                      Jacket Lining#
-                    </label>
-                    <input
-                      className="text-base px-4 py-3 bg-gray-100 border rounded-lg"
-                      type="text"
-                      placeholder="Enter Jacket Lining#"
-                    />
-                  </div>
-                  <div className="flex flex-col">
-                    <label className="text-lg font-medium text-black mb-4">
                       Button#
                     </label>
                     <input
@@ -305,22 +255,12 @@ export default function Edit() {
                 <div className="space-y-6">
                   <div className="flex flex-col">
                     <label className="text-lg font-medium text-black mb-4">
-                      Shirt Fabric#
+                    Jacket Lining#
                     </label>
                     <input
                       className="text-base px-4 py-3 bg-gray-100 border rounded-lg"
                       type="text"
                       placeholder="Enter Vest Fabric#"
-                    />
-                  </div>
-                  <div className="flex flex-col">
-                    <label className="text-lg font-medium text-black mb-4">
-                      Trouser Fabric#
-                    </label>
-                    <input
-                      className="text-base px-4 py-3 bg-gray-100 border rounded-lg"
-                      type="text"
-                      placeholder="Enter Vest Lining#"
                     />
                   </div>
                 </div>
@@ -434,239 +374,6 @@ export default function Edit() {
               </div>
             </div>
           </div>
-          {/* SHIRT STYLE SECTION */}
-          <div className="bg-white border rounded-3xl px-9 py-8 mt-5 max-w-[1100px] w-full mx-auto">
-            <div className="mb-10">
-              <h4 className="font-bold text-2xl mb-12 text-center">Style</h4>
-            </div>
-            <div className="flex flex-col md:flex-row gap-10">
-              {/* Left Side: Options */}
-              <div className="flex-1">
-                <div className="mb-6">
-                  <h4 className="text-lg font-medium mb-2">Collar:</h4>
-                  <div className="flex space-y-2 flex-row w-3/4 gap-x-5">
-                    <div className="space-y-2">
-                      <button
-                        className={`px-4 py-2 rounded-lg text-left transition-colors ${
-                          setSelectedCollarStyle === "bari-slim"
-                            ? "bg-black text-white"
-                            : "bg-gray-100 hover:bg-black hover:text-white"
-                        }`}
-                        onClick={() => setSelectedCollarStyle("bari-slim")}
-                      >
-                        Bari Slim
-                      </button>
-                      <button
-                        className={`px-4 py-2 rounded-lg text-left transition-colors ${
-                          setSelectedCollarStyle === "como-slim"
-                            ? "bg-black text-white"
-                            : "bg-gray-100 hover:bg-black hover:text-white"
-                        }`}
-                        onClick={() => setSelectedCollarStyle("como-slim")}
-                      >
-                        Como Slim
-                      </button>
-                      <button
-                        className={`px-4 py-2 rounded-lg text-left transition-colors ${
-                          setSelectedCollarStyle === "genova-slim"
-                            ? "bg-black text-white"
-                            : "bg-gray-100 hover:bg-black hover:text-white"
-                        }`}
-                        onClick={() => setSelectedCollarStyle("genova-slim")}
-                      >
-                        Genova Slim
-                      </button>
-                      <button
-                        className={`px-4 py-2 rounded-lg text-left transition-colors ${
-                          setSelectedCollarStyle === "napoli-regular"
-                            ? "bg-black text-white"
-                            : "bg-gray-100 hover:bg-black hover:text-white"
-                        }`}
-                        onClick={() => setSelectedCollarStyle("napoli-regular")}
-                      >
-                        Napoli Regular
-                      </button>{" "}
-                    </div>
-                    <div className="space-y-2">
-                      <button
-                        className={`px-4 py-2 rounded-lg text-left transition-colors ${
-                          setSelectedCollarStyle === "torino-regular"
-                            ? "bg-black text-white"
-                            : "bg-gray-100 hover:bg-black hover:text-white"
-                        }`}
-                        onClick={() => setSelectedCollarStyle("torino-regular")}
-                      >
-                        Torino Regular
-                      </button>
-                      <button
-                        className={`px-4 py-2 rounded-lg text-left transition-colors ${
-                          setSelectedCollarStyle === "varese-slim"
-                            ? "bg-black text-white"
-                            : "bg-gray-100 hover:bg-black hover:text-white"
-                        }`}
-                        onClick={() => setSelectedCollarStyle("varese-slim")}
-                      >
-                        Varese Slim
-                      </button>
-                      <button
-                        className={`px-4 py-2 rounded-lg text-left transition-colors ${
-                          setSelectedCollarStyle === "verona-slim"
-                            ? "bg-black text-white"
-                            : "bg-gray-100 hover:bg-black hover:text-white"
-                        }`}
-                        onClick={() => setSelectedCollarStyle("verona-slim")}
-                      >
-                        Verona Slim
-                      </button>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="mb-6">
-                  <h4 className="text-lg font-medium mb-2">Cuffs:</h4>
-                  <div className="space-y-2 flex flex-row w-fit gap-x-3">
-                    <button
-                      className={`px-4 py-2 rounded-lg text-left transition-colors ${
-                        setSelectedCuffsStyle === "a-cuff"
-                          ? "bg-black text-white"
-                          : "bg-gray-100 hover:bg-black hover:text-white mt-1"
-                      }`}
-                      onClick={() => setSelectedCuffsStyle("a-cuff")}
-                    >
-                      A
-                    </button>
-                    <button
-                      className={`px-4 py-2 rounded-lg text-left transition-colors ${
-                        setSelectedCuffsStyle === "b-cuff"
-                          ? "bg-black text-white"
-                          : "bg-gray-100 hover:bg-black hover:text-white"
-                      }`}
-                      onClick={() => setSelectedCuffsStyle("b-cuff")}
-                    >
-                      B
-                    </button>
-                    <button
-                      className={`px-4 py-2 rounded-lg text-left transition-colors ${
-                        setSelectedCuffsStyle === "c-cuff"
-                          ? "bg-black text-white"
-                          : "bg-gray-100 hover:bg-black hover:text-white"
-                      }`}
-                      onClick={() => setSelectedCuffsStyle("c-cuff")}
-                    >
-                      C
-                    </button>
-                    <button
-                      className={`px-4 py-2 rounded-lg text-left transition-colors ${
-                        setSelectedCuffsStyle === "d-cuff"
-                          ? "bg-black text-white"
-                          : "bg-gray-100 hover:bg-black hover:text-white"
-                      }`}
-                      onClick={() => setSelectedCuffsStyle("d-cuff")}
-                    >
-                      D
-                    </button>
-                    <button
-                      className={`px-4 py-2 rounded-lg text-left transition-colors ${
-                        setSelectedCuffsStyle === "e-mix"
-                          ? "bg-black text-white"
-                          : "bg-gray-100 hover:bg-black hover:text-white"
-                      }`}
-                      onClick={() => setSelectedCuffsStyle("e-mix")}
-                    >
-                      E-Mix
-                    </button>
-                  </div>
-                </div>
-
-                <div className="mt-4">
-                  <p className="text-black-600 text-sm mb-1">Model Num:</p>
-                  <div className="bg-gray-100 px-4 py-2 rounded-lg w-3/4 text-gray-800 font-semibold">
-                    224C4
-                  </div>
-                </div>
-              </div>
-
-              {/* Right Side: Jacket Sketch - Image changes based on selection */}
-              <div className="flex-1 flex flex-col justify-center items-center gap-y-16">
-                <img
-                  src={collarImage}
-                  alt="Collar Style"
-                  className="w-96 h-auto object-contain"
-                />
-                <img
-                  src={cuffsImage}
-                  alt="Cuffs Style"
-                  className="w-36 h-auto object-contain"
-                />
-              </div>
-            </div>
-          </div>
-          {/* PANT STYLE SECTION */}
-          <div className="bg-white border rounded-3xl px-9 py-8 mt-5 max-w-[1100px] w-full mx-auto">
-            <div className="mb-10">
-              <h4 className="font-bold text-2xl mb-12 text-center">Style</h4>
-            </div>
-            <div className="flex flex-col md:flex-row gap-10">
-              {/* Left Side: Options */}
-              <div className="flex-1">
-                <div className="mb-6">
-                  <div className="flex space-y-2 flex-col w-fit gap-y-3">
-                    <button
-                      className={`px-4 py-2 rounded-lg text-left transition-colors ${
-                        setSelectedPantStyle === "regular-pants"
-                          ? "bg-black text-white"
-                          : "bg-gray-100 hover:bg-black hover:text-white"
-                      }`}
-                      onClick={() => setSelectedPantStyle("regular-pants")}
-                    >
-                      Regular Pants
-                    </button>
-                    <button
-                      className={`px-4 py-2 rounded-lg text-left transition-colors ${
-                        setSelectedPantStyle ===
-                        "pants-with-pleats-and-side-buckles"
-                          ? "bg-black text-white"
-                          : "bg-gray-100 hover:bg-black hover:text-white"
-                      }`}
-                      onClick={() =>
-                        setSelectedPantStyle(
-                          "pants-with-pleats-and-side-buckles"
-                        )
-                      }
-                    >
-                      Pants with Pleats and Side Buckles
-                    </button>
-                    <button
-                      className={`px-4 py-2 rounded-lg text-left transition-colors ${
-                        setSelectedPantStyle === "pants-with-pleats"
-                          ? "bg-black text-white"
-                          : "bg-gray-100 hover:bg-black hover:text-white"
-                      }`}
-                      onClick={() => setSelectedPantStyle("pants-with-pleats")}
-                    >
-                      Pants with Pleats
-                    </button>
-                  </div>
-                </div>
-
-                <div className="mt-4">
-                  <p className="text-black-600 text-sm mb-1">Model Num:</p>
-                  <div className="bg-gray-100 px-4 py-2 rounded-lg w-3/4 text-gray-800 font-semibold">
-                    224C4
-                  </div>
-                </div>
-              </div>
-
-              {/* Right Side: Jacket Sketch - Image changes based on selection */}
-              <div className="flex-1 flex justify-center items-start">
-                <img
-                  src={pantImage}
-                  alt="Pant Images"
-                  className="w-32 h-auto object-contain"
-                />
-              </div>
-            </div>
-          </div>
           {/* SUIT Measurements */}
           <div className="bg-white border rounded-3xl px-9 py-8 mt-5 max-w-[1100px] w-full mx-auto">
             <div className="mb-10">
@@ -758,172 +465,6 @@ export default function Edit() {
                   src="https://bigello.com/wp-content/uploads/2025/04/Jacket-1.png"
                   alt=""
                   className="w-[250px]"
-                />
-              </div>
-            </div>
-          </div>
-          {/* SHIRT Measurements */}
-          <div className="bg-white border rounded-3xl px-9 py-8 mt-5 max-w-[1100px] w-full mx-auto">
-            <div className="mb-10">
-              <h4 className="font-bold text-2xl mb-12 text-center">
-                Measurements
-              </h4>
-            </div>
-            <div className="flex flex-col md:flex-row justify-around">
-              {/* Loop through each measurement inside the component */}
-              <div className="space-y-4 mt-7">
-                <div className="pb-4 flex items-center">
-                  <label className="font-normal w-4/6">A. Shoulder</label>
-                  <input
-                    className="text-base px-3 py-3 bg-[#EEEDED] border rounded-lg focus:outline-none focus:border-black w-3/4 mx-2"
-                    type="text"
-                    value=""
-                  />
-                </div>
-                <div className="pb-4 flex items-center">
-                  <label className="font-normal w-4/6">B. Chest</label>
-                  <input
-                    className="text-base px-3 py-3 bg-[#EEEDED] border rounded-lg focus:outline-none focus:border-black w-3/4 mx-2"
-                    type="text"
-                    value=""
-                  />
-                </div>
-                <div className="pb-4 flex items-center">
-                  <label className="font-normal w-4/6">C. Waist</label>
-                  <input
-                    className="text-base px-3 py-3 bg-[#EEEDED] border rounded-lg focus:outline-none focus:border-black w-3/4 mx-2"
-                    type="text"
-                    value=""
-                  />
-                </div>
-                <div className="pb-4 flex items-center">
-                  <label className="font-normal w-4/6">D. Sleeve Length</label>
-                  <input
-                    className="text-base px-3 py-3 bg-[#EEEDED] border rounded-lg focus:outline-none focus:border-black w-3/4 mx-2"
-                    type="text"
-                    value=""
-                  />
-                </div>
-                <div className="pb-4 flex items-center">
-                  <label className="font-normal w-4/6">E. Total Length</label>
-                  <input
-                    className="text-base px-3 py-3 bg-[#EEEDED] border rounded-lg focus:outline-none focus:border-black w-3/4 mx-2"
-                    type="text"
-                    value=""
-                  />
-                </div>
-                <div className="pb-4 flex items-center">
-                  <label className="font-normal w-4/6">
-                    F. Neck Circumference
-                  </label>
-                  <input
-                    className="text-base px-3 py-3 bg-[#EEEDED] border rounded-lg focus:outline-none focus:border-black w-3/4 mx-2"
-                    type="text"
-                    value=""
-                  />
-                </div>
-                <div className="pb-4 flex items-center">
-                  <label className="font-normal w-4/6">
-                    G. Wrist Circumference
-                  </label>
-                  <input
-                    className="text-base px-3 py-3 bg-[#EEEDED] border rounded-lg focus:outline-none focus:border-black w-3/4 mx-2"
-                    type="text"
-                    value=""
-                  />
-                </div>
-                <div className="pb-4 flex items-center">
-                  <label className="font-normal w-4/6">H. Biceps</label>
-                  <input
-                    className="text-base px-3 py-3 bg-[#EEEDED] border rounded-lg focus:outline-none focus:border-black w-3/4 mx-2"
-                    type="text"
-                    value=""
-                  />
-                </div>
-              </div>
-              <div className="flex justify-center items-center mt-7">
-                {/* Display image of the component */}
-                <img
-                  src="https://bigello.com/wp-content/uploads/2025/04/Group-1000003366.png"
-                  alt=""
-                  className="w-[250px]"
-                />
-              </div>
-            </div>
-          </div>
-          {/* PANT Measurements */}
-          <div className="bg-white border rounded-3xl px-9 py-8 mt-5 max-w-[1100px] w-full mx-auto">
-            <div className="mb-10">
-              <h4 className="font-bold text-2xl mb-12 text-center">
-                Measurements
-              </h4>
-            </div>
-            <div className="flex flex-col md:flex-row gap-10 justify-around">
-              {/* Loop through each measurement inside the component */}
-              <div className="space-y-4 mt-7">
-                <div className="pb-4 flex items-center">
-                  <label className="font-normal w-4/6">A. 1/2 Waist</label>
-                  <input
-                    className="text-base px-3 py-3 bg-[#EEEDED] border rounded-lg focus:outline-none focus:border-black w-3/4 mx-2"
-                    type="text"
-                    value=""
-                  />
-                </div>
-                <div className="pb-4 flex items-center">
-                  <label className="font-normal w-4/6">B. 1/2 Seat</label>
-                  <input
-                    className="text-base px-3 py-3 bg-[#EEEDED] border rounded-lg focus:outline-none focus:border-black w-3/4 mx-2"
-                    type="text"
-                    value=""
-                  />
-                </div>
-                <div className="pb-4 flex items-center">
-                  <label className="font-normal w-4/6">C. 1/2 Thigh</label>
-                  <input
-                    className="text-base px-3 py-3 bg-[#EEEDED] border rounded-lg focus:outline-none focus:border-black w-3/4 mx-2"
-                    type="text"
-                    value=""
-                  />
-                </div>
-                <div className="pb-4 flex items-center">
-                  <label className="font-normal w-4/6">D. 1/2 Knee</label>
-                  <input
-                    className="text-base px-3 py-3 bg-[#EEEDED] border rounded-lg focus:outline-none focus:border-black w-3/4 mx-2"
-                    type="text"
-                    value=""
-                  />
-                </div>
-                <div className="pb-4 flex items-center">
-                  <label className="font-normal w-4/6">E. 1/2 Hem</label>
-                  <input
-                    className="text-base px-3 py-3 bg-[#EEEDED] border rounded-lg focus:outline-none focus:border-black w-3/4 mx-2"
-                    type="text"
-                    value=""
-                  />
-                </div>
-                <div className="pb-4 flex items-center">
-                  <label className="font-normal w-4/6">F. Inside Leg</label>
-                  <input
-                    className="text-base px-3 py-3 bg-[#EEEDED] border rounded-lg focus:outline-none focus:border-black w-3/4 mx-2"
-                    type="text"
-                    value=""
-                  />
-                </div>
-                <div className="pb-4 flex items-center">
-                  <label className="font-normal w-4/6">G+H. Crotch Total</label>
-                  <input
-                    className="text-base px-3 py-3 bg-[#EEEDED] border rounded-lg focus:outline-none focus:border-black w-3/4 mx-2"
-                    type="text"
-                    value=""
-                  />
-                </div>
-              </div>
-              <div className="flex justify-center items-center mt-7">
-                {/* Display image of the component */}
-                <img
-                  src="https://bigello.com/wp-content/uploads/2025/04/Group-1000003384-1.png"
-                  alt=""
-                  className="w-[175px]"
                 />
               </div>
             </div>

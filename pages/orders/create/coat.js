@@ -8,8 +8,6 @@ import {
   setUser,
 } from "slices/authSlice";
 import { useSelector } from "react-redux";
-import { Form, ListGroup, Spinner } from "react-bootstrap";
-import Link from "next/dist/client/link";
 import { useEffect, useState } from "react";
 import Layout from "@/components/Layouts/DashLayout/Layout";
 import { Input, Button, IconButton } from "@material-tailwind/react";
@@ -22,33 +20,27 @@ export default function Edit() {
   const isAuthenticated = useSelector(selectIsAuthenticated);
   const [showStep, setShowStep] = useState("step1");
   const [customerData, setCustomerData] = useState({});
-  const [selectedCollarStyle, setSelectedCollarStyle] = useState("bari-slim");
-  const [selectedCuffsStyle, setSelectedCuffsStyle] = useState("a-cuff");
-  const collarImages = {
-    "bari-slim":
-      "https://bigello.com/wp-content/uploads/2025/04/Bari-Slim-copy.png",
-    "como-slim":
-      "https://bigello.com/wp-content/uploads/2025/04/Como-Slim-copy.png",
-    "genova-slim":
-      "https://bigello.com/wp-content/uploads/2025/04/Genova-Slim-copy.png",
-    "napoli-regular":
-      "https://bigello.com/wp-content/uploads/2025/04/Napoli-Regular-copy.png",
-    "torino-regular":
-      "https://bigello.com/wp-content/uploads/2025/04/Torino-copy.png",
-    "varese-slim":
-      "https://bigello.com/wp-content/uploads/2025/04/Varese-Slim-copy.png",
-    "verona-slim":
-      "https://bigello.com/wp-content/uploads/2025/04/Verona-Slim-copy.png",
+  const [selectedCoatStyle, setSelectedCoatStyle] =
+    useState("Coat-Double-Breasted-2-Patch-Pockets");
+  const coatImages = {
+    "Coat-Double-Breasted-2-Patch-Pockets":
+      "https://bigello.com/wp-content/uploads/2025/04/Coat-Double-Breasted-2-Patch-Pockets.png",
+    "Coat-Double-breasted-2-Flap-Pockets":
+      "https://bigello.com/wp-content/uploads/2025/04/Coat-Double-breasted-2-Flap-Pockets.png",
+    "Coat-with-2-flap-pockets":
+      "https://bigello.com/wp-content/uploads/2025/04/Coat-with-2-flap-pockets.png",
+    "Coat-with-3-flap-pockets":
+      "https://bigello.com/wp-content/uploads/2025/04/Coat-with-3-flap-pockets.png",
+    "Coat-with-diagonal-Pockets":
+      "https://bigello.com/wp-content/uploads/2025/04/Coat-with-diagonal-Pockets.png",
+    "Coat-with-peak-lapel-2-flap-pockets":
+      "https://bigello.com/wp-content/uploads/2025/04/coat-with-peak-lapel-2-flap-pockets-copy.png",
+      "Coat-with-peak-lapel-3-flap-pockets":
+        "https://bigello.com/wp-content/uploads/2025/04/coat-with-peak-lapel-3-flap-pockets.png",
+      "Coat-with-Shirt-collar":
+        "https://bigello.com/wp-content/uploads/2025/04/Coat-with-Shirt-Collar.png",
   };
-  const cuffsImages = {
-    "a-cuff": "https://bigello.com/wp-content/uploads/2025/04/A.png",
-    "b-cuff": "https://bigello.com/wp-content/uploads/2025/04/B.png",
-    "c-cuff": "https://bigello.com/wp-content/uploads/2025/04/C.png",
-    "d-cuff": "https://bigello.com/wp-content/uploads/2025/04/D.png",
-    "e-mix": "https://bigello.com/wp-content/uploads/2025/04/E-Mix.png",
-  };
-  const collarImage = collarImages[selectedCollarStyle];
-  const cuffsImage = cuffsImages[selectedCuffsStyle];
+  const coatImage = coatImages[selectedCoatStyle];
   const [types, setTypes] = useState([]);
   const [typeIndex, setTypeIndex] = useState(null);
   const [selectedDesign, setSelectedDesign] = useState({});
@@ -188,7 +180,7 @@ export default function Edit() {
                 <img
                   src="https://bigello.com/wp-content/uploads/2025/04/Coat.png"
                   alt="Coat"
-                  className="w-36 h-36 rounded-full object-cover object-top border-4 border-gray-300"
+                  className="w-36 h-36 rounded-full object-cover object-top border-4 border-green-400"
                 /></a>
                 <p className="mt-2">Coat</p>
               </div>
@@ -224,7 +216,7 @@ export default function Edit() {
                 <img
                   src="https://bigello.com/wp-content/uploads/2025/04/Shirt.png"
                   alt="Shirt"
-                  className="w-36 h-36 rounded-full object-cover object-top border-4 border-green-400"
+                  className="w-36 h-36 rounded-full object-cover object-top border-4 border-gray-300"
                 /></a>
                 <p className="mt-2">Shirt</p>
               </div>
@@ -244,7 +236,17 @@ export default function Edit() {
                 <div className="space-y-6">
                   <div className="flex flex-col">
                     <label className="text-lg font-medium text-black mb-4">
-                    Shirt Fabric#
+                    Coat Fabric#
+                    </label>
+                    <input
+                      className="text-base px-4 py-3 bg-gray-100 border rounded-lg"
+                      type="text"
+                      placeholder="Enter Jacket Fabric#"
+                    />
+                  </div>
+                  <div className="flex flex-col">
+                    <label className="text-lg font-medium text-black mb-4">
+                      Button#
                     </label>
                     <input
                       className="text-base px-4 py-3 bg-gray-100 border rounded-lg"
@@ -258,7 +260,7 @@ export default function Edit() {
                 <div className="space-y-6">
                   <div className="flex flex-col">
                     <label className="text-lg font-medium text-black mb-4">
-                      Buttons#
+                    Coat Lining#
                     </label>
                     <input
                       className="text-base px-4 py-3 bg-gray-100 border rounded-lg"
@@ -270,7 +272,8 @@ export default function Edit() {
               </div>
             </div>
           </div>
-          {/* SHIRT STYLE SECTION */}
+
+          {/* JACKET STYLE SECTION */}
           <div className="bg-white border rounded-3xl px-9 py-8 mt-5 max-w-[1100px] w-full mx-auto">
             <div className="mb-10">
               <h4 className="font-bold text-2xl mb-12 text-center">Style</h4>
@@ -279,137 +282,103 @@ export default function Edit() {
               {/* Left Side: Options */}
               <div className="flex-1">
                 <div className="mb-6">
-                  <h4 className="text-lg font-medium mb-2">Collar:</h4>
-                  <div className="flex space-y-2 flex-row w-3/4 gap-x-5">
-                    <div className="space-y-2">
-                      <button
-                        className={`px-4 py-2 rounded-lg text-left transition-colors ${
-                          setSelectedCollarStyle === "bari-slim"
-                            ? "bg-black text-white"
-                            : "bg-gray-100 hover:bg-black hover:text-white"
-                        }`}
-                        onClick={() => setSelectedCollarStyle("bari-slim")}
-                      >
-                        Bari Slim
-                      </button>
-                      <button
-                        className={`px-4 py-2 rounded-lg text-left transition-colors ${
-                          setSelectedCollarStyle === "como-slim"
-                            ? "bg-black text-white"
-                            : "bg-gray-100 hover:bg-black hover:text-white"
-                        }`}
-                        onClick={() => setSelectedCollarStyle("como-slim")}
-                      >
-                        Como Slim
-                      </button>
-                      <button
-                        className={`px-4 py-2 rounded-lg text-left transition-colors ${
-                          setSelectedCollarStyle === "genova-slim"
-                            ? "bg-black text-white"
-                            : "bg-gray-100 hover:bg-black hover:text-white"
-                        }`}
-                        onClick={() => setSelectedCollarStyle("genova-slim")}
-                      >
-                        Genova Slim
-                      </button>
-                      <button
-                        className={`px-4 py-2 rounded-lg text-left transition-colors ${
-                          setSelectedCollarStyle === "napoli-regular"
-                            ? "bg-black text-white"
-                            : "bg-gray-100 hover:bg-black hover:text-white"
-                        }`}
-                        onClick={() => setSelectedCollarStyle("napoli-regular")}
-                      >
-                        Napoli Regular
-                      </button>{" "}
-                    </div>
-                    <div className="space-y-2">
-                      <button
-                        className={`px-4 py-2 rounded-lg text-left transition-colors ${
-                          setSelectedCollarStyle === "torino-regular"
-                            ? "bg-black text-white"
-                            : "bg-gray-100 hover:bg-black hover:text-white"
-                        }`}
-                        onClick={() => setSelectedCollarStyle("torino-regular")}
-                      >
-                        Torino Regular
-                      </button>
-                      <button
-                        className={`px-4 py-2 rounded-lg text-left transition-colors ${
-                          setSelectedCollarStyle === "varese-slim"
-                            ? "bg-black text-white"
-                            : "bg-gray-100 hover:bg-black hover:text-white"
-                        }`}
-                        onClick={() => setSelectedCollarStyle("varese-slim")}
-                      >
-                        Varese Slim
-                      </button>
-                      <button
-                        className={`px-4 py-2 rounded-lg text-left transition-colors ${
-                          setSelectedCollarStyle === "verona-slim"
-                            ? "bg-black text-white"
-                            : "bg-gray-100 hover:bg-black hover:text-white"
-                        }`}
-                        onClick={() => setSelectedCollarStyle("verona-slim")}
-                      >
-                        Verona Slim
-                      </button>
-                    </div>
+                  <div className="flex space-y-2 flex-col w-fit gap-y-3">
+                    <button
+                      className={`px-4 py-2 rounded-lg text-left transition-colors ${
+                        setSelectedCoatStyle === "Coat-Double-Breasted-2-Patch-Pockets"
+                          ? "bg-black text-white"
+                          : "bg-gray-100 hover:bg-black hover:text-white"
+                      }`}
+                      onClick={() =>
+                        setSelectedCoatStyle("Coat-Double-Breasted-2-Patch-Pockets")
+                      }
+                    >
+                      Coat Double Breasted 2 Patch Pockets
+                    </button>
+                    <button
+                      className={`px-4 py-2 rounded-lg text-left transition-colors ${
+                        setSelectedCoatStyle === "Coat-Double-breasted-2-Flap-Pockets"
+                          ? "bg-black text-white"
+                          : "bg-gray-100 hover:bg-black hover:text-white"
+                      }`}
+                      onClick={() => setSelectedCoatStyle("Coat-Double-breasted-2-Flap-Pockets")}
+                    >
+                      Coat Double breasted 2 Flap Pockets
+                    </button>
+                    <button
+                      className={`px-4 py-2 rounded-lg text-left transition-colors ${
+                        setSelectedCoatStyle === "Coat-with-2-flap-pockets"
+                          ? "bg-black text-white"
+                          : "bg-gray-100 hover:bg-black hover:text-white"
+                      }`}
+                      onClick={() =>
+                        setSelectedCoatStyle("Coat-with-2-flap-pockets")
+                      }
+                    >
+                      Coat with 2 flap pockets
+                    </button>
                   </div>
                 </div>
 
                 <div className="mb-6">
-                  <h4 className="text-lg font-medium mb-2">Cuffs:</h4>
-                  <div className="space-y-2 flex flex-row w-fit gap-x-3">
+                  <div className="space-y-2 flex flex-col w-fit gap-y-3">
                     <button
                       className={`px-4 py-2 rounded-lg text-left transition-colors ${
-                        setSelectedCuffsStyle === "a-cuff"
-                          ? "bg-black text-white"
-                          : "bg-gray-100 hover:bg-black hover:text-white mt-1"
-                      }`}
-                      onClick={() => setSelectedCuffsStyle("a-cuff")}
-                    >
-                      A
-                    </button>
-                    <button
-                      className={`px-4 py-2 rounded-lg text-left transition-colors ${
-                        setSelectedCuffsStyle === "b-cuff"
+                        setSelectedCoatStyle === "Coat-with-3-flap-pockets"
                           ? "bg-black text-white"
                           : "bg-gray-100 hover:bg-black hover:text-white"
                       }`}
-                      onClick={() => setSelectedCuffsStyle("b-cuff")}
+                      onClick={() =>
+                        setSelectedCoatStyle("Coat-with-3-flap-pockets")
+                      }
                     >
-                      B
+                      Coat with 3 flap pockets
                     </button>
                     <button
                       className={`px-4 py-2 rounded-lg text-left transition-colors ${
-                        setSelectedCuffsStyle === "c-cuff"
+                        setSelectedCoatStyle === "Coat-with-diagonal-Pockets"
                           ? "bg-black text-white"
                           : "bg-gray-100 hover:bg-black hover:text-white"
                       }`}
-                      onClick={() => setSelectedCuffsStyle("c-cuff")}
+                      onClick={() => setSelectedCoatStyle("Coat-with-diagonal-Pockets")}
                     >
-                      C
+                      Coat with diagonal Pockets
                     </button>
                     <button
                       className={`px-4 py-2 rounded-lg text-left transition-colors ${
-                        setSelectedCuffsStyle === "d-cuff"
+                        setSelectedCoatStyle === "Coat-with-peak-lapel-2-flap-pockets"
                           ? "bg-black text-white"
                           : "bg-gray-100 hover:bg-black hover:text-white"
                       }`}
-                      onClick={() => setSelectedCuffsStyle("d-cuff")}
+                      onClick={() =>
+                        setSelectedCoatStyle("Coat-with-peak-lapel-2-flap-pockets")
+                      }
                     >
-                      D
+                      Coat with peak lapel 2 flap pockets
                     </button>
                     <button
                       className={`px-4 py-2 rounded-lg text-left transition-colors ${
-                        setSelectedCuffsStyle === "e-mix"
+                        setSelectedCoatStyle === "Coat-with-peak-lapel-3-flap-pockets"
                           ? "bg-black text-white"
                           : "bg-gray-100 hover:bg-black hover:text-white"
                       }`}
-                      onClick={() => setSelectedCuffsStyle("e-mix")}
+                      onClick={() =>
+                        setSelectedCoatStyle("Coat-with-peak-lapel-3-flap-pockets")
+                      }
                     >
-                      E-Mix
+                      Coat with peak lapel 3 flap pockets
+                    </button>
+                    <button
+                      className={`px-4 py-2 rounded-lg text-left transition-colors ${
+                        setSelectedCoatStyle === "Coat-with-Shirt-collar"
+                          ? "bg-black text-white"
+                          : "bg-gray-100 hover:bg-black hover:text-white"
+                      }`}
+                      onClick={() =>
+                        setSelectedCoatStyle("Coat-with-Shirt-collar")
+                      }
+                    >
+                      Coat with Shirt collar
                     </button>
                   </div>
                 </div>
@@ -423,21 +392,16 @@ export default function Edit() {
               </div>
 
               {/* Right Side: Jacket Sketch - Image changes based on selection */}
-              <div className="flex-1 flex flex-col justify-center items-center gap-y-16">
+              <div className="flex-1 flex justify-center items-start">
                 <img
-                  src={collarImage}
-                  alt="Collar Style"
-                  className="w-96 h-auto object-contain"
-                />
-                <img
-                  src={cuffsImage}
-                  alt="Cuffs Style"
-                  className="w-36 h-auto object-contain"
+                  src={coatImage}
+                  alt="Coat Style"
+                  className="w-60 h-auto object-contain"
                 />
               </div>
             </div>
           </div>
-          {/* SHIRT Measurements */}
+          {/* SUIT Measurements */}
           <div className="bg-white border rounded-3xl px-9 py-8 mt-5 max-w-[1100px] w-full mx-auto">
             <div className="mb-10">
               <h4 className="font-bold text-2xl mb-12 text-center">
@@ -448,7 +412,7 @@ export default function Edit() {
               {/* Loop through each measurement inside the component */}
               <div className="space-y-4 mt-7">
                 <div className="pb-4 flex items-center">
-                  <label className="font-normal w-4/6">A. Shoulder</label>
+                  <label className="font-normal w-4/6">1. Center Back</label>
                   <input
                     className="text-base px-3 py-3 bg-[#EEEDED] border rounded-lg focus:outline-none focus:border-black w-3/4 mx-2"
                     type="text"
@@ -456,7 +420,7 @@ export default function Edit() {
                   />
                 </div>
                 <div className="pb-4 flex items-center">
-                  <label className="font-normal w-4/6">B. Chest</label>
+                  <label className="font-normal w-4/6">2. Sleeve Length</label>
                   <input
                     className="text-base px-3 py-3 bg-[#EEEDED] border rounded-lg focus:outline-none focus:border-black w-3/4 mx-2"
                     type="text"
@@ -464,7 +428,7 @@ export default function Edit() {
                   />
                 </div>
                 <div className="pb-4 flex items-center">
-                  <label className="font-normal w-4/6">C. Waist</label>
+                  <label className="font-normal w-4/6">3. 1/2 Chest</label>
                   <input
                     className="text-base px-3 py-3 bg-[#EEEDED] border rounded-lg focus:outline-none focus:border-black w-3/4 mx-2"
                     type="text"
@@ -472,7 +436,7 @@ export default function Edit() {
                   />
                 </div>
                 <div className="pb-4 flex items-center">
-                  <label className="font-normal w-4/6">D. Sleeve Length</label>
+                  <label className="font-normal w-4/6">4. 1/2 Waist Open</label>
                   <input
                     className="text-base px-3 py-3 bg-[#EEEDED] border rounded-lg focus:outline-none focus:border-black w-3/4 mx-2"
                     type="text"
@@ -480,17 +444,7 @@ export default function Edit() {
                   />
                 </div>
                 <div className="pb-4 flex items-center">
-                  <label className="font-normal w-4/6">E. Total Length</label>
-                  <input
-                    className="text-base px-3 py-3 bg-[#EEEDED] border rounded-lg focus:outline-none focus:border-black w-3/4 mx-2"
-                    type="text"
-                    value=""
-                  />
-                </div>
-                <div className="pb-4 flex items-center">
-                  <label className="font-normal w-4/6">
-                    F. Neck Circumference
-                  </label>
+                  <label className="font-normal w-4/6">5. 1/2 Hips</label>
                   <input
                     className="text-base px-3 py-3 bg-[#EEEDED] border rounded-lg focus:outline-none focus:border-black w-3/4 mx-2"
                     type="text"
@@ -499,7 +453,7 @@ export default function Edit() {
                 </div>
                 <div className="pb-4 flex items-center">
                   <label className="font-normal w-4/6">
-                    G. Wrist Circumference
+                    6. SH. To Shoulder
                   </label>
                   <input
                     className="text-base px-3 py-3 bg-[#EEEDED] border rounded-lg focus:outline-none focus:border-black w-3/4 mx-2"
@@ -508,7 +462,23 @@ export default function Edit() {
                   />
                 </div>
                 <div className="pb-4 flex items-center">
-                  <label className="font-normal w-4/6">H. Biceps</label>
+                  <label className="font-normal w-4/6">7. Lapel Width</label>
+                  <input
+                    className="text-base px-3 py-3 bg-[#EEEDED] border rounded-lg focus:outline-none focus:border-black w-3/4 mx-2"
+                    type="text"
+                    value=""
+                  />
+                </div>
+                <div className="pb-4 flex items-center">
+                  <label className="font-normal w-4/6">8. Cuff Opening</label>
+                  <input
+                    className="text-base px-3 py-3 bg-[#EEEDED] border rounded-lg focus:outline-none focus:border-black w-3/4 mx-2"
+                    type="text"
+                    value=""
+                  />
+                </div>
+                <div className="pb-4 flex items-center">
+                  <label className="font-normal w-4/6">9. 1/2 Biceps</label>
                   <input
                     className="text-base px-3 py-3 bg-[#EEEDED] border rounded-lg focus:outline-none focus:border-black w-3/4 mx-2"
                     type="text"
@@ -519,7 +489,7 @@ export default function Edit() {
               <div className="flex justify-center items-center mt-7">
                 {/* Display image of the component */}
                 <img
-                  src="https://bigello.com/wp-content/uploads/2025/04/Group-1000003366.png"
+                  src="https://bigello.com/wp-content/uploads/2025/04/Jacket-1.png"
                   alt=""
                   className="w-[250px]"
                 />
