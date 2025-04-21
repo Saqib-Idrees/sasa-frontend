@@ -75,13 +75,13 @@ export default function Edit() {
     "d-cuff": "https://bigello.com/wp-content/uploads/2025/04/D.png",
     "e-mix": "https://bigello.com/wp-content/uploads/2025/04/E-Mix.png",
   };
-  const [selectedRegularStyle, setSelectedRegularStyle] = useState("Single-Breasted");
+  const [selectedRegularStyle, setSelectedRegularStyle] = useState("Single-Breasted-Regular");
     const regularImages = {
-      "Single-Breasted":
+      "Single-Breasted-Regular":
         "https://bigello.com/wp-content/uploads/2025/04/Single-Breasted_.png",
-      "Double-Breasted": "https://bigello.com/wp-content/uploads/2025/04/Double-Breasted-Tuxedo-Vest-1.png",
-      "Single-Breasted-shawl": "https://bigello.com/wp-content/uploads/2025/04/Single-Breasted-Shawl-Vest-1.png",
-      "Double-Breasted-shawl": "https://bigello.com/wp-content/uploads/2025/04/Double-Breasted-Shawl-Vest.png",
+      "Double-Breasted-Regular": "https://bigello.com/wp-content/uploads/2025/04/Double-Breasted-Tuxedo-Vest-1.png",
+      "Single-Breasted-Shawl": "https://bigello.com/wp-content/uploads/2025/04/Single-Breasted-Shawl-Vest-1.png",
+      "Double-Breasted-Shawl": "https://bigello.com/wp-content/uploads/2025/04/Double-Breasted-Shawl-Vest.png",
     };
     const regularImage = regularImages[selectedRegularStyle];
   const jacketImage = jacketImages[selectedJacketStyle];
@@ -277,19 +277,19 @@ export default function Edit() {
               </div>
             </div>
           </div>
-          {/* Vest Additional option */}
+          {/* Fabric Details */}
           <div className="bg-white border rounded-3xl px-9 py-8 mt-5 max-w-[1100px] w-full mx-auto">
-                        <div className="mb-16">
-                          <h4 className="font-bold text-2xl mb-12 text-center">
-                            Additional Options
-                          </h4>
-                        </div>
-                          <div className="grid gap-6 grid-cols-3 my-8 justify-items-center">
-          
-                            {/* Vest */}
-                              <div className="inline-flex gap-12">
+            <div className="flex mb-10 flex-row justify-between">
+            <div>
+              <h4 className="font-bold text-2xl mb-12 text-center">
+                Fabric Details
+              </h4>
+            </div>
+            <div>
+              {/* Vest */}
+              <div className="inline-flex gap-4">
                                 <div className="relative inline-block self-center">
-                                  <p>Vest</p>
+                                  <p>Without Vest</p>
                                 </div>
                                 <div className="relative inline-block" htmlFor="showSections">
                                   <Switch
@@ -306,17 +306,11 @@ export default function Edit() {
             }}
           />
                                 </div>
+                                <div className="relative inline-block self-center">
+                                  <p>With Vest</p>
+                                </div>
                               </div>
-                          </div>
-                      </div>
-
-          {/* Fabric Details */}
-          <div className="bg-white border rounded-3xl px-9 py-8 mt-5 max-w-[1100px] w-full mx-auto">
-            <div className="mb-10">
-              <h4 className="font-bold text-2xl mb-12 text-center">
-                Fabric Details
-              </h4>
-            </div>
+            </div></div>
             <div className="max-w-[650px] w-full mx-auto">
               <div className="grid gap-8 grid-cols-1 md:grid-cols-2 my-7">
                 {/* Left Column */}
@@ -377,17 +371,7 @@ export default function Edit() {
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-
-            {/* Vest Fabric Details */}
-          <div className="bg-white border rounded-3xl px-9 py-8 mt-5 max-w-[1100px] w-full mx-auto" id="vest_fabric" style={{ display: isVisible ? 'block' : 'none' }}>
-            <div className="mb-10">
-              <h4 className="font-bold text-2xl mb-12 text-center">
-                Fabric Details
-              </h4>
-            </div>
-            <div className="max-w-[650px] w-full mx-auto">
+              <div className="max-w-[650px] w-full mx-auto"  id="vest_fabric" style={{ display: isVisible ? 'block' : 'none' }}>
               <div className="grid gap-8 grid-cols-1 md:grid-cols-2 my-7">
                 {/* Left Column */}
                 <div className="space-y-6">
@@ -417,6 +401,7 @@ export default function Edit() {
                 </div>
                 </div>
               </div>
+            </div>
             </div>
           </div>
 
@@ -773,11 +758,11 @@ export default function Edit() {
                     <div className="space-y-2">
                       <button
                         className={`px-4 py-2 rounded-lg text-left transition-colors ${
-                          selectedRegularStyle === "Single-Breasted"
+                          selectedRegularStyle === "Single-Breasted-Regular"
                             ? "bg-black text-white"
                             : "bg-gray-100 hover:bg-black hover:text-white"
                         }`}
-                        onClick={() => setSelectedRegularStyle("Single-Breasted")}
+                        onClick={() => setSelectedRegularStyle("Single-Breasted-Regular")}
                       >
                         Single-Breasted
                       </button>
@@ -785,11 +770,11 @@ export default function Edit() {
                     <div className="space-y-2">
                       <button
                         className={`px-4 py-2 rounded-lg text-left transition-colors ${
-                          selectedRegularStyle === "Double-Breasted"
+                          selectedRegularStyle === "Double-Breasted-Regular"
                             ? "bg-black text-white"
                             : "bg-gray-100 hover:bg-black hover:text-white"
                         }`}
-                        onClick={() => setSelectedRegularStyle("Double-Breasted")}
+                        onClick={() => setSelectedRegularStyle("Double-Breasted-Regular")}
                       >
                        Double-Breasted
                       </button>
@@ -802,21 +787,21 @@ export default function Edit() {
                   <div className="space-y-2 flex flex-row w-fit gap-x-3">
                     <button
                       className={`px-4 py-2 rounded-lg text-left transition-colors ${
-                        selectedRegularStyle === "Single-Breasted"
+                        selectedRegularStyle === "Single-Breasted-Shawl"
                           ? "bg-black text-white"
                           : "bg-gray-100 hover:bg-black hover:text-white mt-1"
                       }`}
-                      onClick={() => setSelectedRegularStyle("Single-Breasted-shawl")}
+                      onClick={() => setSelectedRegularStyle("Single-Breasted-Shawl")}
                     >
                       Single-Breasted
                     </button>
                       <button
                         className={`px-4 py-2 rounded-lg text-left transition-colors ${
-                          selectedRegularStyle === "Double-Breasted"
+                          selectedRegularStyle === "Double-Breasted-Shawl"
                             ? "bg-black text-white"
                             : "bg-gray-100 hover:bg-black hover:text-white"
                         }`}
-                        onClick={() => setSelectedRegularStyle("Double-Breasted-shawl")}
+                        onClick={() => setSelectedRegularStyle("Double-Breasted-Shawl")}
                       >
                        Double-Breasted
                       </button>
