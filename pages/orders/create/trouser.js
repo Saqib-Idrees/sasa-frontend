@@ -265,7 +265,7 @@ export default function Edit() {
                   <div className="flex space-y-2 flex-col w-fit gap-y-3">
                     <button
                       className={`px-4 py-2 rounded-lg text-left transition-colors ${
-                        setSelectedPantStyle === "regular-pants"
+                        selectedPantStyle === "regular-pants"
                           ? "bg-black text-white"
                           : "bg-gray-100 hover:bg-black hover:text-white"
                       }`}
@@ -275,7 +275,7 @@ export default function Edit() {
                     </button>
                     <button
                       className={`px-4 py-2 rounded-lg text-left transition-colors ${
-                        setSelectedPantStyle ===
+                        selectedPantStyle ===
                         "pants-with-pleats-and-side-buckles"
                           ? "bg-black text-white"
                           : "bg-gray-100 hover:bg-black hover:text-white"
@@ -290,7 +290,7 @@ export default function Edit() {
                     </button>
                     <button
                       className={`px-4 py-2 rounded-lg text-left transition-colors ${
-                        setSelectedPantStyle === "pants-with-pleats"
+                        selectedPantStyle === "pants-with-pleats"
                           ? "bg-black text-white"
                           : "bg-gray-100 hover:bg-black hover:text-white"
                       }`}

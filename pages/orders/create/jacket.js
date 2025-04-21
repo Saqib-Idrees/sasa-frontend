@@ -281,7 +281,7 @@ export default function Edit() {
                   <div className="flex space-y-2 flex-col w-fit gap-y-3">
                     <button
                       className={`px-4 py-2 rounded-lg text-left transition-colors ${
-                        setSelectedJacketStyle === "peak-lapel-regular"
+                        selectedJacketStyle === "peak-lapel-regular"
                           ? "bg-black text-white"
                           : "bg-gray-100 hover:bg-black hover:text-white"
                       }`}
@@ -293,7 +293,7 @@ export default function Edit() {
                     </button>
                     <button
                       className={`px-4 py-2 rounded-lg text-left transition-colors ${
-                        setSelectedJacketStyle === "regular-lapel"
+                        selectedJacketStyle === "regular-lapel"
                           ? "bg-black text-white"
                           : "bg-gray-100 hover:bg-black hover:text-white"
                       }`}
@@ -303,7 +303,7 @@ export default function Edit() {
                     </button>
                     <button
                       className={`px-4 py-2 rounded-lg text-left transition-colors ${
-                        setSelectedJacketStyle === "double-breasted-regular"
+                        selectedJacketStyle === "double-breasted-regular"
                           ? "bg-black text-white"
                           : "bg-gray-100 hover:bg-black hover:text-white"
                       }`}
@@ -321,7 +321,7 @@ export default function Edit() {
                   <div className="space-y-2 flex flex-col w-fit gap-y-3">
                     <button
                       className={`px-4 py-2 rounded-lg text-left transition-colors ${
-                        setSelectedJacketStyle === "peak-lapel-tuxedo"
+                        selectedJacketStyle === "peak-lapel-tuxedo"
                           ? "bg-black text-white"
                           : "bg-gray-100 hover:bg-black hover:text-white"
                       }`}
@@ -333,7 +333,7 @@ export default function Edit() {
                     </button>
                     <button
                       className={`px-4 py-2 rounded-lg text-left transition-colors ${
-                        setSelectedJacketStyle === "shawl-lapel"
+                        selectedJacketStyle === "shawl-lapel"
                           ? "bg-black text-white"
                           : "bg-gray-100 hover:bg-black hover:text-white"
                       }`}
@@ -343,7 +343,7 @@ export default function Edit() {
                     </button>
                     <button
                       className={`px-4 py-2 rounded-lg text-left transition-colors ${
-                        setSelectedJacketStyle === "double-breasted-tuxedo"
+                        selectedJacketStyle === "double-breasted-tuxedo"
                           ? "bg-black text-white"
                           : "bg-gray-100 hover:bg-black hover:text-white"
                       }`}

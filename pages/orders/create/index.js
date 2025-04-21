@@ -17,8 +17,11 @@ import { useGetAllUsersQuery } from "slices/authAPI";
 import { useGetAllTypesQuery } from "slices/typesApi";
 import { Plus } from "lucide-react";
 import { Upload } from "lucide-react";
+import { Switch } from "@material-tailwind/react";
+
 export default function Edit() {
   const user = useSelector(selectCurrentUser);
+
   const isAuthenticated = useSelector(selectIsAuthenticated);
   const [showStep, setShowStep] = useState("step1");
   const [customerData, setCustomerData] = useState({});
@@ -72,6 +75,15 @@ export default function Edit() {
     "d-cuff": "https://bigello.com/wp-content/uploads/2025/04/D.png",
     "e-mix": "https://bigello.com/wp-content/uploads/2025/04/E-Mix.png",
   };
+  const [selectedRegularStyle, setSelectedRegularStyle] = useState("Single-Breasted");
+    const regularImages = {
+      "Single-Breasted":
+        "https://bigello.com/wp-content/uploads/2025/04/Single-Breasted_.png",
+      "Double-Breasted": "https://bigello.com/wp-content/uploads/2025/04/Double-Breasted-Tuxedo-Vest-1.png",
+      "Single-Breasted-shawl": "https://bigello.com/wp-content/uploads/2025/04/Single-Breasted-Shawl-Vest-1.png",
+      "Double-Breasted-shawl": "https://bigello.com/wp-content/uploads/2025/04/Double-Breasted-Shawl-Vest.png",
+    };
+    const regularImage = regularImages[selectedRegularStyle];
   const jacketImage = jacketImages[selectedJacketStyle];
   const pantImage = pantImages[selectedPantStyle];
   const collarImage = collarImages[selectedCollarStyle];
@@ -113,6 +125,13 @@ export default function Edit() {
     month: "long", // Full month name
     day: "numeric",
   });
+  const [isVisible, setIsVisible] = useState(false);
+
+  // Step 2: Handle switch change
+  const handleSwitchChange = (e) => {
+    // Update visibility based on the switch being checked or unchecked
+    setIsVisible(e.target.checked);
+  };
 
   useEffect(() => {
     if (typesData) {
@@ -159,6 +178,7 @@ export default function Edit() {
     selectedDesign,
   ]);
   return (
+    
     <div>
       <Layout>
         <h3 className="text-2xl mb-5">Create Order</h3>
@@ -257,6 +277,38 @@ export default function Edit() {
               </div>
             </div>
           </div>
+          {/* Vest Additional option */}
+          <div className="bg-white border rounded-3xl px-9 py-8 mt-5 max-w-[1100px] w-full mx-auto">
+                        <div className="mb-16">
+                          <h4 className="font-bold text-2xl mb-12 text-center">
+                            Additional Options
+                          </h4>
+                        </div>
+                          <div className="grid gap-6 grid-cols-3 my-8 justify-items-center">
+          
+                            {/* Vest */}
+                              <div className="inline-flex gap-12">
+                                <div className="relative inline-block self-center">
+                                  <p>Vest</p>
+                                </div>
+                                <div className="relative inline-block" htmlFor="showSections">
+                                  <Switch
+            id="showSections"
+            ripple={false}
+            checked={isVisible} // Use isVisible here to bind state
+            onChange={handleSwitchChange} // Trigger function when toggled
+            className="h-full w-full checked:bg-[#2ec946]"
+            containerProps={{
+              className: "w-12 h-6",
+            }}
+            circleProps={{
+              className: "h-8 w-8 before:hidden border-none",
+            }}
+          />
+                                </div>
+                              </div>
+                          </div>
+                      </div>
 
           {/* Fabric Details */}
           <div className="bg-white border rounded-3xl px-9 py-8 mt-5 max-w-[1100px] w-full mx-auto">
@@ -310,7 +362,7 @@ export default function Edit() {
                     <input
                       className="text-base px-4 py-3 bg-gray-100 border rounded-lg"
                       type="text"
-                      placeholder="Enter Vest Fabric#"
+                      placeholder="Enter Shirt Fabric#"
                     />
                   </div>
                   <div className="flex flex-col">
@@ -320,9 +372,49 @@ export default function Edit() {
                     <input
                       className="text-base px-4 py-3 bg-gray-100 border rounded-lg"
                       type="text"
-                      placeholder="Enter Vest Lining#"
+                      placeholder="Enter Trouser Lining#"
                     />
                   </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+            {/* Vest Fabric Details */}
+          <div className="bg-white border rounded-3xl px-9 py-8 mt-5 max-w-[1100px] w-full mx-auto" id="vest_fabric" style={{ display: isVisible ? 'block' : 'none' }}>
+            <div className="mb-10">
+              <h4 className="font-bold text-2xl mb-12 text-center">
+                Fabric Details
+              </h4>
+            </div>
+            <div className="max-w-[650px] w-full mx-auto">
+              <div className="grid gap-8 grid-cols-1 md:grid-cols-2 my-7">
+                {/* Left Column */}
+                <div className="space-y-6">
+                  <div className="flex flex-col">
+                    <label className="text-lg font-medium text-black mb-4">
+                      Vest Fabric#
+                    </label>
+                    <input
+                      className="text-base px-4 py-3 bg-gray-100 border rounded-lg"
+                      type="text"
+                      placeholder="Enter  Vest Fabric#"
+                    />
+                </div>
+                </div>
+
+                {/* Right Column */}
+                <div className="space-y-6">
+                <div className="flex flex-col">
+                    <label className="text-lg font-medium text-black mb-4">
+                      Vest Lining#
+                    </label>
+                    <input
+                      className="text-base px-4 py-3 bg-gray-100 border rounded-lg"
+                      type="text"
+                      placeholder="Enter  Vest Fabric#"
+                    />
+                </div>
                 </div>
               </div>
             </div>
@@ -341,7 +433,7 @@ export default function Edit() {
                   <div className="flex space-y-2 flex-col w-fit gap-y-3">
                     <button
                       className={`px-4 py-2 rounded-lg text-left transition-colors ${
-                        setSelectedJacketStyle === "peak-lapel-regular"
+                        selectedJacketStyle === "peak-lapel-regular"
                           ? "bg-black text-white"
                           : "bg-gray-100 hover:bg-black hover:text-white"
                       }`}
@@ -353,7 +445,7 @@ export default function Edit() {
                     </button>
                     <button
                       className={`px-4 py-2 rounded-lg text-left transition-colors ${
-                        setSelectedJacketStyle === "regular-lapel"
+                        selectedJacketStyle === "regular-lapel"
                           ? "bg-black text-white"
                           : "bg-gray-100 hover:bg-black hover:text-white"
                       }`}
@@ -363,7 +455,7 @@ export default function Edit() {
                     </button>
                     <button
                       className={`px-4 py-2 rounded-lg text-left transition-colors ${
-                        setSelectedJacketStyle === "double-breasted-regular"
+                        selectedJacketStyle === "double-breasted-regular"
                           ? "bg-black text-white"
                           : "bg-gray-100 hover:bg-black hover:text-white"
                       }`}
@@ -381,7 +473,7 @@ export default function Edit() {
                   <div className="space-y-2 flex flex-col w-fit gap-y-3">
                     <button
                       className={`px-4 py-2 rounded-lg text-left transition-colors ${
-                        setSelectedJacketStyle === "peak-lapel-tuxedo"
+                        selectedJacketStyle === "peak-lapel-tuxedo"
                           ? "bg-black text-white"
                           : "bg-gray-100 hover:bg-black hover:text-white"
                       }`}
@@ -393,7 +485,7 @@ export default function Edit() {
                     </button>
                     <button
                       className={`px-4 py-2 rounded-lg text-left transition-colors ${
-                        setSelectedJacketStyle === "shawl-lapel"
+                        selectedJacketStyle === "shawl-lapel"
                           ? "bg-black text-white"
                           : "bg-gray-100 hover:bg-black hover:text-white"
                       }`}
@@ -403,7 +495,7 @@ export default function Edit() {
                     </button>
                     <button
                       className={`px-4 py-2 rounded-lg text-left transition-colors ${
-                        setSelectedJacketStyle === "double-breasted-tuxedo"
+                        selectedJacketStyle === "double-breasted-tuxedo"
                           ? "bg-black text-white"
                           : "bg-gray-100 hover:bg-black hover:text-white"
                       }`}
@@ -448,7 +540,7 @@ export default function Edit() {
                     <div className="space-y-2">
                       <button
                         className={`px-4 py-2 rounded-lg text-left transition-colors ${
-                          setSelectedCollarStyle === "bari-slim"
+                          selectedCollarStyle === "bari-slim"
                             ? "bg-black text-white"
                             : "bg-gray-100 hover:bg-black hover:text-white"
                         }`}
@@ -458,7 +550,7 @@ export default function Edit() {
                       </button>
                       <button
                         className={`px-4 py-2 rounded-lg text-left transition-colors ${
-                          setSelectedCollarStyle === "como-slim"
+                          selectedCollarStyle === "como-slim"
                             ? "bg-black text-white"
                             : "bg-gray-100 hover:bg-black hover:text-white"
                         }`}
@@ -468,7 +560,7 @@ export default function Edit() {
                       </button>
                       <button
                         className={`px-4 py-2 rounded-lg text-left transition-colors ${
-                          setSelectedCollarStyle === "genova-slim"
+                          selectedCollarStyle === "genova-slim"
                             ? "bg-black text-white"
                             : "bg-gray-100 hover:bg-black hover:text-white"
                         }`}
@@ -478,7 +570,7 @@ export default function Edit() {
                       </button>
                       <button
                         className={`px-4 py-2 rounded-lg text-left transition-colors ${
-                          setSelectedCollarStyle === "napoli-regular"
+                          selectedCollarStyle === "napoli-regular"
                             ? "bg-black text-white"
                             : "bg-gray-100 hover:bg-black hover:text-white"
                         }`}
@@ -490,7 +582,7 @@ export default function Edit() {
                     <div className="space-y-2">
                       <button
                         className={`px-4 py-2 rounded-lg text-left transition-colors ${
-                          setSelectedCollarStyle === "torino-regular"
+                          selectedCollarStyle === "torino-regular"
                             ? "bg-black text-white"
                             : "bg-gray-100 hover:bg-black hover:text-white"
                         }`}
@@ -500,7 +592,7 @@ export default function Edit() {
                       </button>
                       <button
                         className={`px-4 py-2 rounded-lg text-left transition-colors ${
-                          setSelectedCollarStyle === "varese-slim"
+                          selectedCollarStyle === "varese-slim"
                             ? "bg-black text-white"
                             : "bg-gray-100 hover:bg-black hover:text-white"
                         }`}
@@ -510,7 +602,7 @@ export default function Edit() {
                       </button>
                       <button
                         className={`px-4 py-2 rounded-lg text-left transition-colors ${
-                          setSelectedCollarStyle === "verona-slim"
+                          selectedCollarStyle === "verona-slim"
                             ? "bg-black text-white"
                             : "bg-gray-100 hover:bg-black hover:text-white"
                         }`}
@@ -527,7 +619,7 @@ export default function Edit() {
                   <div className="space-y-2 flex flex-row w-fit gap-x-3">
                     <button
                       className={`px-4 py-2 rounded-lg text-left transition-colors ${
-                        setSelectedCuffsStyle === "a-cuff"
+                        selectedCuffsStyle === "a-cuff"
                           ? "bg-black text-white"
                           : "bg-gray-100 hover:bg-black hover:text-white mt-1"
                       }`}
@@ -537,7 +629,7 @@ export default function Edit() {
                     </button>
                     <button
                       className={`px-4 py-2 rounded-lg text-left transition-colors ${
-                        setSelectedCuffsStyle === "b-cuff"
+                        selectedCuffsStyle === "b-cuff"
                           ? "bg-black text-white"
                           : "bg-gray-100 hover:bg-black hover:text-white"
                       }`}
@@ -547,7 +639,7 @@ export default function Edit() {
                     </button>
                     <button
                       className={`px-4 py-2 rounded-lg text-left transition-colors ${
-                        setSelectedCuffsStyle === "c-cuff"
+                        selectedCuffsStyle === "c-cuff"
                           ? "bg-black text-white"
                           : "bg-gray-100 hover:bg-black hover:text-white"
                       }`}
@@ -557,7 +649,7 @@ export default function Edit() {
                     </button>
                     <button
                       className={`px-4 py-2 rounded-lg text-left transition-colors ${
-                        setSelectedCuffsStyle === "d-cuff"
+                        selectedCuffsStyle === "d-cuff"
                           ? "bg-black text-white"
                           : "bg-gray-100 hover:bg-black hover:text-white"
                       }`}
@@ -567,7 +659,7 @@ export default function Edit() {
                     </button>
                     <button
                       className={`px-4 py-2 rounded-lg text-left transition-colors ${
-                        setSelectedCuffsStyle === "e-mix"
+                        selectedCuffsStyle === "e-mix"
                           ? "bg-black text-white"
                           : "bg-gray-100 hover:bg-black hover:text-white"
                       }`}
@@ -613,7 +705,7 @@ export default function Edit() {
                   <div className="flex space-y-2 flex-col w-fit gap-y-3">
                     <button
                       className={`px-4 py-2 rounded-lg text-left transition-colors ${
-                        setSelectedPantStyle === "regular-pants"
+                        selectedPantStyle === "regular-pants"
                           ? "bg-black text-white"
                           : "bg-gray-100 hover:bg-black hover:text-white"
                       }`}
@@ -623,7 +715,7 @@ export default function Edit() {
                     </button>
                     <button
                       className={`px-4 py-2 rounded-lg text-left transition-colors ${
-                        setSelectedPantStyle ===
+                        selectedPantStyle ===
                         "pants-with-pleats-and-side-buckles"
                           ? "bg-black text-white"
                           : "bg-gray-100 hover:bg-black hover:text-white"
@@ -638,7 +730,7 @@ export default function Edit() {
                     </button>
                     <button
                       className={`px-4 py-2 rounded-lg text-left transition-colors ${
-                        setSelectedPantStyle === "pants-with-pleats"
+                        selectedPantStyle === "pants-with-pleats"
                           ? "bg-black text-white"
                           : "bg-gray-100 hover:bg-black hover:text-white"
                       }`}
@@ -663,6 +755,183 @@ export default function Edit() {
                   src={pantImage}
                   alt="Pant Images"
                   className="w-32 h-auto object-contain"
+                />
+              </div>
+            </div>
+          </div>
+          {/* VEST STYLE SECTION */}
+          <div className="bg-white border rounded-3xl px-9 py-8 mt-5 max-w-[1100px] w-full mx-auto" id="vest_style" style={{ display: isVisible ? 'block' : 'none' }}>
+            <div className="mb-10">
+              <h4 className="font-bold text-2xl mb-12 text-center">Style</h4>
+            </div>
+            <div className="flex flex-col md:flex-row gap-10">
+              {/* Left Side: Options */}
+              <div className="flex-1">
+                <div className="mb-6">
+                  <h4 className="text-lg font-medium mb-2">Regular:</h4>
+                  <div className="flex space-y-2 flex-row w-3/4 gap-x-5">
+                    <div className="space-y-2">
+                      <button
+                        className={`px-4 py-2 rounded-lg text-left transition-colors ${
+                          selectedRegularStyle === "Single-Breasted"
+                            ? "bg-black text-white"
+                            : "bg-gray-100 hover:bg-black hover:text-white"
+                        }`}
+                        onClick={() => setSelectedRegularStyle("Single-Breasted")}
+                      >
+                        Single-Breasted
+                      </button>
+                    </div>
+                    <div className="space-y-2">
+                      <button
+                        className={`px-4 py-2 rounded-lg text-left transition-colors ${
+                          selectedRegularStyle === "Double-Breasted"
+                            ? "bg-black text-white"
+                            : "bg-gray-100 hover:bg-black hover:text-white"
+                        }`}
+                        onClick={() => setSelectedRegularStyle("Double-Breasted")}
+                      >
+                       Double-Breasted
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="mb-6">
+                  <h4 className="text-lg font-medium mb-2">Shawl:</h4>
+                  <div className="space-y-2 flex flex-row w-fit gap-x-3">
+                    <button
+                      className={`px-4 py-2 rounded-lg text-left transition-colors ${
+                        selectedRegularStyle === "Single-Breasted"
+                          ? "bg-black text-white"
+                          : "bg-gray-100 hover:bg-black hover:text-white mt-1"
+                      }`}
+                      onClick={() => setSelectedRegularStyle("Single-Breasted-shawl")}
+                    >
+                      Single-Breasted
+                    </button>
+                      <button
+                        className={`px-4 py-2 rounded-lg text-left transition-colors ${
+                          selectedRegularStyle === "Double-Breasted"
+                            ? "bg-black text-white"
+                            : "bg-gray-100 hover:bg-black hover:text-white"
+                        }`}
+                        onClick={() => setSelectedRegularStyle("Double-Breasted-shawl")}
+                      >
+                       Double-Breasted
+                      </button>
+                  </div>
+                </div>
+
+                <div className="mt-4">
+                  <p className="text-black-600 text-sm mb-1">Model Num:</p>
+                  <div className="bg-gray-100 px-4 py-2 rounded-lg w-3/4 text-gray-800 font-semibold">
+                    224C4
+                  </div>
+                </div>
+              </div>
+
+              {/* Right Side: Jacket Sketch - Image changes based on selection */}
+              <div className="flex-1 flex flex-col justify-center items-center gap-y-16">
+                <img
+                  src={regularImage}
+                  alt="Collar Style"
+                  className="w-48 h-auto object-contain"
+                />
+              </div>
+            </div>
+          </div>
+          {/* VEST Measurements */}
+          <div className="bg-white border rounded-3xl px-9 py-8 mt-5 max-w-[1100px] w-full mx-auto" id="vest_measurement" style={{ display: isVisible ? 'block' : 'none' }}>
+            <div className="mb-10">
+              <h4 className="font-bold text-2xl mb-12 text-center">
+                Measurements
+              </h4>
+            </div>
+            <div className="flex flex-col md:flex-row justify-around">
+              {/* Loop through each measurement inside the component */}
+              <div className="space-y-4 mt-7">
+                <div className="pb-4 flex items-center">
+                  <label className="font-normal w-4/6">1. Center Back</label>
+                  <input
+                    className="text-base px-3 py-3 bg-[#EEEDED] border rounded-lg focus:outline-none focus:border-black w-3/4 mx-2"
+                    type="text"
+                    value=""
+                  />
+                </div>
+                <div className="pb-4 flex items-center">
+                  <label className="font-normal w-4/6">2. Sleeve Length</label>
+                  <input
+                    className="text-base px-3 py-3 bg-[#EEEDED] border rounded-lg focus:outline-none focus:border-black w-3/4 mx-2"
+                    type="text"
+                    value=""
+                  />
+                </div>
+                <div className="pb-4 flex items-center">
+                  <label className="font-normal w-4/6">3. 1/2 Chest</label>
+                  <input
+                    className="text-base px-3 py-3 bg-[#EEEDED] border rounded-lg focus:outline-none focus:border-black w-3/4 mx-2"
+                    type="text"
+                    value=""
+                  />
+                </div>
+                <div className="pb-4 flex items-center">
+                  <label className="font-normal w-4/6">4. 1/2 Waist Open</label>
+                  <input
+                    className="text-base px-3 py-3 bg-[#EEEDED] border rounded-lg focus:outline-none focus:border-black w-3/4 mx-2"
+                    type="text"
+                    value=""
+                  />
+                </div>
+                <div className="pb-4 flex items-center">
+                  <label className="font-normal w-4/6">5. 1/2 Hips</label>
+                  <input
+                    className="text-base px-3 py-3 bg-[#EEEDED] border rounded-lg focus:outline-none focus:border-black w-3/4 mx-2"
+                    type="text"
+                    value=""
+                  />
+                </div>
+                <div className="pb-4 flex items-center">
+                  <label className="font-normal w-4/6">
+                    6. SH. To Shoulder
+                  </label>
+                  <input
+                    className="text-base px-3 py-3 bg-[#EEEDED] border rounded-lg focus:outline-none focus:border-black w-3/4 mx-2"
+                    type="text"
+                    value=""
+                  />
+                </div>
+                <div className="pb-4 flex items-center">
+                  <label className="font-normal w-4/6">7. Lapel Width</label>
+                  <input
+                    className="text-base px-3 py-3 bg-[#EEEDED] border rounded-lg focus:outline-none focus:border-black w-3/4 mx-2"
+                    type="text"
+                    value=""
+                  />
+                </div>
+                <div className="pb-4 flex items-center">
+                  <label className="font-normal w-4/6">8. Cuff Opening</label>
+                  <input
+                    className="text-base px-3 py-3 bg-[#EEEDED] border rounded-lg focus:outline-none focus:border-black w-3/4 mx-2"
+                    type="text"
+                    value=""
+                  />
+                </div>
+                <div className="pb-4 flex items-center">
+                  <label className="font-normal w-4/6">9. 1/2 Biceps</label>
+                  <input
+                    className="text-base px-3 py-3 bg-[#EEEDED] border rounded-lg focus:outline-none focus:border-black w-3/4 mx-2"
+                    type="text"
+                    value=""
+                  />
+                </div>
+              </div>
+              <div className="flex justify-center items-center mt-7">
+                {/* Display image of the component */}
+                <img
+                  src="https://bigello.com/wp-content/uploads/2025/04/Vest-1.png"
+                  alt=""
+                  className="w-[250px]"
                 />
               </div>
             </div>

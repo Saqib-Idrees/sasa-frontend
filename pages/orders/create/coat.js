@@ -285,7 +285,7 @@ export default function Edit() {
                   <div className="flex space-y-2 flex-col w-fit gap-y-3">
                     <button
                       className={`px-4 py-2 rounded-lg text-left transition-colors ${
-                        setSelectedCoatStyle === "Coat-Double-Breasted-2-Patch-Pockets"
+                        selectedCoatStyle === "Coat-Double-Breasted-2-Patch-Pockets"
                           ? "bg-black text-white"
                           : "bg-gray-100 hover:bg-black hover:text-white"
                       }`}
@@ -297,7 +297,7 @@ export default function Edit() {
                     </button>
                     <button
                       className={`px-4 py-2 rounded-lg text-left transition-colors ${
-                        setSelectedCoatStyle === "Coat-Double-breasted-2-Flap-Pockets"
+                        selectedCoatStyle === "Coat-Double-breasted-2-Flap-Pockets"
                           ? "bg-black text-white"
                           : "bg-gray-100 hover:bg-black hover:text-white"
                       }`}
@@ -307,7 +307,7 @@ export default function Edit() {
                     </button>
                     <button
                       className={`px-4 py-2 rounded-lg text-left transition-colors ${
-                        setSelectedCoatStyle === "Coat-with-2-flap-pockets"
+                        selectedCoatStyle === "Coat-with-2-flap-pockets"
                           ? "bg-black text-white"
                           : "bg-gray-100 hover:bg-black hover:text-white"
                       }`}
@@ -324,7 +324,7 @@ export default function Edit() {
                   <div className="space-y-2 flex flex-col w-fit gap-y-3">
                     <button
                       className={`px-4 py-2 rounded-lg text-left transition-colors ${
-                        setSelectedCoatStyle === "Coat-with-3-flap-pockets"
+                        selectedCoatStyle === "Coat-with-3-flap-pockets"
                           ? "bg-black text-white"
                           : "bg-gray-100 hover:bg-black hover:text-white"
                       }`}
@@ -336,7 +336,7 @@ export default function Edit() {
                     </button>
                     <button
                       className={`px-4 py-2 rounded-lg text-left transition-colors ${
-                        setSelectedCoatStyle === "Coat-with-diagonal-Pockets"
+                        selectedCoatStyle === "Coat-with-diagonal-Pockets"
                           ? "bg-black text-white"
                           : "bg-gray-100 hover:bg-black hover:text-white"
                       }`}
@@ -346,7 +346,7 @@ export default function Edit() {
                     </button>
                     <button
                       className={`px-4 py-2 rounded-lg text-left transition-colors ${
-                        setSelectedCoatStyle === "Coat-with-peak-lapel-2-flap-pockets"
+                        selectedCoatStyle === "Coat-with-peak-lapel-2-flap-pockets"
                           ? "bg-black text-white"
                           : "bg-gray-100 hover:bg-black hover:text-white"
                       }`}
@@ -358,7 +358,7 @@ export default function Edit() {
                     </button>
                     <button
                       className={`px-4 py-2 rounded-lg text-left transition-colors ${
-                        setSelectedCoatStyle === "Coat-with-peak-lapel-3-flap-pockets"
+                        selectedCoatStyle === "Coat-with-peak-lapel-3-flap-pockets"
                           ? "bg-black text-white"
                           : "bg-gray-100 hover:bg-black hover:text-white"
                       }`}
@@ -370,7 +370,7 @@ export default function Edit() {
                     </button>
                     <button
                       className={`px-4 py-2 rounded-lg text-left transition-colors ${
-                        setSelectedCoatStyle === "Coat-with-Shirt-collar"
+                        selectedCoatStyle === "Coat-with-Shirt-collar"
                           ? "bg-black text-white"
                           : "bg-gray-100 hover:bg-black hover:text-white"
                       }`}

@@ -261,7 +261,7 @@ export default function Edit() {
               </div>
             </div>
           </div>
-          {/* SHIRT STYLE SECTION */}
+          {/* VEST STYLE SECTION */}
           <div className="bg-white border rounded-3xl px-9 py-8 mt-5 max-w-[1100px] w-full mx-auto">
             <div className="mb-10">
               <h4 className="font-bold text-2xl mb-12 text-center">Style</h4>
@@ -275,7 +275,7 @@ export default function Edit() {
                     <div className="space-y-2">
                       <button
                         className={`px-4 py-2 rounded-lg text-left transition-colors ${
-                          setSelectedRegularStyle === "Single-Breasted"
+                          selectedRegularStyle === "Single-Breasted"
                             ? "bg-black text-white"
                             : "bg-gray-100 hover:bg-black hover:text-white"
                         }`}
@@ -287,7 +287,7 @@ export default function Edit() {
                     <div className="space-y-2">
                       <button
                         className={`px-4 py-2 rounded-lg text-left transition-colors ${
-                          setSelectedRegularStyle === "Double-Breasted"
+                          selectedRegularStyle === "Double-Breasted"
                             ? "bg-black text-white"
                             : "bg-gray-100 hover:bg-black hover:text-white"
                         }`}
@@ -304,7 +304,7 @@ export default function Edit() {
                   <div className="space-y-2 flex flex-row w-fit gap-x-3">
                     <button
                       className={`px-4 py-2 rounded-lg text-left transition-colors ${
-                        setSelectedRegularStyle === "Single-Breasted"
+                        selectedRegularStyle === "Single-Breasted"
                           ? "bg-black text-white"
                           : "bg-gray-100 hover:bg-black hover:text-white mt-1"
                       }`}
@@ -314,7 +314,7 @@ export default function Edit() {
                     </button>
                       <button
                         className={`px-4 py-2 rounded-lg text-left transition-colors ${
-                          setSelectedRegularStyle === "Double-Breasted"
+                          selectedRegularStyle === "Double-Breasted"
                             ? "bg-black text-white"
                             : "bg-gray-100 hover:bg-black hover:text-white"
                         }`}
@@ -343,7 +343,7 @@ export default function Edit() {
               </div>
             </div>
           </div>
-          {/* SUIT Measurements */}
+          {/* VEST Measurements */}
           <div className="bg-white border rounded-3xl px-9 py-8 mt-5 max-w-[1100px] w-full mx-auto">
             <div className="mb-10">
               <h4 className="font-bold text-2xl mb-12 text-center">

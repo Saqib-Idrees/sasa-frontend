@@ -284,7 +284,7 @@ export default function Edit() {
                     <div className="space-y-2">
                       <button
                         className={`px-4 py-2 rounded-lg text-left transition-colors ${
-                          setSelectedCollarStyle === "bari-slim"
+                          selectedCuffsStyle === "bari-slim"
                             ? "bg-black text-white"
                             : "bg-gray-100 hover:bg-black hover:text-white"
                         }`}
@@ -294,7 +294,7 @@ export default function Edit() {
                       </button>
                       <button
                         className={`px-4 py-2 rounded-lg text-left transition-colors ${
-                          setSelectedCollarStyle === "como-slim"
+                          selectedCollarStyle === "como-slim"
                             ? "bg-black text-white"
                             : "bg-gray-100 hover:bg-black hover:text-white"
                         }`}
@@ -304,7 +304,7 @@ export default function Edit() {
                       </button>
                       <button
                         className={`px-4 py-2 rounded-lg text-left transition-colors ${
-                          setSelectedCollarStyle === "genova-slim"
+                          selectedCollarStyle === "genova-slim"
                             ? "bg-black text-white"
                             : "bg-gray-100 hover:bg-black hover:text-white"
                         }`}
@@ -314,7 +314,7 @@ export default function Edit() {
                       </button>
                       <button
                         className={`px-4 py-2 rounded-lg text-left transition-colors ${
-                          setSelectedCollarStyle === "napoli-regular"
+                          selectedCollarStyle === "napoli-regular"
                             ? "bg-black text-white"
                             : "bg-gray-100 hover:bg-black hover:text-white"
                         }`}
@@ -326,7 +326,7 @@ export default function Edit() {
                     <div className="space-y-2">
                       <button
                         className={`px-4 py-2 rounded-lg text-left transition-colors ${
-                          setSelectedCollarStyle === "torino-regular"
+                          selectedCollarStyle === "torino-regular"
                             ? "bg-black text-white"
                             : "bg-gray-100 hover:bg-black hover:text-white"
                         }`}
@@ -336,7 +336,7 @@ export default function Edit() {
                       </button>
                       <button
                         className={`px-4 py-2 rounded-lg text-left transition-colors ${
-                          setSelectedCollarStyle === "varese-slim"
+                          selectedCollarStyle === "varese-slim"
                             ? "bg-black text-white"
                             : "bg-gray-100 hover:bg-black hover:text-white"
                         }`}
@@ -346,7 +346,7 @@ export default function Edit() {
                       </button>
                       <button
                         className={`px-4 py-2 rounded-lg text-left transition-colors ${
-                          setSelectedCollarStyle === "verona-slim"
+                          selectedCollarStyle === "verona-slim"
                             ? "bg-black text-white"
                             : "bg-gray-100 hover:bg-black hover:text-white"
                         }`}
@@ -363,7 +363,7 @@ export default function Edit() {
                   <div className="space-y-2 flex flex-row w-fit gap-x-3">
                     <button
                       className={`px-4 py-2 rounded-lg text-left transition-colors ${
-                        setSelectedCuffsStyle === "a-cuff"
+                        selectedCuffsStyle === "a-cuff"
                           ? "bg-black text-white"
                           : "bg-gray-100 hover:bg-black hover:text-white mt-1"
                       }`}
@@ -373,7 +373,7 @@ export default function Edit() {
                     </button>
                     <button
                       className={`px-4 py-2 rounded-lg text-left transition-colors ${
-                        setSelectedCuffsStyle === "b-cuff"
+                        selectedCuffsStyle === "b-cuff"
                           ? "bg-black text-white"
                           : "bg-gray-100 hover:bg-black hover:text-white"
                       }`}
@@ -383,7 +383,7 @@ export default function Edit() {
                     </button>
                     <button
                       className={`px-4 py-2 rounded-lg text-left transition-colors ${
-                        setSelectedCuffsStyle === "c-cuff"
+                        selectedCuffsStyle === "c-cuff"
                           ? "bg-black text-white"
                           : "bg-gray-100 hover:bg-black hover:text-white"
                       }`}
@@ -393,7 +393,7 @@ export default function Edit() {
                     </button>
                     <button
                       className={`px-4 py-2 rounded-lg text-left transition-colors ${
-                        setSelectedCuffsStyle === "d-cuff"
+                        selectedCuffsStyle === "d-cuff"
                           ? "bg-black text-white"
                           : "bg-gray-100 hover:bg-black hover:text-white"
                       }`}
@@ -403,7 +403,7 @@ export default function Edit() {
                     </button>
                     <button
                       className={`px-4 py-2 rounded-lg text-left transition-colors ${
-                        setSelectedCuffsStyle === "e-mix"
+                        selectedCuffsStyle === "e-mix"
                           ? "bg-black text-white"
                           : "bg-gray-100 hover:bg-black hover:text-white"
                       }`}
