@@ -18,13 +18,16 @@ import { useGetAllTypesQuery } from "slices/typesApi";
 import { Plus } from "lucide-react";
 import { Upload } from "lucide-react";
 import { Switch } from "@material-tailwind/react";
+import MeasurementForm from '@/components/Measurement/Measurementyform'
+import Thankyou from "pages/thankyou";
 
 export default function Edit() {
   const user = useSelector(selectCurrentUser);
-
+  
   const isAuthenticated = useSelector(selectIsAuthenticated);
-  const [showStep, setShowStep] = useState("step1");
+  const [showStep, setShowStep] = useState("step3");
   const [customerData, setCustomerData] = useState({});
+  const [cartCount, setCartCount] = useState(0);
   const [selectedJacketStyle, setSelectedJacketStyle] =
     useState("peak-lapel-regular");
   const [selectedPantStyle, setSelectedPantStyle] = useState("regular-pants");
@@ -177,6 +180,238 @@ export default function Edit() {
     specialInstructions,
     selectedDesign,
   ]);
+    const onCustomerUpdate = (data) => {
+      setCustomerData({ ...data });
+    };
+  
+    const handleSelectTailor = (item) => {
+      setSelectedTailorId(item.id); // Update the state with the selected tailor's ID
+      setSelectedTailorName(item.name); // Update the state with the selected tailor's ID
+      console.log("Selected Tailor:", item); // Optional: Log the selected ID
+    };
+  
+    const handleSelectionChange = (design) => {
+      setSelectedDesign(design);
+      console.log("Selected Design:", design);
+    };
+  
+    const handleItemClick = (index) => {
+      setTypeIndex(index);
+      console.log("Selected Index:", index);
+    };
+  
+    const handleMeasurementChange = (componentId, index, value) => {
+      setTypeComponents((prevComponents) =>
+        prevComponents.map((component) =>
+          component.id === componentId
+            ? {
+                ...component,
+                measurement: {
+                  ...component.measurement,
+                  [index]: {
+                    ...component.measurement[index],
+                    value,
+                  },
+                },
+              }
+            : component
+        )
+      );
+    };
+  
+    // Handle change for Initials
+    const handleInitialsChange = (e) => {
+      setInitials(e.target.value);
+    };
+  
+    // Handle change for Special Instructions
+    const handleSpecialInstructionsChange = (e) => {
+      setSpecialInstructions(e.target.value);
+    };
+  
+    const handlePriceChange = (e) => {
+      setPrice(e.target.value === "" ? "" : parseFloat(e.target.value) || 0);
+    };
+  
+    const handlePaidChange = (e) => {
+      setPaid(e.target.value === "" ? "" : parseFloat(e.target.value) || 0);
+    };
+  
+    const handleSubmit = async () => {
+      const currentDate = new Date();
+      currentDate.setDate(currentDate.getDate() + 3);
+      const formattedDate = currentDate.toISOString().split("T")[0];
+      const orderPayload = {
+        design: types[typeIndex].type,
+        agent_id: user.userdata.id,
+        sales_agent_name: `${user.userdata.firstname} ${user.userdata.lastname}`,
+        tailor_id: selectedTailorId,
+        tailor_agent_name: selectedTailorName,
+        customer: {
+          firstname: customerData.firstname,
+          lastname: customerData.lastname,
+          email: customerData.email,
+          phone: customerData.phone,
+        },
+        delivery_date: formattedDate,
+        fabricDetails: { ...fabricDetails },
+        type_id: types[typeIndex].id,
+        type: types[typeIndex].type,
+        image_url: types[typeIndex].image_url,
+  
+        style_id: selectedDesign.id,
+        styleName: selectedDesign.styleName,
+        styleLabel: selectedDesign.label,
+        styleValue: selectedDesign.value,
+        styleImageUrl: selectedDesign.imageurl,
+        modelNumber: selectedDesign.modelNumber,
+  
+        initials: initials,
+        specialInstructions: specialInstructions,
+        additionalOptions: { ...additionalOptions },
+        price: price,
+        paid: paid,
+        orderDetails: typeComponents.map((detail) => ({
+          component_id: detail.id,
+          componentName: detail.componentName,
+          image_url: detail.image_url,
+          measurements: detail.measurement,
+        })),
+      };
+      console.log("orderPayload:", orderPayload);
+      debugger;
+      try {
+        const response = await createOrder({
+          orderPayload,
+        }).unwrap();
+        if (isError === false) {
+          Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: "Order Created Successfully!",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+          console.log("Order Created Successfully: ", response);
+          router.push("/thankyou");
+        }
+      } catch (error) {
+        console.error("Error Order Creation:", error);
+        Swal.fire({
+          position: "top-end",
+          icon: "error",
+          title: error.message || "An error occurred!",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      }
+    };
+  
+    const handleNext1 = () => {
+      // Check if `customerData` is empty
+      if (Object.keys(customerData).length === 0) {
+        Swal.fire({
+          position: "top-end",
+          title: "Incomplete Data",
+          text: "Please enter customer data before proceeding.",
+          icon: "warning",
+          showConfirmButton: true,
+        });
+      } else {
+        setShowStep("step2");
+      }
+    };
+  
+    const handleNext2 = () => {
+      if (!selectedTailorId) {
+        // Trigger alert if no tailor is selected
+        Swal.fire({
+          position: "top-end",
+          title: "Tailor not selected",
+          text: "Please select a tailor before proceeding.",
+          icon: "warning",
+          showConfirmButton: true,
+        });
+      } else {
+        setShowStep("step3");
+      }
+    };
+  
+    const handleNext3 = () => {
+      if (typeIndex === null) {
+        // Trigger alert if no tailor is selected
+        Swal.fire({
+          position: "top-end",
+          title: "Product not selected",
+          text: "Please select a product before proceeding.",
+          icon: "warning",
+          showConfirmButton: true,
+        });
+      } else {
+        setShowStep("step4");
+      }
+    };
+
+     // Cart Icon Component
+  const CartIcon = () => (
+    <div className="relative">
+      <ShoppingCart className="w-6 h-6" />
+      {cartCount > 0 && (
+        <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+          {cartCount}
+        </span>
+      )}
+    </div>
+  );
+
+  // Function to add items to cart
+  const addToCart = () => {
+    setCartCount(cartCount + 1);
+  };
+  const jacketMeasurements = [
+    { label: 'Center Back', value: 75.4 },
+    { label: 'Sleeve Length', value: 65 },
+    { label: '1/2 Chest', value: 72 },
+    { label: '1/2 Waist Open', value: 65 },
+    { label: '1/2 Hip', value: 64 },
+    { label: 'SH. To Shoulder', value: 88 },
+    { label: 'Lapel Width', value: 24 },
+    { label: 'Cuff Opening', value: 30 },
+    { label: '1/2 Biceps', value: 44 },
+  ];
+  const shirtMeasurements = [
+    { label: 'Center Back', value: 75.4 },
+    { label: 'Sleeve Length', value: 65 },
+    { label: '1/2 Chest', value: 72 },
+    { label: '1/2 Waist Open', value: 65 },
+    { label: '1/2 Hip', value: 64 },
+    { label: 'SH. To Shoulder', value: 88 },
+    { label: 'Lapel Width', value: 24 },
+    { label: 'Cuff Opening', value: 30 },
+    { label: '1/2 Biceps', value: 44 },
+  ];
+  const pantMeasurements = [
+    { label: 'Center Back', value: 75.4 },
+    { label: 'Sleeve Length', value: 65 },
+    { label: '1/2 Chest', value: 72 },
+    { label: '1/2 Waist Open', value: 65 },
+    { label: '1/2 Hip', value: 64 },
+    { label: 'SH. To Shoulder', value: 88 },
+    { label: 'Lapel Width', value: 24 },
+    { label: 'Cuff Opening', value: 30 },
+    { label: '1/2 Biceps', value: 44 },
+  ];
+  const vestMeasurements = [
+    { label: 'Center Back', value: 75.4 },
+    { label: 'Sleeve Length', value: 65 },
+    { label: '1/2 Chest', value: 72 },
+    { label: '1/2 Waist Open', value: 65 },
+    { label: '1/2 Hip', value: 64 },
+    { label: 'SH. To Shoulder', value: 88 },
+    { label: 'Lapel Width', value: 24 },
+    { label: 'Cuff Opening', value: 30 },
+    { label: '1/2 Biceps', value: 44 },
+  ]
   return (
     
     <div>
@@ -184,6 +419,7 @@ export default function Edit() {
         <h3 className="text-2xl mb-5">Create Order</h3>
 
         {/* Step 3 Static UI */}
+        {showStep == "step3" && (
         <div className="order-create-step3">
           {/* Customer Information */}
           <div className="bg-white border rounded-3xl px-9 py-8 max-w-[1100px] w-full mx-auto">
@@ -562,7 +798,7 @@ export default function Edit() {
                         onClick={() => setSelectedCollarStyle("napoli-regular")}
                       >
                         Napoli Regular
-                      </button>{" "}
+                      </button> 
                     </div>
                     <div className="space-y-2">
                       <button
@@ -1234,13 +1470,306 @@ export default function Edit() {
             </div>
             <div className="w-[100%] px-3 mt-16">
               <div className="max-w-[550px] w-full mx-auto">
-                <Button className="bg-black text-white rounded-3xl w-full p-4">
+                <Button className="bg-black text-white rounded-3xl w-full p-4"
+                 onClick={() => {
+                  setShowStep("step4");
+                }}
+                >
                   Next
                 </Button>
               </div>
             </div>
           </div>
         </div>
+        )}
+
+        {showStep == "step4" && (
+                  <div className="order-create-step4">
+                  <div className="bg-white border rounded-3xl px-9 py-8 max-w-[1100px] w-full mx-auto">
+                    <div className="w-full mx-auto">
+                      <div className="w-full">
+                        <h2 className="text-3xl">Order Details</h2>
+                        <div className="grid grid-cols-1 gap-6 mt-6">
+                          <div className="col-span-2 bg-white border rounded-3xl p-10">
+                            <div className="grid gap-7 grid-cols-2">
+                              <div className="space-y-2">
+                                <h3 className="text-black text-lg font-semibold">
+                                  Customer ID &nbsp;
+                                  <span className="font-normal">#SASA-1235</span>
+                                </h3>
+                              </div>
+                            </div>
+                            <div className="grid gap-7 grid-cols-3 mb-7">
+                              <div className="space-y-2">
+                                <p className="text-black text-base font-semibold mt-4">
+                                  Customer Name: <span className="font-normal">John Doe</span>
+                                </p>
+                              </div>
+                              <div className="space-y-2 justify-self-center">
+                                <p className="text-black text-base font-semibold mt-4">
+                                  Product: &nbsp;<span className="font-normal">Suit</span>
+                                </p>
+                              </div>
+                              <div className="space-y-2">
+                                <p className="text-black text-base font-semibold mt-4">
+                                  Expected Delivery Date &nbsp;
+                                  <span className="font-normal">31/12/24</span>
+                                </p>
+                              </div>
+                            </div>
+                            <hr className="border-t-2 border-gray-300" />
+                            <div className="grid gap-16 grid-cols-2 mb-7">
+                              <div className="space-y-5">
+                                <div className="space-y-4">
+                                  <h4 className="text-black text-base font-semibold my-6">
+                                    Fabric Details:
+                                  </h4>
+                                  <div className="ml-5">
+                                    <span className="font-normal mr-7">Jacket Fabric#</span>
+                                    <label className="bg-[#EEEDED] px-14 py-0.5 border rounded-2xl float-end">
+                                      <b>Dummy</b>
+                                    </label>
+                                  </div>
+                                  <div className="ml-5">
+                                    <span className="font-normal mr-7">Jacket Lining#</span>
+                                    <label className="bg-[#EEEDED] px-14 py-0.5 border rounded-2xl float-end">
+                                      <b>Dummy</b>
+                                    </label>
+                                  </div>
+                                  <div className="ml-5">
+                                    <span className="font-normal mr-20">Vest Fabric#</span>
+                                    <label className="bg-[#EEEDED] px-14 py-0.5 border rounded-2xl float-end">
+                                      <b>Dummy</b>
+                                    </label>
+                                  </div>
+                                  <div className="ml-5">
+                                    <span className="font-normal mr-20">Vest Lining#</span>
+                                    <label className="bg-[#EEEDED] px-14 py-0.5 border rounded-2xl float-end">
+                                      <b>Dummy</b>
+                                    </label>
+                                  </div>
+                                  <div className="ml-5">
+                                    <span className="font-normal mr-20">Trouser Fabric#</span>
+                                    <label className="bg-[#EEEDED] px-14 py-0.5 border rounded-2xl float-end">
+                                      <b>Dummy</b>
+                                    </label>
+                                  </div>
+                                  <div className="ml-5">
+                                    <span className="font-normal mr-20">Button#</span>
+                                    <label className="bg-[#EEEDED] px-14 py-0.5 border rounded-2xl float-end">
+                                      <b>Dummy</b>
+                                    </label>
+                                  </div>
+                                </div>
+                              </div>
+                              <div>
+                                <div className="space-y-4">
+                                  <h4 className="text-black text-base font-semibold my-6">
+                                    Additional Options
+                                  </h4>
+                                  <div className="ml-5">
+                                    <span className="font-normal mr-7">Initials</span>
+                                    <label className="bg-[#EEEDED] px-14 py-0.5 border rounded-2xl float-end">
+                                      <b>JD</b>
+                                    </label>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div className="space-y-4">
+                                  <div className="ml-5 space-y-4">
+                                  <MeasurementForm
+  title="Jacket Measurements"
+  measurements={jacketMeasurements}
+/>
+<MeasurementForm
+  title="Shirt Measurements"
+  measurements={shirtMeasurements}
+/>
+<MeasurementForm
+  title="Pants Measurements"
+  measurements={pantMeasurements}
+/>
+<MeasurementForm
+  title="Vest Measurements"
+  measurements={vestMeasurements}
+/>
+
+
+      {/* Repeat with other forms (suit, shirt, etc.) by changing props */}
+                                  </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="max-w-[550px] mt-10 mx-auto">
+                          <div className="">
+                            <button
+                              className="bg-black text-white rounded-3xl w-full p-4"
+                              onClick={() => {
+                                setShowStep("step5");
+                              }}
+                            >
+                              Next
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                )}
+                {showStep == "step5" && (
+                          <div className="order-create-step4">
+                            <div className="bg-white border rounded-3xl px-8 py-8 max-w-[1100px] w-full mx-auto">
+                              <div className="w-full mx-auto">
+                                <div className="grid grid-cols-3 gap-9 ">
+                                  <div className="col-span-2">
+                                    <div className="bg-white border rounded-3xl px-8 py-8 ">
+                                      <div className="mb-10">
+                                        <h4 className="font-bold text-2xl">Shipping</h4>
+                                      </div>
+                                      <div className="grid gap-6 grid-cols-2 mb-8 justify-items-center">
+                                        <div className="inline-flex items-center gap-12">
+                                          <div className="relative inline-block self-center">
+                                            <p className="text-xl">Standard</p>
+                                          </div>
+                                          <div className="relative inline-block">
+                                            <Switch
+                                              id="custom-switch-component-one"
+                                              ripple={false}
+                                              className="h-full w-full checked:bg-[#2EC946]"
+                                              containerProps={{
+                                                className: "w-12 h-6",
+                                              }}
+                                              circleProps={{
+                                                className: "h-8 w-8 before:hidden border-none",
+                                              }}
+                                            />
+                                          </div>
+                                        </div>
+                                        <div className="inline-flex gap-12">
+                                          <div className="relative inline-block self-center">
+                                            <p className="text-xl">Express</p>
+                                          </div>
+                                          <div className="relative inline-block">
+                                            <Switch
+                                              id="custom-switch-component-two"
+                                              ripple={false}
+                                              className="h-full w-full checked:bg-[#2EC946]"
+                                              containerProps={{
+                                                className: "w-12 h-6",
+                                              }}
+                                              circleProps={{
+                                                className: "h-8 w-8 before:hidden border-none",
+                                              }}
+                                            />
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div className="bg-white border rounded-3xl px-9 py-8 mt-5">
+                                      <div className="mb-10">
+                                        <h4 className="font-bold text-2xl mb-10">Payment</h4>
+                                      </div>
+                                      <div className="mb-8">
+                                        <div className="space-y-4">
+                                          <div className="flex items-center pb-4">
+                                            <label className="font-normal w-1/3">
+                                            {"Price ($):"}
+                                            </label>
+                                            <input
+                                              className="text-base text-center  p-4 bg-gray-100 border rounded-lg focus:outline-none focus:border-black w-2/3"
+                                              type="text"
+                                              onChange={handlePriceChange}
+                                            />
+                                          </div>
+                                          <div className="flex items-center pb-4">
+                                            <label className="font-normal w-1/3">
+                                            {"Paid ($):"}
+                                            </label>
+                                            <input
+                                              className="text-base text-center  px-4 py-3 bg-gray-100 border rounded-lg focus:outline-none focus:border-black w-2/3"
+                                              type="text"
+                                              onChange={handlePaidChange}
+                                            />
+                                          </div>
+                                          <hr />
+                                          <div className="flex items-center pb-4 ">
+                                            <label className="font-normal w-1/3">
+                                            {"Balance ($):"}
+                                            </label>
+                                            <input
+                                              className="text-base text-center px-4 py-3 bg-gray-100 border rounded-lg focus:outline-none focus:border-black w-2/3"
+                                              type="text"
+                                            />
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div className="col-span-1">
+                                    <div className="bg-white border ">
+                                      <div className="mb-4">
+                                        <h4 className="font-bold text-2xl text-center p-4 bg-black text-white">
+                                          Order Summary
+                                        </h4>
+                                      </div>
+                                      <div className="p-6">
+                                        <div className="space-y-4">
+                                          <div className="flex items-center pb-2">
+                                            <label className="font-normal w-1/3">
+                                              {"Price:"}
+                                            </label>
+                                            <p className="text-base text-center px-4 py-3 w-2/3">
+                                            $500
+                                            </p>
+                                          </div>
+                                          <div className="flex items-center pb-2">
+                                            <label className="font-normal w-1/3">
+                                              {"Paid:"}
+                                            </label>
+                                            <p className="text-base text-center px-4 py-3 w-2/3">
+                                              $300
+                                            </p>
+                                          </div>
+                                          <div className="flex items-center pb-2">
+                                            <label className="font-normal w-1/3">
+                                              {"Balance:"}
+                                            </label>
+                                            <p className="text-base text-center px-4 py-3 w-2/3">
+                                              $200
+                                            </p>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div className="w-[100%] px-3 mt-10">
+                                      <div className="max-w-[550px] w-full mx-auto">
+                                      <Button
+                                          className="bg-black text-white rounded-3xl w-full p-4 mb-5"
+                                          onClick={() => {
+                                            setShowStep("step3");
+                                            addToCart();
+                                            setCartCount(cartCount + 1);
+                                          }}
+                                        >
+                                          Order another product
+                                        </Button>
+                                        <Button
+                                          className="bg-black text-white rounded-3xl w-full p-4"
+                                          onClick={() => window.location.href = '/orders/thankyou'}>
+                                          Checkout
+                                        </Button>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        )}
+
       </Layout>
     </div>
   );

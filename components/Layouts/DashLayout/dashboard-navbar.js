@@ -25,6 +25,7 @@ import {
 import { setLogout } from "../../../slices/authSlice";
 import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
+import { ShoppingCart } from 'lucide-react';
 
 // import {
 //   useMaterialTailwindController,
@@ -32,13 +33,23 @@ import { useDispatch } from "react-redux";
 //   setOpenSidenav,
 // } from "@/context";
 
-export function DashboardNavbar() {
+export function DashboardNavbar({ children, cartCount }) {
   // const [controller, dispatch] = useMaterialTailwindController();
   // const { fixedNavbar, openSidenav } = controller;
   // const { pathname } = useLocation();
   // const [layout, page] = pathname.split("/").filter((el) => el !== "");
   const dispatch = useDispatch();
   const router = useRouter();
+  const CartIcon = () => (
+    <div className="relative">
+      <ShoppingCart className="w-6 h-6" />
+      {cartCount > 0 && (
+        <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+          {cartCount}
+        </span>
+      )}
+    </div>
+  );
   return (
     // <Navbar
     //   color={fixedNavbar ? "white" : "transparent"}
@@ -279,6 +290,7 @@ export function DashboardNavbar() {
           >
             <Cog6ToothIcon className="h-5 w-5 text-blue-gray-500" />
           </IconButton> */}
+          <CartIcon />
       </div>
     </div>
     // </Navbar>

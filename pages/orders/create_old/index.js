@@ -1006,18 +1006,6 @@ export default function Edit() {
                             </h4>
                             <div className="ml-5">
                               <span className="font-normal mr-7">
-                                Sleeves Button Holes{" "}
-                              </span>
-                              <label className="bg-[#EEEDED] px-14 py-0.5 border rounded-2xl float-end">
-                                <b>
-                                  {additionalOptions?.sleeveButtonHoles
-                                    ? "Yes"
-                                    : "No"}
-                                </b>
-                              </label>
-                            </div>
-                            <div className="ml-5">
-                              <span className="font-normal mr-7">
                                 Initials{" "}
                               </span>
                               <label className="bg-[#EEEDED] px-14 py-0.5 border rounded-2xl float-end">
